@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>预约陪诊</title>
+   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+</head>
+<body>
+<div class="container">
+  <div class="appointment-wrap">
+    <div class="scroll-wrap">
+      <div class="scroll-wrap-con">
+          <div class="weui-cells weui-cells_form" style="margin-top:0">
+              <div class="weui-cell">
+                  <label class="weui-label">就诊人</label>
+                  <div class="weui-cell__bd custom-txt-right">
+                    <label class="custom_check_label custom_check_slabel">
+                        <input type="checkbox" name="" id="radio1" value="1" hidden />
+                        <label for="radio1" class="icon-check"></label>
+                        <span class="name">本人</span>
+                    </label>&nbsp;&nbsp;&nbsp;
+                    <label class="custom_check_label custom_check_slabel">
+                        <input type="checkbox" name="" id="radio2" value="1" hidden />
+                        <label for="radio2" class="icon-check"></label>
+                        <span class="name">非本人</span>
+                    </label>
+                  </div>
+              </div>
+              <div class="weui-cell">
+                  <label class="weui-label">就诊人姓名</label>
+                  <div class="weui-cell__bd custom-txt-right">
+                      <input class="weui-input" placeholder="请输入" type="text"  />
+                  </div>
+              </div>
+              <div class="weui-cell">
+                  <label class="weui-label">就诊人手机号</label>
+                  <div class="weui-cell__bd custom-txt-right">
+                      <input class="weui-input" placeholder="请输入" type="text"  />
+                  </div>
+              </div>
+              <div class="weui-cell">
+                  <label class="weui-label">就诊人身份证号</label>
+                  <div class="weui-cell__bd custom-txt-right">
+                      <input class="weui-input" placeholder="请输入" type="text"  />
+                  </div>
+              </div>
+              <div class="weui-cell">
+                  <label class="weui-label">预约陪诊医院</label>
+                  <div class="weui-cell__bd custom-txt-right">
+                      <input class="weui-input" disabled="disabled" placeholder="请选择" type="text"  />
+                  </div>
+                  <span class="arrow-r"></span>
+              </div>
+              <div class="weui-cell">
+                  <label class="weui-label">预约门诊类型</label>
+                  <div class="weui-cell__bd custom-txt-right">
+                    <label class="custom_check_label custom_check_slabel">
+                        <input type="checkbox" name="" id="radio3" value="1" hidden />
+                        <label for="radio3" class="icon-check"></label>
+                        <span class="name">普通门诊</span>
+                    </label>&nbsp;&nbsp;&nbsp;
+                    <label class="custom_check_label custom_check_slabel">
+                        <input type="checkbox" name="" id="radio4" value="1" hidden />
+                        <label for="radio4" class="icon-check"></label>
+                        <span class="name">专家门诊</span>
+                    </label>
+                  </div>
+              </div>
+              <div class="weui-cell">
+                  <label class="weui-label">预约就诊科室</label>
+                  <div class="weui-cell__bd custom-txt-right">
+                      <input class="weui-input" placeholder="请输入" value="" type="text" />
+                  </div>
+              </div>
+              <div class="weui-cell">
+                  <label class="weui-label">预约专家姓名</label>
+                  <div class="weui-cell__bd custom-txt-right">
+                      <input class="weui-input" placeholder="请输入" value="" type="text" />
+                  </div>
+              </div>
+              <div class="weui-cell">
+                  <label class="weui-label">预约陪诊时间</label>
+                  <div class="weui-cell__bd custom-txt-right">
+                      <input class="weui-input" disabled="disabled" placeholder="请选择" type="text"  />
+                  </div>
+                  <span class="arrow-r"></span>
+              </div>
+          </div>
+          <div class="tip-box">
+              <h5>温馨提示</h5>
+              <p>为提高您本次服务体验，请在预约陪诊服务前，详细阅读《服务须知》内容。<br>陪诊当天请带好您的身份证，社保卡，准备少许现金。</p>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="custom-btm-fixed custom-btm-fixed-white">
+    <p class="stxt">
+      <label class="custom_check_label custom_check_slabel">
+        <input type="checkbox" name="" id="radio5" value="1" hidden />
+        <label for="radio5" class="icon-check"></label>
+        <span class="name">我已阅读并同意<a style="color:#0CB7F5;">《服务须知》</a></span>
+      </label>
+    </p>
+    <span class="custom-btm-btn">保存</span>
+  </div>
+</div>
+
+<script type="text/javascript" src="../lib/js/flexible.js"></script>
+<script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+<script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+<script src="../lib/js/jquery-weui.js"></script>
+
+</body>
+</html>

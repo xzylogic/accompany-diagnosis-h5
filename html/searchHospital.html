@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>选择医院</title>
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+
+</head>
+
+<body>
+	<div class="container searchContainer">
+		<div class="search-top">
+        <div class="box">
+            <img src="../custom/images/search.png" class="search-icon" />
+            <input id="txt-search" type="search" autocomplete="off" placeholder="" />
+            <img class="clear-icon" src="../custom/images/close.png" />
+        </div>
+        <span id="search-cancel">取消</span>
+    </div>
+    <!--历史记录-->
+    <div class="history-content" style="display:none;">
+        <div id="history-div">
+            <p>历史搜索</p>
+            <ul>
+              <li>降压仪</li><li>降压仪</li><li>降压仪</li><li>降压仪</li><li>降压仪</li>
+            </ul>
+        </div>
+        <div class="history-clear">清空搜索记录</div>
+    </div>
+    <!--搜索无数据-->
+    <div class="custom-nodata" style="display:none;">
+      <img src="../custom/images/nodata.png">
+      <p>暂无相关信息</p>
+    </div>
+    <!--搜索有数据-->
+    <div class="havedata havedata-hospitals" style="display:block;">
+      <h4>相关医院</h4>
+      <p class="border-top"></p>
+      <ul>
+        <li>
+            <h5>上海交通大学医学院附属仁济医院南院</h5>
+            <p>上海市闵行区浦江镇江文路681号</p>
+        </li>
+        <li>
+            <h5>上海交通大学医学院附属仁济医院南院</h5>
+            <p>上海市闵行区浦江镇江文路681号</p>
+        </li>
+        <li>
+            <h5>上海交通大学医学院附属仁济医院南院</h5>
+            <p>上海市闵行区浦江镇江文路681号</p>
+        </li>
+        <li>
+            <h5>上海交通大学医学院附属仁济医院南院</h5>
+            <p>上海市闵行区浦江镇江文路681号</p>
+        </li>
+      </ul>
+    </div>
+	</div>
+
+  <script type="text/javascript" src="../lib/js/flexible.js"></script>
+  <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+  <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+  <script src="../lib/js/jquery-weui.js"></script>
+
+
+</body>
+</html>

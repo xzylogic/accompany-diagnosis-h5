@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>陪诊服务</title>
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+
+</head>
+
+<body>
+	<div class="container">
+    <div class="introduce-wrap">
+      <div class="scroll-wrap">
+        <span class="topPic"><img src="../custom/images/top.png"></span>
+        <div class="box">
+          <h2>陪诊团队介绍</h2>
+          <div class="teamInfo">
+            <p>健康云陪诊团队是由专业陪诊人员组成，致力为大众提供全方位、专业及贴心的陪诊服务，让您感到贴心、安心、放心。</p>
+            <p>团队人员拥有专业陪诊背景，服务于三甲或主要医院，并且接受过专业的陪诊培训。</p>
+          </div>
+        </div>
+        <div class="box">
+          <h2>服务流程</h2>
+          <ul class="mytab"><li><span class="active" onclick="show(this, 1);return false;">全程陪诊服务套餐</span></li><li><span onclick="show(this, 2);return false;">简易陪诊服务套餐</span></li></ul>
+          <div class="tabContent" style="display:block;" id="content1">
+            <ul class="stepList">
+              <li class="stepPic1">下单后，联系客户了解病情和就诊需求，嘱咐诊前注意事项。</li>
+              <li class="stepPic2">代理办卡、缴费、领取检查单、取药等繁杂手续，客户只需在休息区候诊。</li>
+              <li class="stepPic3">陪诊专员可协助向医生准确的描述病情，让医生了解病情。</li>
+              <li class="stepPic4">在陌生又严肃的医院环境里，陪诊人员给予细心贴心的关爱和家人般的温暖呵护。</li>
+              <li class="stepPic5">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
+            </ul>
+            <p class="price-box">
+              服务价格<em class="price1">￥480.00</em><span class="price2">￥398.00</span><em class="stxt">/次</em>
+            </p>
+          </div>
+          <div class="tabContent" style="display:none;" id="content2">
+            <ul class="stepList">
+              <li class="stepPic1">下单后，联系客户了解病情和就诊需求，嘱咐诊前注意事项。</li>
+              <li class="stepPic6">陪诊人员对就诊流程进行统筹规划，对客户的就诊事项一一安排，让客户快速完成就诊。</li>
+              <li class="stepPic7">引导客户到相应地点进行办卡、缴费、候诊、就诊、检查、取药等。</li>
+              <li class="stepPic8">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
+            </ul>
+            <p class="price-box">
+              服务价格<em class="price1">￥298.00</em><span class="price2">￥98.00</span><em class="stxt">/次</em>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="custom-btm-fixed custom-btm-fixed-white">
+        <p class="stxt">
+          <label class="custom_check_label custom_check_slabel">
+            <input type="checkbox" name="" id="radio5" value="1" hidden />
+            <label for="radio5" class="icon-check"></label>
+            <span class="name">我已阅读并同意<a style="color:#0CB7F5;">《服务须知》</a></span>
+          </label>
+        </p>
+        <span class="custom-btm-btn">立即购买</span>
+      </div>
+    </div>
+    <!-- 确认购买弹出层 -->
+    <div class="popup-wrap" style="display:none;">
+      <div class="lightbox"></div>
+      <div class="popup-con popup-con-middle">
+        <h2 class="popup-title">确认购买</h2>
+        <div class="popup-txt" style="padding-top: 0;color: #666;">
+          您是否确认购买服务<br>全程陪诊套餐 ¥398/次
+        </div>
+        <div class="popup-btmbtn"><span class="gray">取消</span><span class="ok">确认</span></div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="../lib/js/flexible.js"></script>
+  <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+  <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+  <script src="../lib/js/jquery-weui.js"></script>
+
+  <script>
+  function show(obj, id)
+    {
+      $('.mytab li span').removeClass('active');
+      $(obj).addClass('active');
+
+      $('.tabContent').hide();
+      $('#content'+id).show();
+    }
+  </script>
+</body>
+</html>

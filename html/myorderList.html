@@ -3,140 +3,284 @@
 <head>
   <meta charset="UTF-8">
   <title>陪诊订单</title>
-  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
-  <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
-  <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css"/>
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css"/>
 
 </head>
 
 <body>
-	<div class="container">
-    <div class="myorder-wrap">
-      <p class="custom-nav">
-        <span data-type="0" class="active">全部</span>
-        <span data-type="1">待预约</span>
-        <span data-type="2">已预约</span>
-        <span data-type="3">已完成</span>
-        <span data-type="4" style="width:24%;">退款/售后</span>
-      </p>
-      <div class="scroll-wrap">
-        <div class="scroll-wrap-con">
-          <div class="custom-nodata" style="display:none;">
-            <img src="../custom/images/nodata.png">
-            <p>暂无数据</p>
+<div class="container">
+  <div class="myorder-wrap">
+    <p class="custom-nav">
+      <span data-type="0" class="active" onclick="orderList(0)">全部</span>
+      <span data-type="1" onclick="orderList(1)">待预约</span>
+      <span data-type="2" onclick="orderList(2)">已预约</span>
+      <span data-type="3" onclick="orderList(3)">已完成</span>
+      <span data-type="4" onclick="orderList(4)" style="width:24%;">退款/售后</span>
+    </p>
+    <div class="scroll-wrap">
+      <div class="scroll-wrap-con">
+        <div class="custom-nodata" style="display:none;">
+          <img src="../custom/images/nodata.png">
+          <p>暂无数据</p>
+        </div>
+        <div class="custom-loading" style="display:none;">
+          <div class="loader">
+            <div class="loader-inner line-spin-fade-loader">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
           </div>
-          <div class="custom-loading" style="display:none;">
-            <div class="loader">
-              <div class="loader-inner line-spin-fade-loader">
-                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
-              </div>
-            </div>
-            <p>加载中</p>
+          <p>加载中</p>
+        </div>
+        <div class="have-data-box" style="display:block;">
+          <div class="myorder-item">
+            <ul class="con">
+              <li><label>服务类型</label><span>全程陪诊服务套餐</span><em>待预约</em></li>
+              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>
+              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
+            </ul>
+            <p class="lineBg"></p>
+            <p class="order-btn-box"><span class="btn" onclick="appointOrder('预约陪诊3')">预约陪诊</span></p>
           </div>
-          <div class="have-data-box" style="display:block;">
-            <div class="myorder-item">
-              <ul class="con">
-                <li><label>服务类型</label><span>全程陪诊服务套餐</span><em>待预约</em></li>
-                <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>
-                <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
-              </ul>
-              <p class="lineBg"></p>
-              <p class="order-btn-box"><span class="btn">预约陪诊</span></p>
-            </div>
-            <div class="myorder-item">
-              <ul class="con">
-                <li><label>服务类型</label><span>全程陪诊服务套餐</span><em>已预约</em></li>
-                <li><label>服务价格</label><span>￥398.00/次</span></li>
-                <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
-              </ul>
-              <p class="lineBg"></p>
-              <p class="order-btn-box"><span class="btn-gray">取消陪诊</span><span class="btn">查看详情</span></p>
-            </div>
-            <div class="myorder-item">
-              <ul class="con">
-                <li><label>服务类型</label><span>全程陪诊服务套餐</span><em class="gray">已完成</em></li>
-                <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>
-                <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
-              </ul>
-              <p class="lineBg"></p>
-              <p class="order-btn-box"><span class="btn">服务评价</span></p>
-            </div>
-            <div class="myorder-item">
-              <ul class="con">
-                <li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已完成</em></li>
-                <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>
-                <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
-              </ul>
-              <p class="lineBg"></p>
-              <p class="order-btn-box"><span class="btn">查看详情</span></p>
-            </div>
-            <div class="myorder-item">
-              <ul class="con">
-                <li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已关闭</em></li>
-                <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款成功</em></li>
-                <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
-              </ul>
-              <p class="lineBg"></p>
-              <p class="order-btn-box"><span class="btn">查看详情</span></p>
-            </div>
+          <div class="myorder-item">
+            <ul class="con">
+              <li><label>服务类型</label><span>全程陪诊服务套餐</span><em>已预约</em></li>
+              <li><label>服务价格</label><span>￥398.00/次</span></li>
+              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
+            </ul>
+            <p class="lineBg"></p>
+            <p class="order-btn-box"><span class="btn-gray" onclick="cancelOrder('取消陪诊1')">取消陪诊</span><span class="btn"
+                                                                                                            onclick="viewDetail('查看详情1')">查看详情</span>
+            </p>
+          </div>
+          <div class="myorder-item">
+            <ul class="con">
+              <li><label>服务类型</label><span>全程陪诊服务套餐</span><em class="gray">已完成</em></li>
+              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>
+              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
+            </ul>
+            <p class="lineBg"></p>
+            <p class="order-btn-box"><span class="btn">服务评价</span></p>
+          </div>
+          <div class="myorder-item">
+            <ul class="con">
+              <li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已完成</em></li>
+              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>
+              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
+            </ul>
+            <p class="lineBg"></p>
+            <p class="order-btn-box"><span class="btn">查看详情</span></p>
+          </div>
+          <div class="myorder-item">
+            <ul class="con">
+              <li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已关闭</em></li>
+              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款成功</em></li>
+              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
+            </ul>
+            <p class="lineBg"></p>
+            <p class="order-btn-box"><span class="btn">查看详情</span></p>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- 取消原因弹出层 -->
-    <div class="popup-wrap" style="display:block;">
-      <div class="lightbox"></div>
-      <div class="popup-con popup-con-middle">
-        <h2 class="popup-title">取消原因</h2>
-        <div class="cancle-because">
-          <p>
-            <label class="custom_check_label">
-              <span class="name">医生停诊</span>
-              <input type="radio" name="item" id="radio1" value="1" hidden />
-              <label for="radio1" class="icon-check"></label>
-            </label>
-          </p>
-          <p>
-            <label class="custom_check_label">
-              <span class="name">病好了</span>
-              <input type="radio" name="item" id="radio2" value="1" hidden />
-              <label for="radio2" class="icon-check"></label>
-            </label>
-          </p>
-          <p>
-            <label class="custom_check_label">
-              <span class="name">已提前就诊过</span>
-              <input type="radio" name="item" id="radio3" value="1" hidden />
-              <label for="radio3" class="icon-check"></label>
-            </label>
-          </p>
-          <p>
-            <label class="custom_check_label">
-              <span class="name">改时间</span>
-              <input type="radio" name="item" id="radio4" value="1" hidden />
-              <label for="radio4" class="icon-check"></label>
-            </label>
-          </p>
-          <p>
-            <label class="custom_check_label">
-              <span class="name">其他</span>
-              <input type="radio" name="item" id="radio5" value="1" hidden />
-              <label for="radio5" class="icon-check"></label>
-            </label>
-          </p>
-          <p>
-            <input type="text" name="" class="weiui-input" placeholder="请填写原因">
-          </p>
-        </div>
-        <div class="popup-btmbtn"><span class="gray">再考虑一下</span><span class="ok">确认取消</span></div>
       </div>
     </div>
   </div>
-  <script type="text/javascript" src="../lib/js/flexible.js"></script>
-  <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
-  <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
-  <script src="../lib/js/jquery-weui.js"></script>
+  <!-- 取消原因弹出层 -->
+  <div class="popup-wrap" style="display:none;">
+    <div class="lightbox"></div>
+    <div class="popup-con popup-con-middle">
+      <h2 class="popup-title">取消原因</h2>
+      <div class="cancle-because">
+        <p>
+          <label class="custom_check_label">
+            <span class="name">医生停诊</span>
+            <input type="radio" name="item" id="radio1" value="1" hidden onclick="cancelRes(1)"/>
+            <label for="radio1" class="icon-check"></label>
+          </label>
+        </p>
+        <p>
+          <label class="custom_check_label">
+            <span class="name">病好了</span>
+            <input type="radio" name="item" id="radio2" value="2" hidden onclick="cancelRes(2)"/>
+            <label for="radio2" class="icon-check"></label>
+          </label>
+        </p>
+        <p>
+          <label class="custom_check_label">
+            <span class="name">已提前就诊过</span>
+            <input type="radio" name="item" id="radio3" value="3" hidden onclick="cancelRes(3)"/>
+            <label for="radio3" class="icon-check"></label>
+          </label>
+        </p>
+        <p>
+          <label class="custom_check_label">
+            <span class="name">改时间</span>
+            <input type="radio" name="item" id="radio4" value="4" hidden onclick="cancelRes(4)"/>
+            <label for="radio4" class="icon-check"></label>
+          </label>
+        </p>
+        <p>
+          <label class="custom_check_label">
+            <span class="name">其他</span>
+            <input type="radio" name="item" id="radio5" value="5" hidden onclick="cancelRes(5)"/>
+            <label for="radio5" class="icon-check"></label>
+          </label>
+        </p>
+        <p>
+          <input type="text" name="" class="weiui-input" placeholder="请填写原因" hidden>
+        </p>
+      </div>
+      <div class="popup-btmbtn"><span class="gray">再考虑一下</span><span class="ok" style="color: lightgray;">确认取消</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="background" class="background" style="display: none;"></div>
+<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>
+<script type="text/javascript" src="../lib/js/flexible.js"></script>
+<script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+<script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+<script src="../lib/js/jquery-weui.js"></script>
+
+<script>
+  function orderList(index) {
+    let _hdb = $('.have-data-box');
+    _hdb.empty();
+    let html = '';
+    switch (index) {
+      case 0:
+        html = '<div class="myorder-item">' +
+          '<ul class="con">' +
+          '<li><label>服务类型</label><span>全程陪诊服务套餐</span><em>待预约</em></li>' +
+          '<li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>' +
+          '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>' +
+          '</ul>' +
+          '<p class="lineBg"></p>\n' +
+          '<p class="order-btn-box"><span class="btn" onclick="appointOrder(`预约陪诊3`)">预约陪诊</span></p>' +
+          '</div>';
+        _hdb.html(html);
+        break;
+      case 1:
+        break;
+      case 2:
+        html = '<div class="myorder-item">\n' +
+          '<ul class="con">\n' +
+          '<li><label>服务类型</label><span>全程陪诊服务套餐</span><em>已预约</em></li>\n' +
+          '<li><label>服务价格</label><span>￥398.00/次</span></li>\n' +
+          '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
+          '</ul>\n' +
+          '<p class="lineBg"></p>\n' +
+          '<p class="order-btn-box"><span class="btn-gray" onclick="cancelOrder(`取消陪诊2`)">取消陪诊</span><span class="btn" onclick="viewDetail(`查看详情2`)">查看详情</span></p>\n' +
+          '</div>';
+        _hdb.html(html);
+        break;
+      case 3:
+        break;
+      case 4:
+        break;
+      default:
+        return
+
+    }
+
+    // $.ajax({
+    //   type: "GET",
+    //   url: "test.json",
+    //   data: {username:$("#username").val(), content:$("#content").val(), index: index},
+    //   dataType: "json",
+    //   success: function(data){
+    //     $('.have-data-box').empty();   //清空have-data-box里面的所有内容
+    //     let html = '';
+    //     $.each(data, function(i, val){
+    //       html += '<div class="myorder-item">'+
+    //                 '<ul class="con">'+
+    //                   '<li><label>服务类型</label><span>全程陪诊服务套餐</span><em>待预约</em></li>' +
+    //                   '<li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>' +
+    //                   '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>' +
+    //                 '</ul>'+
+    //               '</div>';
+    //
+    //     });
+    //     $('.have-data-box').html(html);
+    //   }
+    // });
+  }
 
 
+  $('.gray').click(function () {
+    $('.popup-wrap').css({'display': 'none'});
+  });
+
+  //取消原因
+  function cancelRes(i) {
+    let _ci = $('.weiui-input'), _ok = $('.ok');
+    let val = $('input[name="item"]:checked').val();
+    console.log(typeof val, val, '_ci =', _ci.val());
+
+    _ok.css({'color': 'rgb(33, 173, 244)'});
+
+    if (i === 5) {
+      _ci.attr('hidden', false);
+    } else {
+      _ci.attr('hidden', true);
+    }
+
+    _ok.click(function () {
+      $('.popup-wrap').css({'display': 'none'});
+      let ajaxbg = $("#background, #progressBar");
+      let url = 123;
+      // $('#uploadCommodityTypeExcel').ajaxSubmit({
+      $.ajax({
+        url: url,
+        data: {'cancelReason': i},
+        type: "POST",
+        timeout: 6000,
+        beforeSend: function()
+        {
+          ajaxbg.show();
+        },
+        success:function(msg)
+        {
+          setTimeout(function () {
+            ajaxbg.hide();
+            console.log('发送成功');
+          }, 2000)
+
+        },
+        error:function(){
+          setTimeout(function () {
+            ajaxbg.hide();
+            console.log('发送失败');
+          }, 2000)
+        }
+      });
+    });
+  }
+
+  //取消陪诊
+  function cancelOrder(index) {
+    $('.popup-wrap').css({'display': 'block'});
+    console.log(index);
+  }
+
+  //查看详情
+  function viewDetail(index) {
+    console.log(index);
+    window.location.href = 'orderDetail.html';
+  }
+
+  //预约陪诊
+  function appointOrder(index) {
+    console.log(index);
+  }
+
+</script>
 </body>
 </html>

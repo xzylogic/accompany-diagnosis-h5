@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>订单详情</title>
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+
+</head>
+
+<body>
+	<div class="container">
+    <div class="order-detail-wrap scroll-wrap">
+      <div class="scroll-wrap-con">
+          <p class="state-txt-box state2"><span>已预约</span></p>
+          <div class="detail-content">
+            <div class="user-mes-box state3-user-mes" style="display:block;"><!-- 去掉这个state3-user-mes可以看到已预约的状态效果 -->
+              <span class="pic"><img src="../custom/images/head_bg.png"></span>
+              <div class="con1">
+                <h5><span class="name">李四</span>1355657656</h5>
+                <p class="p1">上海健康云陪诊服务中心</p>
+                <p class="border-top-dashed not-state3"></p>
+                <p class="p2 not-state3"><label>陪诊时间</label><span>2018-11-19 上午</span></p>
+              </div>
+              <div class="con2">
+                <p class="border-top-dashed"></p>
+                <p class="p2"><label>陪诊时间</label><span>2018-11-19 上午</span></p>
+                <p class="p2 p3"><label>陪诊记录</label><span>体温可达39℃～40℃，头痛、全身肌肉关节酸痛、极度乏力、食欲减退,咽喉痛、干咳。</span></p>
+              </div>
+            </div>
+            <div class="title">
+              <span>全程陪诊服务套餐</span><span class="price">￥398.00/次</span>
+            </div>
+            <p class="order-btn-box">
+              <span class="btn-gray">申请退款</span>
+              <em class="orange" style="display:none">退款成功</em><!-- 这里已关闭状态下需要显示的话用diplay:inline; -->
+            </p>
+            <div style="display:block;">
+              <p class="lineBg"></p>
+              <ul class="mes-list mes-list-width">
+                  <li><label>预约单号</label><span>243254365436</span></li>
+                  <li><label>就诊人</label><span>家人</span></li>
+                  <li><label>就诊人姓名</label><span>小康</span></li>
+                  <li><label>就诊人手机号</label><span>1345555555</span></li>
+                  <li><label>预约陪诊医院</label><span>瑞金医院</span></li>
+                  <li><label>预约门诊类型</label><span>专家门诊</span></li>
+                  <li><label>预约就诊科室</label><span>内科</span></li>
+                  <li><label>预约专家姓名</label><span>小康</span></li>
+                  <li><label>预约陪诊时间</label><span>2018-11-19 上午</span></li>
+                  <li><label>预约提交时间</label><span>2018-11-19 12:34:56</span></li>
+              </ul>
+            </div>
+            <p class="lineBg"></p>
+            <ul class="mes-list">
+                <li><label>订单编号</label><span>243254365436</span></li>
+                <li><label>支付方式</label><span>支付宝</span></li>
+                <li><label>下单时间</label><span>2018-11-19 12:34:56</span></li>
+            </ul>
+        </div>
+      </div>
+    </div>
+    <div class="custom-btm-fixed custom-btm-fixed-white">
+        <span class="custom-btm-btn custom-btm-graybtn">取消陪诊</span>
+        <!--
+        <span class="custom-btm-btn">去预约</span>
+        <span class="custom-btm-btn">服务评价</span>
+        <span class="custom-btm-btn">查看评价</span>
+         -->
+    </div>
+
+    <!-- 不能取消的提示弹出层 -->
+    <div class="popup-wrap" style="display:none;">
+      <div class="lightbox"></div>
+      <div class="popup-con popup-con-middle">
+        <span class="close"></span>
+        <p class="popup-txt popup-txt-left">抱歉！取消预约须在陪诊日期的前1个工作日16:00前，目前已不能取消！</p>
+        <div class="popup-btmbtn"><span class="ok">我知道了</span></div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="../lib/js/flexible.js"></script>
+  <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+  <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+  <script src="../lib/js/jquery-weui.js"></script>
+
+
+</body>
+</html>

@@ -246,3 +246,37 @@ border: 1px solid #0CB7F5;border-radius: 0.106667rem;height: 1.173333rem;line-he
   width: 0.066667rem;
   height: 0.2rem; }
 
+/*loading样式效果*/
+.background {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  background: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2000;
+}
+/*.progressBar {*/
+  /*border: solid 2px #86A5AD;*/
+  /*background: white url(${pageContext.request.contextPath}/static/image/progressBar_m.gif) no-repeat 10px 10px;*/
+/*}*/
+.progressBar {
+  display: block;
+  width: 100%;
+  height: 28px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /*margin-left: -74px;*/
+  /*margin-top: -14px;*/
+  /*padding: 10px 10px 10px 50px;*/
+  /*text-align: center;*/
+  font-size: 26px;
+  text-align: center;
+  font-weight: bold;
+  position: fixed;
+  z-index: 2001;
+}

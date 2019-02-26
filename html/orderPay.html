@@ -28,7 +28,7 @@
               <img src="../custom/images/apliy.png">
               <span>支付宝支付</span>
               <label class="custom_check_label">
-                  <input type="checkbox" name="" id="radio1" value="1" hidden />
+                  <input type="radio" name="pay" id="radio1" value="1" hidden />
                   <label for="radio1" class="icon-check"></label>
               </label>
             </li>
@@ -36,7 +36,7 @@
               <img src="../custom/images/wx.png">
               <span>微信支付</span>
               <label class="custom_check_label">
-                  <input type="checkbox" name="" id="radio2" value="1" hidden />
+                  <input type="radio" name="pay" id="radio2" value="1" hidden />
                   <label for="radio2" class="icon-check"></label>
               </label>
             </li>
@@ -52,6 +52,27 @@
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
 
+  <script>
+    // $('#radio1').click(function () {
+    //   $('#radio1').prop('checked',true);
+    //   $('#radio2').prop('checked',false);
+    // });
+    // $('#radio2').click(function () {
+    //   $('#radio1').prop('checked',false);
+    //   $('#radio2').prop('checked',true);
+    // });
 
+    $('.custom-btm-btn').click(function () {
+      if($('#radio1').is(':checked')){
+        console.log(1)
+
+      }
+      if($('#radio2').is(':checked')){
+        console.log(2)
+
+      }
+    })
+
+  </script>
 </body>
 </html>

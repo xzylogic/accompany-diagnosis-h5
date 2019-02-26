@@ -57,7 +57,7 @@
             <span class="name">我已阅读并同意<a style="color:#0CB7F5;">《服务须知》</a></span>
           </label>
         </p>
-        <span class="custom-btm-btn">立即购买</span>
+        <span class="custom-btm-btn" style="position: relative; z-index: 111;">立即购买</span>
       </div>
     </div>
     <!-- 确认购买弹出层 -->
@@ -78,14 +78,52 @@
   <script src="../lib/js/jquery-weui.js"></script>
 
   <script>
-  function show(obj, id)
-    {
-      $('.mytab li span').removeClass('active');
-      $(obj).addClass('active');
+    function show(obj, id)
+      {
+        $('.mytab li span').removeClass('active');
+        $(obj).addClass('active');
 
-      $('.tabContent').hide();
-      $('#content'+id).show();
-    }
+        $('.tabContent').hide();
+        $('#content'+id).show();
+      }
+
+    let oTop = $(".active").offset().top;
+    //获取切换栏的高度，此高度用于保证内容的平滑过渡
+    let martop = $('.active').outerHeight();
+
+    let sTop = 0;
+    // 监听页面的滚动
+    $('.scroll-wrap').scroll(function () {
+      // 获取页面向上滚动的距离
+      sTop = $(this).scrollTop();
+      // 当切换栏到达屏幕顶端
+      if (sTop >= oTop) {
+        // 修改切换栏position属性，使之固定在屏幕顶端
+        $(".mytab").css({ "position": "fixed", "top": "0", 'box-shadow': '0 1px 0 0 #DDDDDD', 'width': '100%', 'z-index': '100'});
+        // 修改内容的margin-top值，保证平滑过渡
+        $(".tabContent").css({ "margin-top": martop });
+      } else {
+        // 当切换栏脱离屏幕顶端时，回复原来的属性
+        $(".mytab").css({ "position": "static" });
+        $(".tabContent").css({ "margin-top": "0" });
+      }
+
+      $('.custom-btm-btn').click(function () {
+        let _radio5 = $('#radio5').is(":checked");
+        if(_radio5){
+          $('.popup-wrap').css({'display': 'block'});
+          $('.gray').click(function () {
+            $('.popup-wrap').css({'display': 'none'});
+          });
+          $('.ok').click(function () {
+            $('.popup-wrap').css({'display': 'none'});
+            window.location.href = './orderPay.html';
+          })
+        }else{
+          console.log('请同意服务须知后购买');
+        }
+      })
+    });
   </script>
 </body>
 </html>

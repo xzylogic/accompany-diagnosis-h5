@@ -86,7 +86,7 @@ background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/200
   vertical-align: middle;
 }
 .custom_check_slabel .icon-check{width: 0.4rem;height: 0.4rem;}
-.custom_check_label input[type="checkbox"]:checked + .icon-check{
+.custom_check_label input[type="checkbox"]:checked + .icon-check,.custom_check_label input[type="radio"]:checked + .icon-check{
   background-image: url(../images/radio2.png);
 }
 .custom_check_label .name{display: inline-block;vertical-align: middle;color: #999;font-size: 14px;}

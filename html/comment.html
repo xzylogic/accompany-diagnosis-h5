@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="custom-btm-fixed">
-        <span class="custom-btm-btn">提交评价</span>
+        <span class="custom-btm-btn" onclick="evaluateSubmit()">提交评价</span>
     </div>
   </div>
   <script type="text/javascript" src="../lib/js/flexible.js"></script>
@@ -56,6 +56,10 @@
             value = value.replace(/\n|\r/gi,"");
             content .innerText = value.length;
         }
+    }
+
+    function evaluateSubmit() {
+      window.location.href = 'commentDetail.html';
     }
   </script>
 </body>

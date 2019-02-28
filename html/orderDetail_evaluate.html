@@ -13,9 +13,9 @@
 	<div class="container">
     <div class="order-detail-wrap scroll-wrap">
       <div class="scroll-wrap-con">
-          <p class="state-txt-box state2"><span>已预约</span></p>
+          <p class="state-txt-box state-graytxt-box state3"><span>已完成</span></p>
           <div class="detail-content">
-            <div class="user-mes-box state3-user-mes" style="display:none;"><!-- 去掉这个state3-user-mes可以看到已预约的状态效果 -->
+            <div class="user-mes-box state3-user-mes"><!-- 去掉这个state3-user-mes可以看到已预约的状态效果 -->
               <span class="pic"><img src="../custom/images/head_bg.png"></span>
               <div class="con1">
                 <h5><span class="name">李四</span>1355657656</h5>
@@ -32,10 +32,6 @@
             <div class="title">
               <span>全程陪诊服务套餐</span><span class="price">￥398.00/次</span>
             </div>
-            <p class="order-btn-box">
-              <span class="btn-gray" onclick="refund()">申请退款</span>
-              <em class="orange" style="display:none">退款成功</em><!-- 这里已关闭状态下需要显示的话用diplay:inline; -->
-            </p>
             <div style="display:block;">
               <p class="lineBg"></p>
               <ul class="mes-list mes-list-width">
@@ -61,18 +57,9 @@
       </div>
     </div>
     <div class="custom-btm-fixed custom-btm-fixed-white">
-        <span class="custom-btm-btn custom-btm-graybtn">取消陪诊</span>
+        <span class="custom-btm-btn" onclick="serviceEvaluate()">服务评价</span>
     </div>
 
-    <!-- 不能取消的提示弹出层 -->
-    <div class="popup-wrap" style="display:none;">
-      <div class="lightbox"></div>
-      <div class="popup-con popup-con-middle">
-        <span class="close"></span>
-        <p class="popup-txt popup-txt-left">抱歉！取消预约须在陪诊日期的前1个工作日16:00前，目前已不能取消！</p>
-        <div class="popup-btmbtn"><span class="ok">我知道了</span></div>
-      </div>
-    </div>
   </div>
   <script type="text/javascript" src="../lib/js/flexible.js"></script>
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
@@ -80,9 +67,10 @@
   <script src="../lib/js/jquery-weui.js"></script>
 
   <script>
-    function refund() {
-      window.location.href = 'refund.html';
+    function serviceEvaluate() {
+      window.location.href = 'comment.html';
     }
   </script>
+
 </body>
 </html>

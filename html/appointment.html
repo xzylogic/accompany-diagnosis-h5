@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>预约陪诊</title>
    <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+   <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
 
     <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
     <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
@@ -18,12 +19,12 @@
                   <label class="weui-label">就诊人</label>
                   <div class="weui-cell__bd custom-txt-right">
                     <label class="custom_check_label custom_check_slabel">
-                        <input type="checkbox" name="" id="radio1" value="1" hidden />
+                        <input type="radio" name="ifSelf" id="radio1" value="1" hidden />
                         <label for="radio1" class="icon-check"></label>
                         <span class="name">本人</span>
                     </label>&nbsp;&nbsp;&nbsp;
                     <label class="custom_check_label custom_check_slabel">
-                        <input type="checkbox" name="" id="radio2" value="1" hidden />
+                        <input type="radio" name="ifSelf" id="radio2" value="2" hidden />
                         <label for="radio2" class="icon-check"></label>
                         <span class="name">非本人</span>
                     </label>
@@ -32,25 +33,25 @@
               <div class="weui-cell">
                   <label class="weui-label">就诊人姓名</label>
                   <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input" placeholder="请输入" type="text"  />
+                      <input class="weui-input am_name" placeholder="请输入" type="text"  />
                   </div>
               </div>
               <div class="weui-cell">
                   <label class="weui-label">就诊人手机号</label>
                   <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input" placeholder="请输入" type="text"  />
+                      <input class="weui-input am_tel" placeholder="请输入" type="text"  />
                   </div>
               </div>
               <div class="weui-cell">
                   <label class="weui-label">就诊人身份证号</label>
                   <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input" placeholder="请输入" type="text"  />
+                      <input class="weui-input am_ID" placeholder="请输入" type="text"  />
                   </div>
               </div>
-              <div class="weui-cell">
+              <div class="weui-cell" onclick="searchHospital()">
                   <label class="weui-label">预约陪诊医院</label>
                   <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input" disabled="disabled" placeholder="请选择" type="text"  />
+                      <input class="weui-input am_hospital" disabled="disabled" placeholder="请选择" type="text" />
                   </div>
                   <span class="arrow-r"></span>
               </div>
@@ -58,12 +59,12 @@
                   <label class="weui-label">预约门诊类型</label>
                   <div class="weui-cell__bd custom-txt-right">
                     <label class="custom_check_label custom_check_slabel">
-                        <input type="checkbox" name="" id="radio3" value="1" hidden />
+                        <input type="radio" name="service" id="radio3" value="1" hidden />
                         <label for="radio3" class="icon-check"></label>
                         <span class="name">普通门诊</span>
                     </label>&nbsp;&nbsp;&nbsp;
                     <label class="custom_check_label custom_check_slabel">
-                        <input type="checkbox" name="" id="radio4" value="1" hidden />
+                        <input type="radio" name="service" id="radio4" value="2" hidden />
                         <label for="radio4" class="icon-check"></label>
                         <span class="name">专家门诊</span>
                     </label>
@@ -72,19 +73,19 @@
               <div class="weui-cell">
                   <label class="weui-label">预约就诊科室</label>
                   <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input" placeholder="请输入" value="" type="text" />
+                      <input class="weui-input am_room" placeholder="请输入" value="" type="text" />
                   </div>
               </div>
-              <div class="weui-cell">
+              <div class="weui-cell order_proName" style="display: none;">
                   <label class="weui-label">预约专家姓名</label>
                   <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input" placeholder="请输入" value="" type="text" />
+                      <input class="weui-input am_proName" placeholder="请输入" value="" type="text" />
                   </div>
               </div>
               <div class="weui-cell">
                   <label class="weui-label">预约陪诊时间</label>
                   <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input" disabled="disabled" placeholder="请选择" type="text"  />
+                      <input class="weui-input am_time" placeholder="请选择" type="text" onclick="appointTime()" />
                   </div>
                   <span class="arrow-r"></span>
               </div>
@@ -101,10 +102,11 @@
       <label class="custom_check_label custom_check_slabel">
         <input type="checkbox" name="" id="radio5" value="1" hidden />
         <label for="radio5" class="icon-check"></label>
-        <span class="name">我已阅读并同意<a style="color:#0CB7F5;">《服务须知》</a></span>
+        <span class="name">我已阅读并同意<a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a></span>
       </label>
     </p>
-    <span class="custom-btm-btn">保存</span>
+    <span class="custom-btm-btn" id="order" style="background-color: lightgray;" onclick="order()">预约</span>
+    <!--<span class="custom-btm-btn">保存</span>-->
   </div>
 </div>
 
@@ -113,5 +115,179 @@
 <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
 <script src="../lib/js/jquery-weui.js"></script>
 
+<script>
+  $.toast.prototype.defaults.duration = 800;
+
+  function searchHospital() {
+    window.location.href = 'searchHospital.html';
+  }
+
+  function serviceNotice() {
+    window.location.href = 'instructions.html';
+  }
+
+  function checkName(){
+    let _name = $('.am_name').val();
+    if(_name.length > 10 || _name === ''){
+      $.toast('姓名请勿超过10位', 'cancel');
+      return false;
+    }
+    return true;
+  }
+
+  function checkTel(){
+    let reg = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
+    if(reg.test($('.am_tel').val()) === false){
+      $.toast("手机号码有误，请重填", 'cancel');
+      return false;
+    }
+    return true;
+  }
+
+  function checkID(){
+    let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    if(reg.test($('.am_ID').val()) === false) {
+      $.toast("身份证输入不合法", 'cancel');
+      return false;
+    }
+    return true;
+  }
+
+  function order() {
+    if($('#radio5').prop('checked')){
+      const _self = $('input[name="ifSelf"]:checked').val(),
+            _service = $('input[name="service"]:checked').val(),
+            _room = $('.am_room').val(),
+            _proName = $('.am_proName').val(),
+            _time = $('.am_time').val();
+      // if(checkName() && checkTel() && checkID()){
+      //   window.location.href = 'orderSuccess.html';
+      // }
+      if(!_self){
+        $.toast("请选择就诊人", 'cancel');
+        return;
+      }else if(!checkName()){
+        return;
+      }else if(!checkTel()){
+        return;
+      }else if(!checkID()){
+        return;
+      }else if(!_service){
+        $.toast("请选择预约陪诊医院", 'cancel');
+        return;
+      }else if(!_room){
+        $.toast("请输入预约就诊科室", 'cancel');
+        return;
+      }else if(!_time){
+        $.toast("请选择预约陪诊时间", 'cancel');
+        return;
+      }else if(_service === '2'){
+        if(!_proName){
+          $.toast("请输入预约专家姓名", 'cancel');
+          return;
+        }
+      }
+      window.location.href = 'orderSuccess.html';
+    }
+  }
+
+  function appointTime(){
+    // http://10.1.93.60:8080/app/mock/30/api/diagnosis/reservation/scheduleTime
+    const url = '/app/mock/30/api/diagnosis/reservation/scheduleTime';
+    $.ajax({
+      url: url,
+      type: "get",
+      timeout: 6000,
+      beforeSend: function()
+      {
+        // initloading();
+        // showMyloading();
+        // ajaxbg.show();
+      },
+      success:function(msg)
+      {
+        // setTimeout(function () {
+        //   // ajaxbg.hide();
+        //   hideMyloading();
+        //   console.log('发送成功');
+        // }, 2000)
+        console.log(msg);
+        $(".am_time").datetimePicker({
+          times: function () {
+            return [
+              {
+                values: ['全天','上午', '下午']
+              }
+            ];
+          },
+          value: '2017-08-09 全天',
+          onChange: function (picker, values, displayValues) {
+            console.log(values);
+
+          }
+        });
+
+      },
+      error:function(){
+        // setTimeout(function () {
+        //   // ajaxbg.hide();
+        //   // hideMyloading();
+        //   console.log('发送失败');
+        // }, 1000)
+        console.log('发送失败');
+      }
+    });
+    console.log('预约时间');
+  }
+
+
+  $(document).ready(function () {
+    $('#radio1').click(function () {
+      console.log('本人');
+    });
+
+    $('#radio2').click(function () {
+      console.log('非本人');
+    });
+
+    $('#radio3').click(function () {
+      $('.order_proName').css({'display': 'none'});
+      console.log('普通门诊');
+    });
+
+    $('#radio4').click(function () {
+      $('.order_proName').css({'display': 'block'});
+      $('.order_proName .weui-label').css({'display': 'inline-block'});
+      $('.order_proName .weui-cell__bd').css({'float': 'right'});
+      console.log('专家门诊');
+    });
+
+    $('#radio5').click(function () {
+      let _order = $('#order');
+      if($(this).prop('checked') === true){
+        _order.css({'color': 'white', 'background': '#0CB7F5'});
+      }else{
+        _order.css({'color': 'white', 'background': 'lightgray'});
+      }
+
+      console.log('服务须知');
+    });
+
+    $('.am_name').change(function () {
+      checkName();
+    });
+
+    $('.am_tel').change(function () {
+      checkTel();
+    });
+
+    $('.am_ID').change(function () {
+      checkID();
+    });
+
+
+  })
+
+</script>
 </body>
 </html>

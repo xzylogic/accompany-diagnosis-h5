@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="custom-btm-fixed">
-          <span class="custom-btm-btn">提交</span>
+          <span class="custom-btm-btn" onclick="refundSubmit()">提交</span>
       </div>
     </div>
     <!--申请提交成功-->
@@ -48,7 +48,7 @@
         <h4>预约成功</h4>
         <p class="txt">您已成功提交退款申请，客服将第一时间电话联系您处理，请保持手机畅通！</p>
         <div class="btn-box">
-          <span>查看详情</span>
+          <span onclick="refundDetail()">查看详情</span>
         </div>
       </div>
     </div>
@@ -71,6 +71,15 @@
             // 更新计数
             content .innerText = value.length;
         }
+    }
+
+    function refundSubmit() {
+      $('.refund-form-wrap').empty();
+      $('.pay-result-box').css({'display': 'block'});
+    }
+
+    function refundDetail() {
+      window.location.href = 'refundDetail.html';
     }
   </script>
 

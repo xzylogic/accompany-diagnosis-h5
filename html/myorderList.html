@@ -13,11 +13,11 @@
 <div class="container">
   <div class="myorder-wrap">
     <p class="custom-nav">
-      <span data-type="0" class="active" onclick="orderList(0)">全部</span>
-      <span data-type="1" onclick="orderList(1)">待预约</span>
-      <span data-type="2" onclick="orderList(2)">已预约</span>
-      <span data-type="3" onclick="orderList(3)">已完成</span>
-      <span data-type="4" onclick="orderList(4)" style="width:24%;">退款/售后</span>
+      <span data-type="0" class="active" onclick="orderList(this, 0)">全部</span>
+      <span data-type="1" onclick="orderList(this, 1)">待预约</span>
+      <span data-type="2" onclick="orderList(this, 2)">已预约</span>
+      <span data-type="3" onclick="orderList(this, 3)">已完成</span>
+      <span data-type="4" onclick="orderList(this, 4)" style="width:24%;">退款/售后</span>
     </p>
     <div class="scroll-wrap">
       <div class="scroll-wrap-con">
@@ -142,16 +142,19 @@
     </div>
   </div>
 </div>
-<div id="background" class="background" style="display: none;"></div>
-<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>
+<!--<div id="background" class="background" style="display: none;"></div>-->
+<!--<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>-->
 <script type="text/javascript" src="../lib/js/flexible.js"></script>
 <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
 <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
 <script src="../lib/js/jquery-weui.js"></script>
+<script type="text/javascript" src="../custom/js/common.js"></script>
 
 <script>
-  function orderList(index) {
+  function orderList(obj, index) {
+    $('.custom-nav span').removeClass('active');
     let _hdb = $('.have-data-box');
+    $(obj).addClass('active');
     _hdb.empty();
     let html = '';
     switch (index) {
@@ -234,7 +237,7 @@
 
     _ok.click(function () {
       $('.popup-wrap').css({'display': 'none'});
-      let ajaxbg = $("#background, #progressBar");
+      // let ajaxbg = $("#background, #progressBar");
       let url = 123;
       // $('#uploadCommodityTypeExcel').ajaxSubmit({
       $.ajax({
@@ -244,19 +247,23 @@
         timeout: 6000,
         beforeSend: function()
         {
-          ajaxbg.show();
+          initloading();
+          showMyloading();
+          // ajaxbg.show();
         },
         success:function(msg)
         {
           setTimeout(function () {
-            ajaxbg.hide();
+            // ajaxbg.hide();
+            hideMyloading();
             console.log('发送成功');
           }, 2000)
 
         },
         error:function(){
           setTimeout(function () {
-            ajaxbg.hide();
+            // ajaxbg.hide();
+            hideMyloading();
             console.log('发送失败');
           }, 2000)
         }
@@ -279,6 +286,7 @@
   //预约陪诊
   function appointOrder(index) {
     console.log(index);
+    window.location.href = 'orderDetail_appointment.html';
   }
 
 </script>

@@ -16,7 +16,7 @@
         <img src="../custom/images/ordersuccess.png" style="width:2.88rem ;height: 2.28rem;">
         <h4>预约成功</h4>
         <p class="txt">您的陪诊人员信息稍后将以短信形式通知您，请注意查收</p>
-        <div class="btn-box">
+        <div class="btn-box" onclick="viewAppoint()">
           <span>查看预约</span>
         </div>
       </div>
@@ -27,6 +27,11 @@
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
 
+  <script>
+    function viewAppoint() {
+      window.location.href = 'orderDetail_cancel.html';
+    }
+  </script>
 
 </body>
 </html>

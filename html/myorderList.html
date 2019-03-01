@@ -48,7 +48,7 @@
               <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
             </ul>
             <p class="lineBg"></p>
-            <p class="order-btn-box"><span class="btn" onclick="appointOrder('预约陪诊3')">预约陪诊</span></p>
+            <p class="order-btn-box"><span class="btn" onclick="appointOrder('预约陪诊1')">预约陪诊</span></p>
           </div>
           <div class="myorder-item">
             <ul class="con">
@@ -58,7 +58,7 @@
             </ul>
             <p class="lineBg"></p>
             <p class="order-btn-box"><span class="btn-gray" onclick="cancelOrder('取消陪诊1')">取消陪诊</span><span class="btn"
-                                                                                                            onclick="viewDetail('查看详情1')">查看详情</span>
+                                                                                                            onclick="viewDetail('查看详情2')">查看详情</span>
             </p>
           </div>
           <div class="myorder-item">
@@ -142,13 +142,11 @@
     </div>
   </div>
 </div>
-<!--<div id="background" class="background" style="display: none;"></div>-->
-<!--<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>-->
 <script type="text/javascript" src="../lib/js/flexible.js"></script>
 <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
 <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
 <script src="../lib/js/jquery-weui.js"></script>
-<script type="text/javascript" src="../custom/js/common.js"></script>
+<!--<script type="text/javascript" src="../custom/js/common.js"></script>-->
 
 <script>
   function orderList(obj, index) {
@@ -166,11 +164,48 @@
           '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>' +
           '</ul>' +
           '<p class="lineBg"></p>\n' +
-          '<p class="order-btn-box"><span class="btn" onclick="appointOrder(`预约陪诊3`)">预约陪诊</span></p>' +
+          '<p class="order-btn-box"><span class="btn" onclick="appointOrder(`预约陪诊1`)">预约陪诊</span></p>' +
+          '</div>' +
+          '<div class="myorder-item">\n' +
+          '<ul class="con">\n' +
+          '<li><label>服务类型</label><span>全程陪诊服务套餐</span><em>已预约</em></li>\n' +
+          '<li><label>服务价格</label><span>￥398.00/次</span></li>\n' +
+          '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
+          '</ul>\n' +
+          '<p class="lineBg"></p>\n' +
+          '<p class="order-btn-box"><span class="btn-gray" onclick="cancelOrder(`取消陪诊2`)">取消陪诊</span><span class="btn" onclick="viewDetail(`查看详情2`)">查看详情</span></p>\n' +
+          '</div>' +
+          '<div class="myorder-item">\n' +
+          '<ul class="con">\n' +
+          '<li><label>服务类型</label><span>全程陪诊服务套餐</span><em class="gray">已完成</em></li>\n' +
+          '<li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>\n' +
+          '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
+          '</ul>\n' +
+          '<p class="lineBg"></p>\n' +
+          '<p class="order-btn-box"><span class="btn" onclick="servicesEvaluate(`服务评价3`)">服务评价</span></p>\n' +
+          '</div>' +
+          '<div class="myorder-item">\n' +
+          '<ul class="con">\n' +
+          '<li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已关闭</em></li>\n' +
+          '<li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款成功</em></li>\n' +
+          '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
+          '</ul>\n' +
+          '<p class="lineBg"></p>\n' +
+          '<p class="order-btn-box"><span class="btn" onclick="viewDetail(`查看详情2`)">查看详情</span></p>\n' +
           '</div>';
         _hdb.html(html);
         break;
       case 1:
+        html = '<div class="myorder-item">' +
+          '<ul class="con">' +
+          '<li><label>服务类型</label><span>全程陪诊服务套餐</span><em>待预约</em></li>' +
+          '<li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>' +
+          '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>' +
+          '</ul>' +
+          '<p class="lineBg"></p>\n' +
+          '<p class="order-btn-box"><span class="btn" onclick="appointOrder(`预约陪诊1`)">预约陪诊</span></p>' +
+          '</div>';
+        _hdb.html(html);
         break;
       case 2:
         html = '<div class="myorder-item">\n' +
@@ -185,12 +220,31 @@
         _hdb.html(html);
         break;
       case 3:
+        html = '<div class="myorder-item">\n' +
+          '<ul class="con">\n' +
+          '<li><label>服务类型</label><span>全程陪诊服务套餐</span><em class="gray">已完成</em></li>\n' +
+          '<li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款中</em></li>\n' +
+          '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
+          '</ul>\n' +
+          '<p class="lineBg"></p>\n' +
+          '<p class="order-btn-box"><span class="btn" onclick="servicesEvaluate(`服务评价3`)">服务评价</span></p>\n' +
+          '</div>';
+        _hdb.html(html);
         break;
       case 4:
+        html = '<div class="myorder-item">\n' +
+          '<ul class="con">\n' +
+          '<li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已关闭</em></li>\n' +
+          '<li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款成功</em></li>\n' +
+          '<li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
+          '</ul>\n' +
+          '<p class="lineBg"></p>\n' +
+          '<p class="order-btn-box"><span class="btn" onclick="viewDetail(`查看详情2`)">查看详情</span></p>\n' +
+          '</div>';
+        _hdb.html(html);
         break;
       default:
-        return
-
+        return ''
     }
 
     // $.ajax({
@@ -223,6 +277,8 @@
 
   //取消原因
   function cancelRes(i) {
+    $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+      '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
     let _ci = $('.weiui-input'), _ok = $('.ok');
     let val = $('input[name="item"]:checked').val();
     console.log(typeof val, val, '_ci =', _ci.val());
@@ -237,7 +293,7 @@
 
     _ok.click(function () {
       $('.popup-wrap').css({'display': 'none'});
-      // let ajaxbg = $("#background, #progressBar");
+      let ajaxbg = $("#background, #progressBar");
       let url = 123;
       // $('#uploadCommodityTypeExcel').ajaxSubmit({
       $.ajax({
@@ -247,23 +303,23 @@
         timeout: 6000,
         beforeSend: function()
         {
-          initloading();
-          showMyloading();
-          // ajaxbg.show();
+          // initloading();
+          // showMyloading();
+          ajaxbg.show();
         },
         success:function(msg)
         {
           setTimeout(function () {
-            // ajaxbg.hide();
-            hideMyloading();
+            ajaxbg.hide();
+            // hideMyloading();
             console.log('发送成功');
           }, 2000)
 
         },
         error:function(){
           setTimeout(function () {
-            // ajaxbg.hide();
-            hideMyloading();
+            ajaxbg.hide();
+            // hideMyloading();
             console.log('发送失败');
           }, 2000)
         }
@@ -280,13 +336,19 @@
   //查看详情
   function viewDetail(index) {
     console.log(index);
-    window.location.href = 'orderDetail.html';
+    window.location.href = 'orderDetail.html?type='+index+'&status=1';
   }
 
   //预约陪诊
   function appointOrder(index) {
     console.log(index);
-    window.location.href = 'orderDetail_appointment.html';
+    window.location.href = 'orderDetail.html?type='+index;
+  }
+
+  //服务评价
+  function servicesEvaluate(index) {
+    console.log(index);
+    window.location.href = 'orderDetail.html?type='+index;
   }
 
 </script>

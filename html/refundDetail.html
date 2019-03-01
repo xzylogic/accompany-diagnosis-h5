@@ -52,7 +52,17 @@
   <script src="../lib/js/jquery-weui.js"></script>
 
   <script>
-
+    $('.order-btn-box').click(function () {
+      $.confirm("是否确认撤销本次退款申请？", function() {
+        //点击确认后的回调函数
+        $('.state1-con, .state1, .weui-dialog, .weui-mask').css({'display': 'none'});
+        $('.state3-con, .state3').css({'display': 'block'});
+      }, function() {
+        console.log('取消');
+        $('.weui-dialog, .weui-mask').css({'display': 'none'});
+        //点击取消后的回调函数
+      });
+    })
   </script>
 </body>
 </html>

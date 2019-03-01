@@ -54,10 +54,10 @@
           <label class="custom_check_label custom_check_slabel">
             <input type="checkbox" name="" id="radio5" value="1" hidden />
             <label for="radio5" class="icon-check"></label>
-            <span class="name">我已阅读并同意<a style="color:#0CB7F5;">《服务须知》</a></span>
+            <span class="name">我已阅读并同意<a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a></span>
           </label>
         </p>
-        <span class="custom-btm-btn" style="position: relative; z-index: 111;">立即购买</span>
+        <span class="custom-btm-btn" style="position: relative; z-index: 111; background: lightgray;">立即购买</span>
       </div>
     </div>
     <!-- 确认购买弹出层 -->
@@ -87,6 +87,36 @@
         $('#content'+id).show();
       }
 
+    function serviceNotice(){
+      window.location.href = 'instructions.html';
+    }
+
+
+    $('#radio5').click(function () {
+      const _radio5 = $('#radio5').prop('checked');
+      if(_radio5){
+        $('.custom-btm-btn').css({'background': '#0CB7F5'});
+      }else{
+        $('.custom-btm-btn').css({'background': 'lightgray'});
+      }
+    });
+
+    $('.custom-btm-btn').click(function () {
+      const _radio5 = $('#radio5').prop('checked');
+      if(_radio5){
+        $('.popup-wrap').css({'display': 'block'});
+        $('.gray').click(function () {
+          $('.popup-wrap').css({'display': 'none'});
+        });
+        $('.ok').click(function () {
+          $('.popup-wrap').css({'display': 'none'});
+          window.location.href = './orderPay.html';
+        })
+      }else{
+        console.log('请同意服务须知后购买');
+      }
+    })
+
     let oTop = $(".active").offset().top;
     //获取切换栏的高度，此高度用于保证内容的平滑过渡
     let martop = $('.active').outerHeight();
@@ -107,22 +137,6 @@
         $(".mytab").css({ "position": "static" });
         $(".tabContent").css({ "margin-top": "0" });
       }
-
-      $('.custom-btm-btn').click(function () {
-        let _radio5 = $('#radio5').is(":checked");
-        if(_radio5){
-          $('.popup-wrap').css({'display': 'block'});
-          $('.gray').click(function () {
-            $('.popup-wrap').css({'display': 'none'});
-          });
-          $('.ok').click(function () {
-            $('.popup-wrap').css({'display': 'none'});
-            window.location.href = './orderPay.html';
-          })
-        }else{
-          console.log('请同意服务须知后购买');
-        }
-      })
     });
   </script>
 </body>

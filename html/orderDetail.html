@@ -14,11 +14,11 @@
     <div class="order-detail-wrap scroll-wrap">
       <div class="scroll-wrap-con">
           <p class="state-txt-box state1"  style="display:none;"><span>待预约</span></p>
-          <p class="state-txt-box state2" style="display:block;"><span>已预约</span></p>
+          <p class="state-txt-box state2" style="display:none;"><span>已预约</span></p>
           <p class="state-txt-box state-graytxt-box state3" style="display:none;"><span>已完成</span></p>
           <p class="state-txt-box state-graytxt-box state4" style="display:none;"><span>已关闭</span></p>
           <div class="detail-content">
-            <div class="user-mes-box state3-user-mes" style="display:block;"><!-- 去掉这个state3-user-mes可以看到已预约的状态效果 -->
+            <div class="user-mes-box state3-user-mes" style="display:none;"><!-- 去掉这个state3-user-mes可以看到已预约的状态效果 -->
               <span class="pic"><img src="../custom/images/head_bg.png"></span>
               <div class="con1">
                 <h5><span class="name">李四</span>1355657656</h5>
@@ -36,10 +36,10 @@
               <span>全程陪诊服务套餐</span><span class="price">￥398.00/次</span>
             </div>
             <p class="order-btn-box">
-              <span class="btn-gray">申请退款</span>
-              <em class="orange" style="display:none">退款成功</em><!-- 这里已关闭状态下需要显示的话用diplay:inline; -->
+              <span class="btn-gray" onclick="refund()">申请退款</span>
+              <em class="orange" style="display:none">退款成功</em><!-- 这里已关闭状态下需要显示的话用display:inline; -->
             </p>
-            <div style="display:block;">
+            <div class="orderDetail" style="display:none;">
               <p class="lineBg"></p>
               <ul class="mes-list mes-list-width">
                   <li><label>预约单号</label><span>243254365436</span></li>
@@ -64,21 +64,69 @@
       </div>
     </div>
     <div class="custom-btm-fixed custom-btm-fixed-white">
-        <span class="custom-btm-btn custom-btm-graybtn">取消陪诊</span>
-        <!--
-        <span class="custom-btm-btn">去预约</span>
-        <span class="custom-btm-btn">服务评价</span>
-        <span class="custom-btm-btn">查看评价</span>
-         -->
+        <span class="custom-btm-btn custom-btm-graybtn btn1" style="display: none;">取消陪诊</span>
+        <span class="custom-btm-btn btn2" style="display: none;">去预约</span>
+        <span class="custom-btm-btn btn3" style="display: none;">服务评价</span>
+        <span class="custom-btm-btn btn4" style="display: none;">查看评价</span>
     </div>
 
     <!-- 不能取消的提示弹出层 -->
-    <div class="popup-wrap" style="display:none;">
+    <div class="popup-wrap cancelNotice" style="display:none;">
       <div class="lightbox"></div>
       <div class="popup-con popup-con-middle">
         <span class="close"></span>
         <p class="popup-txt popup-txt-left">抱歉！取消预约须在陪诊日期的前1个工作日16:00前，目前已不能取消！</p>
         <div class="popup-btmbtn"><span class="ok">我知道了</span></div>
+      </div>
+    </div>
+
+    <!-- 取消原因弹出层 -->
+    <div class="popup-wrap cancel-reason" style="display:none;">
+      <div class="lightbox"></div>
+      <div class="popup-con popup-con-middle">
+        <h2 class="popup-title">取消原因</h2>
+        <div class="cancle-because">
+          <p>
+            <label class="custom_check_label">
+              <span class="name">医生停诊</span>
+              <input type="radio" name="item" id="radio1" value="1" hidden onclick="cancelRes(1)"/>
+              <label for="radio1" class="icon-check"></label>
+            </label>
+          </p>
+          <p>
+            <label class="custom_check_label">
+              <span class="name">病好了</span>
+              <input type="radio" name="item" id="radio2" value="2" hidden onclick="cancelRes(2)"/>
+              <label for="radio2" class="icon-check"></label>
+            </label>
+          </p>
+          <p>
+            <label class="custom_check_label">
+              <span class="name">已提前就诊过</span>
+              <input type="radio" name="item" id="radio3" value="3" hidden onclick="cancelRes(3)"/>
+              <label for="radio3" class="icon-check"></label>
+            </label>
+          </p>
+          <p>
+            <label class="custom_check_label">
+              <span class="name">改时间</span>
+              <input type="radio" name="item" id="radio4" value="4" hidden onclick="cancelRes(4)"/>
+              <label for="radio4" class="icon-check"></label>
+            </label>
+          </p>
+          <p>
+            <label class="custom_check_label">
+              <span class="name">其他</span>
+              <input type="radio" name="item" id="radio5" value="5" hidden onclick="cancelRes(5)"/>
+              <label for="radio5" class="icon-check"></label>
+            </label>
+          </p>
+          <p>
+            <input type="text" name="" class="weiui-input" placeholder="请填写原因" hidden>
+          </p>
+        </div>
+        <div class="popup-btmbtn"><span class="gray">再考虑一下</span><span class="ok" style="color: lightgray;">确认取消</span>
+        </div>
       </div>
     </div>
   </div>
@@ -87,6 +135,125 @@
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
 
+  <script>
+    function refund() {
+      window.location.href = 'refund.html';
+    }
+
+    function GetQueryString(flag, state) {
+      let reg = new RegExp("(^|&)" + flag + "=([^&]*)(&|$)" + state + "=([^&]*)(&|$)", "i");
+      let r = window.location.search.substr(1).match(reg);
+      if(r === null){
+        reg = new RegExp("(^|&)" + flag + "=([^&]*)(&|$)", "i");
+        r = window.location.search.substr(1).match(reg);
+      }
+      console.log(window.location)
+      console.log(window.location.search.substr(1))
+      console.log(r)
+      let type, status;
+      if (r != null){
+        type = decodeURIComponent(r[2]);
+        status = decodeURIComponent(r[4]) || '';
+      }
+      console.log(type);
+      reg = null; r = null;
+      switch (type) {
+        case '查看详情2':
+          $('.state2, .btn1, .orderDetail').css({'display': 'block'});
+
+          //取消陪诊弹出框
+          $('.btn1').click(function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('取消陪诊弹出框');
+            $('.cancelNotice').css({'display': 'block'});
+            $('.ok, .close').click(function () {
+              $('.cancelNotice').css({'display': 'none'});
+            });
+            // $('.cancel-reason').css({'display': 'block'});
+            // $('.gray').click(function () {
+            //   $('.popup-wrap').css({'display': 'none'});
+            // });
+          });
+          if(status === '1'){
+            $('.user-mes-box').removeClass('state3-user-mes').css({'display': 'block'});
+          }
+          break;
+        case '预约陪诊1':
+          $('.state1, .btn2').css({'display': 'block'});
+          $('.btn2').click(function () {
+            window.location.href = 'appointment.html';
+
+          });
+          break;
+        case '服务评价3':
+          $('.user-mes-box').css({'display': 'block'});
+          $('.btn3').click(function () {
+            window.location.href = 'comment.html';
+
+          });
+          break;
+        case '服务评价3333':
+          console.log('服务评价3333')
+          break;
+        default:
+          console.log('type类型出现错误')
+          break;
+      }
+    }
+    GetQueryString("type", "status");
+
+    function cancelRes(i) {
+      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+      let _ci = $('.weiui-input'), _ok = $('.ok');
+      let val = $('input[name="item"]:checked').val();
+      console.log(typeof val, val, '_ci =', _ci.val());
+
+      _ok.css({'color': 'rgb(33, 173, 244)'});
+
+      if (i === 5) {
+        _ci.attr('hidden', false);
+      } else {
+        _ci.attr('hidden', true);
+      }
+
+      _ok.click(function () {
+        $('.popup-wrap').css({'display': 'none'});
+        let ajaxbg = $("#background, #progressBar");
+        let url = 123;
+        // $('#uploadCommodityTypeExcel').ajaxSubmit({
+        $.ajax({
+          url: url,
+          data: {'cancelReason': i},
+          type: "POST",
+          timeout: 6000,
+          beforeSend: function()
+          {
+            // initloading();
+            // showMyloading();
+            ajaxbg.show();
+          },
+          success:function(msg)
+          {
+            setTimeout(function () {
+              ajaxbg.hide();
+              // hideMyloading();
+              console.log('发送成功');
+            }, 2000)
+
+          },
+          error:function(){
+            setTimeout(function () {
+              ajaxbg.hide();
+              // hideMyloading();
+              console.log('发送失败');
+            }, 2000)
+          }
+        });
+      });
+    }
+  </script>
 
 </body>
 </html>

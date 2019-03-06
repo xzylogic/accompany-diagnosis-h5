@@ -76,8 +76,30 @@
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/net.js"></script>
 
   <script>
+    // console.log($('.price2:eq(0)').html())
+    // console.log($('.price2:eq(1)').html())
+    window.onload = function () {
+      $.ajax({
+        type: "GET",
+        url: net.userGetTokenByAuthCode,
+        data : {'authCode' : '4f5ad9c6c0294a74a200d848935ec7ae'},
+        success: function(data){
+          console.log(data);
+        },
+        error: function (err) {
+          console.log(err);
+        }
+      });
+    }
+
+
+
+
+
+
     function show(obj, id)
       {
         $('.mytab li span').removeClass('active');
@@ -109,8 +131,14 @@
           $('.popup-wrap').css({'display': 'none'});
         });
         $('.ok').click(function () {
+          let totalFee;
           $('.popup-wrap').css({'display': 'none'});
-          window.location.href = './orderPay.html';
+          if($('.mytab li span:eq(0)').hasClass('active')){
+            totalFee = $('.price2:eq(0)').html();
+          }else{
+            totalFee = $('.price2:eq(1)').html();
+          }
+          window.location.href = `./orderPay.html?totalFee=${totalFee}&orderId=${111}`;
         })
       }else{
         console.log('请同意服务须知后购买');

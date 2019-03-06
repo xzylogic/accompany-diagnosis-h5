@@ -22,10 +22,10 @@
       <h3>服务评价</h3>
       <div class="comment-box">
         <p class="action-box">
-          <span class="expression1" onclick="show(this);return false;">非常满意</span>
-          <span class="expression2" onclick="show(this);return false;">满意</span>
-          <span class="expression3" onclick="show(this);return false;">一般</span>
-          <span class="expression4" onclick="show(this);return false;">不满意</span>
+          <span class="expression1" onclick="show(this, 'very-good');return false;">非常满意</span>
+          <span class="expression2" onclick="show(this, 'satisfied');return false;">满意</span>
+          <span class="expression3" onclick="show(this, 'general');return false;">一般</span>
+          <span class="expression4" onclick="show(this, 'yawp');return false;">不满意</span>
         </p>
         <div class="textarea-wrap">
             <textarea class="weui-textarea" placeholder="请输入您的评价" rows="3"  onkeyup="wordStatic(this);" maxlength="100"></textarea>
@@ -43,10 +43,12 @@
   <script src="../lib/js/jquery-weui.js"></script>
 
   <script>
-    function show(obj)
+    var evalueteVal, textVal = $('.weui-textarea').val();
+    function show(obj, val)
     {
       $('.action-box span').removeClass('active');
       $(obj).addClass('active');
+      evalueteVal = val;
     }
 
     function wordStatic(input) {
@@ -59,6 +61,17 @@
     }
 
     function evaluateSubmit() {
+      $.ajax({
+        type: "POST",
+        url: net.adReservationEvaluate,
+        data : {'satisfied_level' : evalueteVal, 'evaluate_content': textVal, 'reservation_id': '111111111'},
+        success: function(data){
+          console.log(data);
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      });
       window.location.href = 'commentDetail.html';
     }
   </script>

@@ -132,7 +132,7 @@ border: 1px solid #0CB7F5;border-radius: 0.106667rem;height: 1.173333rem;line-he
 .search-top span{display: inline-block;position: absolute;top:0.266667rem;right: 0.4rem;font-size: 16px;color: #0CB7F5;height: 0.853333rem;line-height: 0.853333rem;width: 16%;text-align: center;}
 .history-content{background: #fff;}
 .history-content p{padding:0.266667rem 0.4rem 0.2rem;color: #999;font-size: 14px;}
-.history-content ul{padding: 0 0 0.266667rem 0.2rem;}
+.history-content ul{padding: 0 0 0.266667rem 0.2rem;max-height: 95px;overflow: hidden;}
 .history-content li{display: inline-block;height: 0.853333rem;line-height: 0.853333rem;border:1px solid #ddd;border-radius: 0.08rem;padding:0 0.133333rem;font-size: 16px;margin: 0.2rem;}
 .history-clear{border-top: 1px solid #ddd;text-align: center;color: #0CB7F5;font-size: 16px;line-height: 1.173333rem;}
 /*弹出层的框架*/

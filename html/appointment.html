@@ -157,11 +157,13 @@
 
   function order() {
     if($('#radio5').prop('checked')){
-      const _self = $('input[name="ifSelf"]:checked').val(),
+      var _self = $('input[name="ifSelf"]:checked').val(),
             _service = $('input[name="service"]:checked').val(),
             _room = $('.am_room').val(),
             _proName = $('.am_proName').val(),
             _time = $('.am_time').val();
+      console.log(_self);
+
       // if(checkName() && checkTel() && checkID()){
       //   window.location.href = 'orderSuccess.html';
       // }
@@ -189,11 +191,51 @@
           return;
         }
       }
+      var is_self, patient_name = $('.am_name').val(), patient_mobile = $('.am_tel').val(), patient_personcard = $('.am_ID').val(),
+        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, acc_time = _time, reservation_time='2019-03-04',
+        expert_name = _proName;
+      if(_self === '1'){
+        is_self = 'yes';
+      }else if(_self === '2'){
+        is_self = 'no';
+      }
+      if(_service === '1'){
+        outpatient_type = 'normal';
+      }else if (_service === '2'){
+        outpatient_type = 'expert';
+      }
+      $.ajax({
+        type: "POST",
+        url: net.saveAdReservation,
+        data : {
+          'is_self' : is_self,
+          'patient_name': patient_name,
+          'patient_mobile': patient_mobile,
+          'patient_personcard': patient_personcard,
+          'hospital_name': hospital_name,
+          'outpatient_type': outpatient_type,
+          'department': department,
+          'acc_time': acc_time,
+          'reservation_time': reservation_time,
+          'expert_name': expert_name,
+        },
+        success: function(data){
+          console.log(data);
+        },
+        error: function (err) {
+          console.log(err)
+        }
+      });
       window.location.href = 'orderSuccess.html';
     }
   }
 
   window.onload = function () {
+    let hospitalName = localStorage.getItem('hospitalName') || '';
+    console.log(hospitalName)
+    if(hospitalName){
+      $('.am_hospital').val(hospitalName);
+    }
     $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
       '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
     let ajaxbg = $("#background, #progressBar");
@@ -262,9 +304,26 @@
   $(document).ready(function () {
     $('#radio1').click(function () {
       console.log('本人');
+      $.ajax({
+        type: "GET",
+        url: net.userAccountInfo,
+        data : {'uid' : 'c87aa0b01a4243828ce184fc0ee32506'},
+        success: function(data){
+          console.log(data);
+          $('.am_name').val(data.data.name);
+          $('.am_tel').val(data.data.mobile);
+          $('.am_ID').val(data.data.idcard);
+        },
+        error: function (err) {
+          console.log(err);
+        }
+      });
     });
 
     $('#radio2').click(function () {
+      $('.am_name').val('');
+      $('.am_tel').val('');
+      $('.am_ID').val('');
       console.log('非本人');
     });
 

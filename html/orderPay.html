@@ -51,28 +51,133 @@
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/native.js"></script>
+  <script src="../custom/js/net.js"></script>
 
   <script>
-    // $('#radio1').click(function () {
-    //   $('#radio1').prop('checked',true);
-    //   $('#radio2').prop('checked',false);
-    // });
-    // $('#radio2').click(function () {
-    //   $('#radio1').prop('checked',false);
-    //   $('#radio2').prop('checked',true);
-    // });
+    // $('.custom-btm-btn').click(function () {
+    //   if($('#radio1').is(':checked')){
+    //     // console.log(1);
+    //     window.location.href = 'payResult.html';
+    //   }
+    //   if($('#radio2').is(':checked')){
+    //     // console.log(2);
+    //     window.location.href = 'payResult.html';
+    //   }
+    // })
+    $('.pay-way-list li:eq(0)').click(function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('#radio1').prop('checked', true);
+    });
+    $('.pay-way-list li:eq(1)').click(function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('#radio2').prop('checked', true);
+    });
 
-    $('.custom-btm-btn').click(function () {
-      if($('#radio1').is(':checked')){
-        console.log(1);
-        window.location.href = 'payResult.html';
+    $(function () {
+      var netToken = localStorage.getItem('netToken');
+      var requestUrl= localStorage.getItem('requestUrl');
+      var channelCode= localStorage.getItem('channelCode');
+      var lightAppCode=localStorage.getItem('lightAppCode');
+      var uid= localStorage.getItem('uid');
+      //订单金额和订单id
+      var orderId=getParams("orderId");
+      var totalFee=decodeURIComponent(getParams("totalFee"));
+      console.log(orderId, '----------',decodeURIComponent(totalFee));
+      $(".total-box span").html(totalFee+'/次');
+      // $(".total-box span").html("￥"+totalFee);
+      var newTab;
+      //操作系统
+      var ua = navigator.userAgent;
+      var os;
+      if (ua.toLowerCase().indexOf("iphone") > -1||ua.toLowerCase().indexOf("ipad") > -1) {
+        os="ios";
+      }else{
+        os="android";
       }
-      if($('#radio2').is(':checked')){
-        console.log(2);
-        window.location.href = 'payResult.html';
-      }
+      //支付宝
+      // $("#alipay").on("click",function () {
+      //   $("#alipay label")[0].addClass("checkRadio");
+      //   $("#wechat label")[0].removeClass("checkRadio");
+      // })
+      // //微信支付
+      // $("#wechat").on("click",function () {
+      //   $("#wechat label")[0].addClass("checkRadio");
+      //   $("#alipay label")[0].removeClass("checkRadio");
+      // })
+      //支付
+      var checkedWay;
+      $(".custom-btm-btn").on("click",function (){
+        if($('#radio1').is(':checked')){
+          console.log(1);
+          checkedWay="alipay";
+          // window.location.href = 'payResult.html';
+        }
+        if($('#radio2').is(':checked')){
+          console.log(2);
+          checkedWay="wechat";
+          // window.location.href = 'payResult.html';
+        }
+        // if($("#alipay label").hasClass("checkRadio")){
+        //   checkedWay="alipay"
+        // }else if($("#wechat label").hasClass("checkRadio")){
+        //   checkedWay="wechat"
+        // }
+        //请求统一支付
+        newTab=window.open();
+        try {
+          $.ajax({
+            url:net.scanConsume,
+            type:"post",
+            contentType: 'application/json',
+            beforeSend: function(request) {
+              request.setRequestHeader("uid",uid);
+              request.setRequestHeader("token",netToken);
+              request.setRequestHeader("channelCode",channelCode);
+              request.setRequestHeader("lightAppCode",lightAppCode);
+              request.setRequestHeader('timestamp', new Date().getTime());
+            },
+            data:JSON.stringify({
+              "amount":totalFee,
+              "payType":checkedWay,
+              "merchantId":"3101180901",//待定字段商户ID
+              "businessNo":orderId,//待定字段业务单号
+              "uid":uid,
+              "clientIp":returnCitySN.cip,
+              "os": os,
+              "merchantName": "健康云app健康商城",//待定字段
+              "subject":"订单名称",//待定字段
+              "orderDesc":"订单描述",//待定字段
+              "orderItemDesc":"商品描述"//待定字段
+
+            }),
+            success:function(data){
+              if(data.code==0){
+                newTab.document.write(data.data);
+              }else if(data.code==12){
+                $(".mytip").html("账户在其他设备登录,请重新登录");
+                // showMyTip();
+              }else{
+                $(".mytip").html(data.msg||"跳转支付失败");
+                // showMyTip();
+              }
+            },
+            error:function(error){
+              console.log(error)
+              // showMyTip();
+            }
+          })
+        } catch (e) {
+          // hideMyloading();
+          // showMyTip();
+          console.log(e);
+        }
+
+      })
+
     })
-
   </script>
 </body>
 </html>

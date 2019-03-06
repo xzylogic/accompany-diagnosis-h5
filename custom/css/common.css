@@ -9,13 +9,16 @@ input:focus {outline:none;}
 input::-webkit-input-placeholder {color: #bbb;}
 h1,h2,h3,h4,h5,h6{margin:0;}
 body {background-color: #F4F4F4;-webkit-text-size-adjust: 100% !important;margin:0;font-family: 'PingFangSC-Regular';font-size: 14px;}
+html, body{height: auto !important;}
+
 /*页面公用样式*/
 .container{width:100%;max-width: 10rem;margin:0 auto;box-sizing: border-box;}
 .weui-label,.weui-cell__bd{font-size: 14px;}
 .weui-cell:before{left:0;}
 @media screen and (min-width: 768px) {
-  body{background-color: #e5e5e5;}
+  body{background-color: #586c94;}
   .container{background-color: #F4F4F4;height:100%;min-height: 100vh;width: 10rem;position: relative;}
+  .mescroll{max-width: 10rem;}
 }
 .clearfix:after {
   visibility: hidden;
@@ -164,88 +167,6 @@ border: 1px solid #0CB7F5;border-radius: 0.106667rem;height: 1.173333rem;line-he
 .upload-wrap .weui-uploader__input-box:before{height: 0.666667rem;}
 .upload-wrap .weui-uploader__input-box:after{width: 0.666667rem;}
 .upload-wrap .txt{color: #999;display: inline-block;padding-top: 0.533333rem;font-size: 14px;}
-/*加载中*/
-.custom-loading{text-align: center;}
-.custom-loading .loader{display: inline-block;padding-bottom: 0.666667rem;margin-top: 100px;}
-.custom-loading p{font-size: 14px;color: #666;}
-@-webkit-keyframes line-spin-fade-loader {
-  50% {opacity: 0.3; }
-  100% {opacity: 1; }
-}
-@keyframes line-spin-fade-loader {
-  50% {opacity: 0.3; }
-
-  100% {opacity: 1; }
-}
-.line-spin-fade-loader {position: relative; }
-.line-spin-fade-loader > div:nth-child(1) {
-  top: 0.266667rem;
-  left: 0;
-  -webkit-animation: line-spin-fade-loader 1.2s 0.12s infinite ease-in-out;
-          animation: line-spin-fade-loader 1.2s 0.12s infinite ease-in-out; }
-.line-spin-fade-loader > div:nth-child(2) {
-  top: 0.181818rem;
-  left: 0.181818rem;
-  -webkit-transform: rotate(-45deg);
-      -ms-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-  -webkit-animation: line-spin-fade-loader 1.2s 0.24s infinite ease-in-out;
-          animation: line-spin-fade-loader 1.2s 0.24s infinite ease-in-out; }
-.line-spin-fade-loader > div:nth-child(3) {
-  top: 0;
-  left: 0.266667rem;
-  -webkit-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-          transform: rotate(90deg);
-  -webkit-animation: line-spin-fade-loader 1.2s 0.36s infinite ease-in-out;
-          animation: line-spin-fade-loader 1.2s 0.36s infinite ease-in-out; }
-.line-spin-fade-loader > div:nth-child(4) {
-  top: -0.181818rem;
-  left: 0.181818rem;
-  -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
-  -webkit-animation: line-spin-fade-loader 1.2s 0.48s infinite ease-in-out;
-          animation: line-spin-fade-loader 1.2s 0.48s infinite ease-in-out; }
-.line-spin-fade-loader > div:nth-child(5) {
-  top: -0.266667rem;
-  left: 0;
-  -webkit-animation: line-spin-fade-loader 1.2s 0.6s infinite ease-in-out;
-          animation: line-spin-fade-loader 1.2s 0.6s infinite ease-in-out; }
-.line-spin-fade-loader > div:nth-child(6) {
-  top: -0.181818rem;
-  left: -0.181818rem;
-  -webkit-transform: rotate(-45deg);
-      -ms-transform: rotate(-45deg);
-          transform: rotate(-45deg);
-  -webkit-animation: line-spin-fade-loader 1.2s 0.72s infinite ease-in-out;
-          animation: line-spin-fade-loader 1.2s 0.72s infinite ease-in-out; }
-.line-spin-fade-loader > div:nth-child(7) {
-  top: 0;
-  left: -0.266667rem;
-  -webkit-transform: rotate(90deg);
-      -ms-transform: rotate(90deg);
-          transform: rotate(90deg);
-  -webkit-animation: line-spin-fade-loader 1.2s 0.84s infinite ease-in-out;
-          animation: line-spin-fade-loader 1.2s 0.84s infinite ease-in-out; }
-.line-spin-fade-loader > div:nth-child(8) {
-  top: 0.181818rem;
-  left: -0.181818rem;
-  -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
-  -webkit-animation: line-spin-fade-loader 1.2s 0.96s infinite ease-in-out;
-          animation: line-spin-fade-loader 1.2s 0.96s infinite ease-in-out; }
-.line-spin-fade-loader > div {
-  background-color: #279fcf;
-  border-radius: 2px;
-  margin: 2px;
-  -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
-  position: absolute;
-  width: 0.066667rem;
-  height: 0.2rem; }
-
 /*loading样式效果*/
 .background {
   display: block;

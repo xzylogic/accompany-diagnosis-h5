@@ -105,7 +105,7 @@
         <span class="name">我已阅读并同意<a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a></span>
       </label>
     </p>
-    <span class="custom-btm-btn" id="order" style="background-color: lightgray;" onclick="order()">预约</span>
+    <span class="custom-btm-btn" id="order" onclick="order()">预约</span>
     <!--<span class="custom-btm-btn">保存</span>-->
   </div>
 </div>
@@ -118,7 +118,7 @@
 
 <script>
 
-  $.toast.prototype.defaults.duration = 800;
+  // $.toast.prototype.defaults.duration = 800;
 
   function searchHospital() {
     window.location.href = 'searchHospital.html';
@@ -131,7 +131,7 @@
   function checkName(){
     let _name = $('.am_name').val();
     if(_name.length > 10 || _name === ''){
-      $.toast('请输入姓名且不超过10位', 'cancel');
+      $.toptip('请输入姓名且不超过10位', 800, 'warning');
       return false;
     }
     return true;
@@ -140,7 +140,7 @@
   function checkTel(){
     let reg = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
     if(reg.test($('.am_tel').val()) === false){
-      $.toast("手机号码有误，请重填", 'cancel');
+      $.toptip('手机号码有误，请重填', 800, 'warning');
       return false;
     }
     return true;
@@ -149,7 +149,7 @@
   function checkID(){
     let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
     if(reg.test($('.am_ID').val()) === false) {
-      $.toast("身份证输入不合法", 'cancel');
+      $.toptip('身份证输入不合法', 800, 'warning');
       return false;
     }
     return true;
@@ -168,7 +168,7 @@
       //   window.location.href = 'orderSuccess.html';
       // }
       if(!_self){
-        $.toast("请选择就诊人", 'cancel');
+        $.toptip('请选择就诊人', 800, 'warning');
         return;
       }else if(!checkName()){
         return;
@@ -177,17 +177,17 @@
       }else if(!checkID()){
         return;
       }else if(!_service){
-        $.toast("请选择预约陪诊医院", 'cancel');
+        $.toptip('请选择预约陪诊医院', 800, 'warning');
         return;
       }else if(!_room){
-        $.toast("请输入预约就诊科室", 'cancel');
+        $.toptip('请输入预约就诊科室', 800, 'warning');
         return;
       }else if(!_time){
-        $.toast("请选择预约陪诊时间", 'cancel');
+        $.toptip('请选择预约陪诊时间', 800, 'warning');
         return;
       }else if(_service === '2'){
         if(!_proName){
-          $.toast("请输入预约专家姓名", 'cancel');
+          $.toptip('请输入预约专家姓名', 800, 'warning');
           return;
         }
       }
@@ -227,6 +227,8 @@
         }
       });
       window.location.href = 'orderSuccess.html';
+    }else{
+      $.toptip('请同意服务须知后预约', 800, 'error');
     }
   }
 
@@ -249,14 +251,11 @@
       },
       success:function(data)
       {
-        setTimeout(function () {
-          ajaxbg.hide();
-          console.log('发送成功');
-        }, 1000);
+        ajaxbg.hide();
         console.log(data);
         let time = [], timeDetail = [];
         data && data.data.map(function (val,i) {
-          console.log(val,i);
+          // console.log(val,i);
           time.push(val.time);
           // if(val.am === 0 && val.pm === 1){
           //   timeDetail = ['上午', '下午'];
@@ -282,28 +281,18 @@
           // value: '2017-08-09 全天',
           onChange: function (picker, values, displayValues) {
             console.log(values);
-
           }
         });
-
       },
       error:function(){
-        setTimeout(function () {
-          ajaxbg.hide();
-          // hideMyloading();
-          console.log('发送失败');
-        }, 1000);
+        ajaxbg.hide();
         console.log('发送失败');
       }
     });
-    console.log('预约时间');
   }
-
-
 
   $(document).ready(function () {
     $('#radio1').click(function () {
-      console.log('本人');
       $.ajax({
         type: "GET",
         url: net.userAccountInfo,
@@ -324,19 +313,16 @@
       $('.am_name').val('');
       $('.am_tel').val('');
       $('.am_ID').val('');
-      console.log('非本人');
     });
 
     $('#radio3').click(function () {
       $('.order_proName').css({'display': 'none'});
-      console.log('普通门诊');
     });
 
     $('#radio4').click(function () {
       $('.order_proName').css({'display': 'block'});
       $('.order_proName .weui-label').css({'display': 'inline-block'});
       $('.order_proName .weui-cell__bd').css({'float': 'right'});
-      console.log('专家门诊');
     });
 
     $('#radio5').click(function () {
@@ -346,8 +332,6 @@
       }else{
         _order.css({'color': 'white', 'background': 'lightgray'});
       }
-
-      console.log('服务须知');
     });
 
     $('.am_name').change(function () {
@@ -361,7 +345,6 @@
     $('.am_ID').change(function () {
       checkID();
     });
-
 
   })
 

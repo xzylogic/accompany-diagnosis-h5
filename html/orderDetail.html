@@ -147,20 +147,26 @@
         reg = new RegExp("(^|&)" + flag + "=([^&]*)(&|$)", "i");
         r = window.location.search.substr(1).match(reg);
       }
-      console.log(window.location)
-      console.log(window.location.search.substr(1))
-      console.log(r)
+      // console.log(window.location)
+      // console.log(window.location.search.substr(1))
+      // console.log(r)
       let type, status;
       if (r != null){
         type = decodeURIComponent(r[2]);
         status = decodeURIComponent(r[4]) || '';
       }
-      console.log(type);
+      console.log(typeof type, type);
       reg = null; r = null;
+      //0:待预约   1：已预约   2：已完成（服务评价）   3：已完成（查看详情）   4：已关闭
       switch (type) {
-        case '查看详情2':
+        case '0':
+          $('.state1, .btn2').css({'display': 'block'});
+          $('.btn2').click(function () {
+            window.location.href = 'appointment.html';
+          });
+          break;
+        case '1':
           $('.state2, .btn1, .orderDetail').css({'display': 'block'});
-
           //取消陪诊弹出框
           $('.btn1').click(function (e) {
             e.preventDefault();
@@ -179,22 +185,23 @@
             $('.user-mes-box').removeClass('state3-user-mes').css({'display': 'block'});
           }
           break;
-        case '预约陪诊1':
-          $('.state1, .btn2').css({'display': 'block'});
-          $('.btn2').click(function () {
-            window.location.href = 'appointment.html';
-
-          });
-          break;
-        case '服务评价3':
-          $('.user-mes-box').css({'display': 'block'});
+        case '2':
+          $('.user-mes-box, .state3, .btn3, .orderDetail').css({'display': 'block'});
+          $('.order-btn-box').css({'display': 'none'});
           $('.btn3').click(function () {
             window.location.href = 'comment.html';
-
           });
           break;
-        case '服务评价3333':
-          console.log('服务评价3333');
+        case '3':
+          $('.user-mes-box, .state3, .btn4, .orderDetail').css({'display': 'block'});
+          $('.order-btn-box').css({'display': 'none'});
+          $('.btn4').click(function () {
+            window.location.href = 'commentDetail.html';
+          });
+          break;
+        case '4':
+          $('.state4, .orange').css({'display': 'block'});
+          $('.order-btn-box .btn-gray').css({'display': 'none'});
           break;
         default:
           console.log('type类型出现错误');

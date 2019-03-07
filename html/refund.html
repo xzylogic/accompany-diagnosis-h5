@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>申请退款</title>
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
 
@@ -74,8 +75,13 @@
     }
 
     function refundSubmit() {
-      $('.refund-form-wrap').empty();
-      $('.pay-result-box').css({'display': 'block'});
+      if($('.weui-textarea').val()){
+        $('.refund-form-wrap').empty();
+        $('.pay-result-box').css({'display': 'block'});
+      }else{
+        $.toptip('请您填写退款原因～', 800, 'error');
+      }
+
     }
 
     function refundDetail() {

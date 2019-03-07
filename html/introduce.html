@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>陪诊服务</title>
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
 
@@ -57,7 +58,7 @@
             <span class="name">我已阅读并同意<a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a></span>
           </label>
         </p>
-        <span class="custom-btm-btn" style="position: relative; z-index: 111; background: lightgray;">立即购买</span>
+        <span class="custom-btm-btn" style="position: relative; z-index: 111;">立即购买</span>
       </div>
     </div>
     <!-- 确认购买弹出层 -->
@@ -81,7 +82,27 @@
   <script>
     // console.log($('.price2:eq(0)').html())
     // console.log($('.price2:eq(1)').html())
+    // $.toast.prototype.defaults.duration = 800;
+
     window.onload = function () {
+      //订单详情页：myorderList.html
+      NativeFunc({
+        ACTION: "RIGHTBTN",
+        PARAM:{
+          BTNS:[
+            {
+              ICON:"1.png",
+              ICONS:"1.png",
+              EVENT:"SEARCH"
+            },
+            {
+              ICON:"2.png",
+              EVENT:"DADAD",
+            }
+          ]
+        }
+      });
+
       $.ajax({
         type: "GET",
         url: net.userGetTokenByAuthCode,
@@ -97,11 +118,7 @@
 
 
 
-
-
-
-    function show(obj, id)
-      {
+    function show(obj, id) {
         $('.mytab li span').removeClass('active');
         $(obj).addClass('active');
 
@@ -112,7 +129,6 @@
     function serviceNotice(){
       window.location.href = 'instructions.html';
     }
-
 
     $('#radio5').click(function () {
       const _radio5 = $('#radio5').prop('checked');
@@ -142,6 +158,7 @@
         })
       }else{
         console.log('请同意服务须知后购买');
+        $.toptip('请同意服务须知后购买', 800, 'error');
       }
     })
 

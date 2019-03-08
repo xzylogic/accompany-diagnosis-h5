@@ -42,6 +42,12 @@
       $.ajax({
         url: net.getAdServiceGuidelines,
         type: "get",
+        beforeSend: function(request) {
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
         success:function(data){
           $('.instructions-wrap').html(data.data);
           console.log(data);

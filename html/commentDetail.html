@@ -15,28 +15,28 @@
       <div class="user-mes-box">
         <span class="pic"><img src="../custom/images/head_bg.png"></span>
         <div class="con1">
-          <h5><span class="name">李四</span>1355657656</h5>
-          <p class="p1">上海健康云陪诊服务中心</p>
+          <!--<h5><span class="name">李四</span>1355657656</h5>-->
+          <!--<p class="p1">上海健康云陪诊服务中心</p>-->
         </div>
       </div>
       <div class="scroll-wrap">
         <ul class="comment-list">
-          <li>
-            <div class="top"><em class="expression1">非常满意</em><span class="date">2018-11-13</span></div>
-            <p>这是一个好评模板，因为本仙女很懒，不想每个产品都写好评，所以特地模仿好友写下这个模板，但是这个产品无论是质量还是外形都是本仙女喜欢的类型。</p>
-          </li>
-          <li>
-            <div class="top"><em class="expression2">满意</em><span class="date">2018-11-13</span></div>
-            <p>这是一个好评模板，因为本仙女很懒，不想每个产品都写好评，所以特地模仿好友写下这个模板，但是这个产品无论是质量还是外形都是本仙女喜欢的类型。</p>
-          </li>
-          <li>
-            <div class="top"><em class="expression3">一般</em><span class="date">2018-11-13</span></div>
-            <p>这是一个好评模板，因为本仙女很懒，不想每个产品都写好评，所以特地模仿好友写下这个模板，但是这个产品无论是质量还是外形都是本仙女喜欢的类型。</p>
-          </li>
-          <li>
-            <div class="top"><em class="expression4">不满意</em><span class="date">2018-11-13</span></div>
-            <p>这是一个好评模板，因为本仙女很懒，不想每个产品都写好评，所以特地模仿好友写下这个模板，但是这个产品无论是质量还是外形都是本仙女喜欢的类型。</p>
-          </li>
+          <!--<li>-->
+            <!--<div class="top"><em class="expression1">非常满意</em><span class="date">2018-11-13</span></div>-->
+            <!--<p>这是一个好评模板，因为本仙女很懒，不想每个产品都写好评，所以特地模仿好友写下这个模板，但是这个产品无论是质量还是外形都是本仙女喜欢的类型。</p>-->
+          <!--</li>-->
+          <!--<li>-->
+            <!--<div class="top"><em class="expression2">满意</em><span class="date">2018-11-13</span></div>-->
+            <!--<p>这是一个好评模板，因为本仙女很懒，不想每个产品都写好评，所以特地模仿好友写下这个模板，但是这个产品无论是质量还是外形都是本仙女喜欢的类型。</p>-->
+          <!--</li>-->
+          <!--<li>-->
+            <!--<div class="top"><em class="expression3">一般</em><span class="date">2018-11-13</span></div>-->
+            <!--<p>这是一个好评模板，因为本仙女很懒，不想每个产品都写好评，所以特地模仿好友写下这个模板，但是这个产品无论是质量还是外形都是本仙女喜欢的类型。</p>-->
+          <!--</li>-->
+          <!--<li>-->
+            <!--<div class="top"><em class="expression4">不满意</em><span class="date">2018-11-13</span></div>-->
+            <!--<p>这是一个好评模板，因为本仙女很懒，不想每个产品都写好评，所以特地模仿好友写下这个模板，但是这个产品无论是质量还是外形都是本仙女喜欢的类型。</p>-->
+          <!--</li>-->
         </ul>
       </div>
     </div>
@@ -45,6 +45,41 @@
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/native.js"></script>
+  <script src="../custom/js/net.js"></script>
 
+  <script>
+    window.onload = function () {
+      var reservation_id = getParams('reservation_id') || getParams('pay_code');
+      $.ajax({
+        type: "POST",
+        url: net.adViewEvaluate,
+        data : {reservation_id: reservation_id},
+        beforeSend: function(request) {
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
+        success: function(data){
+          console.log(data);
+          var datas = data.data.accompany_info_dto;
+          var headHtml = '', contentHtml = '';
+          headHtml += `<h5><span class="name">${datas.emp_name}</span>${datas.emp_mobile}</h5>
+          <p class="p1">${datas.organization}</p>`;
+          contentHtml += `<li>
+            <div class="top"><em class="expression1">${data.data.satisfied_level}</em><span class="date">${datas.acc_time}</span></div>
+            <p>${data.data.evaluate_content}</p>
+          </li>`
+          $('.con1').html(headHtml);
+          $('.comment-list').html(contentHtml);
+        },
+        error: function (err) {
+          console.log(err);
+          $.toast('请求错误', 'forbidden');
+        }
+      });
+    }
+  </script>
 </body>
 </html>

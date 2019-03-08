@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>陪诊服务</title>
+  <!--<link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />-->
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
-  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
 
@@ -34,7 +34,7 @@
               <li class="stepPic5">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
             </ul>
             <p class="price-box">
-              服务价格<em class="price1">￥480.00</em><span class="price2">￥398.00</span><em class="stxt">/次</em>
+              服务价格<em class="price1">￥480.00</em><span class="price2">￥<span>398.00</span></span><em class="stxt">/次</em>
             </p>
           </div>
           <div class="tabContent" style="display:none;" id="content2">
@@ -45,7 +45,7 @@
               <li class="stepPic8">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
             </ul>
             <p class="price-box">
-              服务价格<em class="price1">￥298.00</em><span class="price2">￥98.00</span><em class="stxt">/次</em>
+              服务价格<em class="price1">￥298.00</em><span class="price2">￥<span>98.00</span></span><em class="stxt">/次</em>
             </p>
           </div>
         </div>
@@ -55,7 +55,7 @@
           <label class="custom_check_label custom_check_slabel">
             <input type="checkbox" name="" id="radio5" value="1" hidden />
             <label for="radio5" class="icon-check"></label>
-            <span class="name">我已阅读并同意<a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a></span>
+            <span class="name"><span>我已阅读并同意</span><a style="color:#0CB7F5;position: absolute;" onclick="serviceNotice()">《服务须知》</a></span>
           </label>
         </p>
         <span class="custom-btm-btn" style="position: relative; z-index: 111;">立即购买</span>
@@ -76,46 +76,74 @@
   <script type="text/javascript" src="../lib/js/flexible.js"></script>
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../custom/js/native.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/net.js"></script>
 
   <script>
-    // console.log($('.price2:eq(0)').html())
-    // console.log($('.price2:eq(1)').html())
-    // $.toast.prototype.defaults.duration = 800;
+    $.toast.prototype.defaults.duration = 800;
 
     window.onload = function () {
       //订单详情页：myorderList.html
-      NativeFunc({
-        ACTION: "RIGHTBTN",
-        PARAM:{
-          BTNS:[
-            {
-              ICON:"1.png",
-              ICONS:"1.png",
-              EVENT:"SEARCH"
-            },
-            {
-              ICON:"2.png",
-              EVENT:"DADAD",
-            }
-          ]
-        }
-      });
+      // NativeFunc({
+      //   ACTION: "RIGHTBTN",
+      //   PARAM:{
+      //     BTNS:[
+      //       {
+      //         ICON:"1.png",
+      //         ICONS:"1.png",
+      //         EVENT:"SEARCH"
+      //       },
+      //       {
+      //         ICON:"2.png",
+      //         EVENT:"DADAD",
+      //       }
+      //     ]
+      //   }
+      // });
+      var pageData = {
+        netToken: '',
+        uid: '',
+        channelCode: '',
+        lightAppCode: '',
+      };
+      var code = getParams('code');
 
       $.ajax({
         type: "GET",
         url: net.userGetTokenByAuthCode,
-        data : {'authCode' : '4f5ad9c6c0294a74a200d848935ec7ae'},
+        data : {'authCode' : code},
+        beforeSend: function(request) {
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
         success: function(data){
-          console.log(data);
+          var tokenData = data.data;
+          // console.log(data);
+          if(data.code === 0){
+            localStorage.setItem('netToken', tokenData.token);
+            localStorage.setItem('uid', tokenData.uid);
+            localStorage.setItem('channelCode', tokenData.channelCode);
+            localStorage.setItem('lightAppCode', tokenData.lightAppCode);
+            localStorage.setItem('appid', tokenData.appid);
+          }else{
+            pageData.netToken = localStorage.getItem('netToken');
+            pageData.uid= localStorage.getItem('uid');
+            pageData.channelCode= localStorage.getItem('channelCode');
+            pageData.lightAppCode=localStorage.getItem('lightAppCode');
+            // console.log(pageData.netToken);
+            if(!pageData.netToken){
+              $.toast('请求错误', 'forbidden');
+            }
+          }
         },
         error: function (err) {
           console.log(err);
         }
       });
     }
-
 
 
     function show(obj, id) {
@@ -130,16 +158,18 @@
       window.location.href = 'instructions.html';
     }
 
-    $('#radio5').click(function () {
-      const _radio5 = $('#radio5').prop('checked');
-      if(_radio5){
-        $('.custom-btm-btn').css({'background': '#0CB7F5'});
-      }else{
-        $('.custom-btm-btn').css({'background': 'lightgray'});
-      }
-    });
+    // $('.name span:eq(0)').click(function () {
+    //   const _radio5 = $('#radio5').prop('checked');
+    //   if(_radio5){
+    //     $('.custom-btm-btn').css({'background': '#0CB7F5'});
+    //   }else{
+    //     $('.custom-btm-btn').css({'background': 'lightgray'});
+    //   }
+    // });
 
-    $('.custom-btm-btn').click(function () {
+    $('.custom-btm-btn').click(function (e) {
+      e.preventDefault();
+      e.stopPropagation();
       const _radio5 = $('#radio5').prop('checked');
       if(_radio5){
         $('.popup-wrap').css({'display': 'block'});
@@ -147,18 +177,44 @@
           $('.popup-wrap').css({'display': 'none'});
         });
         $('.ok').click(function () {
-          let totalFee;
+          var totalFee;
           $('.popup-wrap').css({'display': 'none'});
           if($('.mytab li span:eq(0)').hasClass('active')){
-            totalFee = $('.price2:eq(0)').html();
+            totalFee = $('.price2:eq(0) span').html();
           }else{
-            totalFee = $('.price2:eq(1)').html();
+            totalFee = $('.price2:eq(1) span').html();
           }
-          window.location.href = `./orderPay.html?totalFee=${totalFee}&orderId=${111}`;
+          var service_meal = $('.active').html();
+          var uid = localStorage.getItem('uid');
+          var order_id;
+          console.log(service_meal, 'uid', uid);
+          $.ajax({
+            type: "POST",
+            url: net.makeOrder,
+            data : {
+              uid : uid,
+              service_meal: service_meal,
+              pay_amount: totalFee,
+            },
+            beforeSend: function(request) {
+              request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+              request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+              request.setRequestHeader('appid', localStorage.getItem('appid'));
+              request.setRequestHeader('timestamp', new Date().getTime());
+            },
+            success: function(data){
+              console.log(data);
+              order_id = data.data.order_id;
+              window.location.href = `./orderPay.html?totalFee=${totalFee}&orderId=${order_id}`;
+            },
+            error: function (err) {
+              console.log(err)
+            }
+          });
         })
       }else{
         console.log('请同意服务须知后购买');
-        $.toptip('请同意服务须知后购买', 800, 'error');
+        $.toast('请同意服务须知后购买', 'forbidden');
       }
     })
 

@@ -41,8 +41,11 @@
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/native.js"></script>
 
   <script>
+    $.toast.prototype.defaults.duration = 800;
+
     var evalueteVal, textVal = $('.weui-textarea').val();
     function show(obj, val)
     {
@@ -61,18 +64,33 @@
     }
 
     function evaluateSubmit() {
-      $.ajax({
-        type: "POST",
-        url: net.adReservationEvaluate,
-        data : {'satisfied_level' : evalueteVal, 'evaluate_content': textVal, 'reservation_id': '111111111'},
-        success: function(data){
-          console.log(data);
-        },
-        error: function (err) {
-          console.log(err)
-        }
-      });
-      window.location.href = 'commentDetail.html';
+      if(evalueteVal && textVal){
+        var reservation_id = getParams('reservation_id') || getParams('pay_code');
+        $.ajax({
+          type: "POST",
+          url: net.adReservationEvaluate,
+          data : {
+            satisfied_level : evalueteVal,
+            evaluate_content: textVal,
+            reservation_id: reservation_id
+          },
+          beforeSend: function(request) {
+            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+            request.setRequestHeader('appid', localStorage.getItem('appid'));
+            request.setRequestHeader('timestamp', new Date().getTime());
+          },
+          success: function(data){
+            console.log(data);
+            window.location.href = 'commentDetail.html?reservation_id='+reservation_id;
+          },
+          error: function (err) {
+            console.log(err)
+          }
+        });
+      }else{
+        $.toast('请选择并进行评价后提交~', 'forbidden');
+      }
     }
   </script>
 </body>

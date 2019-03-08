@@ -46,7 +46,7 @@
     <div class="pay-result-box" style="display:none;">
       <div class="con">
         <img src="../custom/images/ordersuccess.png" style="width:2.88rem ;height: 2.28rem;">
-        <h4>预约成功</h4>
+        <h4>退款成功</h4>
         <p class="txt">您已成功提交退款申请，客服将第一时间电话联系您处理，请保持手机畅通！</p>
         <div class="btn-box">
           <span onclick="refundDetail()">查看详情</span>
@@ -59,8 +59,12 @@
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/net.js"></script>
+  <script src="../custom/js/native.js"></script>
 
   <script>
+    var pay_code = getParams('pay_code'), price = getParams('apply_refundment_price');
+
     function wordStatic(input) {
         // 获取要显示已经输入字数文本框对象
         var content = document.getElementById('num');
@@ -75,9 +79,27 @@
     }
 
     function refundSubmit() {
+      console.log(pay_code)
       if($('.weui-textarea').val()){
         $('.refund-form-wrap').empty();
-        $('.pay-result-box').css({'display': 'block'});
+        $.ajax({
+          type: "POST",
+          url: net.adOrderRefundment,
+          data : {pay_code : pay_code, apply_refundment_cause: $('.weui-textarea').val(), apply_refundment_price: price},
+          success: function(data){
+            if(data.code === 0){
+              $('.pay-result-box').css({'display': 'block'});
+              // $.toast('退款成功');
+              // window.location.href = refundDetail.html;
+            }else{
+              console.log('退款失败');
+            }
+            // console.log(data);
+          },
+          error: function (err) {
+            console.log(err)
+          }
+        });
       }else{
         $.toptip('请您填写退款原因～', 800, 'error');
       }
@@ -85,7 +107,19 @@
     }
 
     function refundDetail() {
-      window.location.href = 'refundDetail.html';
+      window.location.href = 'refundDetail.html?pay_code='+pay_code;
+      // $.ajax({
+      //   type: "POST",
+      //   url: net.orderDetail,
+      //   data : {'pay_code' : pay_code},
+      //   success: function(data){
+      //     console.log(data);
+      //     window.location.href = 'refundDetail.html?pay_code='+pay_code;
+      //   },
+      //   error: function (err) {
+      //     console.log(err)
+      //   }
+      // });
     }
   </script>
 

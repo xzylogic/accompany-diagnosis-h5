@@ -67,7 +67,7 @@
               <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>
             </ul>
             <p class="lineBg"></p>
-            <p class="order-btn-box"><span class="btn" onclick="viewDetail('3')">查看详情</span></p>
+            <p class="order-btn-box"><span class="btn" onclick="viewCommentDetail('3')">查看详情</span></p>
           </div>
           <div class="myorder-item">
             <ul class="con" onclick="orderDetail(4)">
@@ -80,6 +80,15 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <!-- 不能取消的提示弹出层 -->
+  <div class="popup-wrap cancelNotice" style="display:none;">
+    <div class="lightbox"></div>
+    <div class="popup-con popup-con-middle">
+      <span class="close"></span>
+      <p class="popup-txt popup-txt-left">抱歉！取消预约须在陪诊日期的前1个工作日16:00前，目前已不能取消！</p>
+      <div class="popup-btmbtn"><span class="ok know">我知道了</span></div>
     </div>
   </div>
   <!-- 取消原因弹出层 -->
@@ -127,7 +136,7 @@
           <input type="text" name="" class="weiui-input" placeholder="请填写原因" hidden>
         </p>
       </div>
-      <div class="popup-btmbtn"><span class="gray">再考虑一下</span><span class="ok" style="color: lightgray;">确认取消</span>
+      <div class="popup-btmbtn"><span class="gray">再考虑一下</span><span class="ok" id="ok" style="color: lightgray;">确认取消</span>
       </div>
     </div>
   </div>
@@ -266,9 +275,15 @@
       type: "GET",
       url: net.orderList,
       data : {
-        'uid' : 'ff80808154177829015417b846d40017',
-        'order_status': index,
-        'page': page,
+        uid : 'ff80808154177829015417b846d40017',
+        order_status: index,
+        page: page,
+      },
+      beforeSend: function(request) {
+        request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+        request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+        request.setRequestHeader('appid', localStorage.getItem('appid'));
+        request.setRequestHeader('timestamp', new Date().getTime());
       },
       success: function(data){
         console.log(data);
@@ -277,64 +292,66 @@
             console.log(obj.order_status)
             switch (obj.order_status) {
               case 'wait_reservation':
-                html = '<div class="myorder-item">\n' +
-                  '            <ul class="con" onclick="orderDetail(0)">\n' +
-                  '              <li><label>服务类型</label><span>'+ obj.service_meal +'</span><em>待预约</em></li>\n' +
-                  '              <li><label>服务价格</label><span>'+ obj.service_price +'</span><em class="orange">'+ obj.refund_status +'</em></li>\n' +
-                  '              <li><label>下单时间</label><span>'+ obj.order_time +'</span></li>\n' +
-                  '            </ul>\n' +
-                  '            <p class="lineBg"></p>\n' +
-                  '            <p class="order-btn-box"><span class="btn" onclick="appointOrder(\'预约陪诊1\')">预约陪诊</span></p>\n' +
-                  '          </div>';
+                html += `<div class="myorder-item">
+                           <ul class="con" onclick="orderDetail(0, '${obj.pay_code}')">
+                             <li><label>服务类型</label><span>${obj.service_meal}</span><em>待预约</em></li>
+                             <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
+                             <li><label>下单时间</label><span>${obj.order_time}</span></li>
+                           </ul>
+                           <p class="lineBg"></p>
+                           <p class="order-btn-box"><span class="btn" onclick="appointOrder('预约陪诊1', '${obj.pay_code}')">预约陪诊</span></p>
+                         </div>`;
                 _hdb.html(html);
                 break;
               case 'Reservation':
-                html += '<div class="myorder-item">\n' +
-                  '            <ul class="con" onclick="orderDetail(1)">\n' +
-                  '              <li><label>服务类型</label><span>'+ obj.service_meal +'</span><em>已预约</em></li>\n' +
-                  '              <li><label>服务价格</label><span>'+ obj.service_price +'</span><em class="orange">'+ obj.refund_status +'</em></li>\n' +
-                  '              <li><label>下单时间</label><span>'+ obj.order_time +'</span></li>\n' +
-                  '            </ul>\n' +
-                  '            <p class="lineBg"></p>\n' +
-                  '            <p class="order-btn-box"><span class="btn-gray" onclick="cancelOrder(\'取消陪诊1\')">取消陪诊</span>\n' +
-                  '              <span class="btn" onclick="viewDetail(\'1\')">查看详情</span>\n' +
-                  '            </p>\n' +
-                  '          </div>';
+                html += `<div class="myorder-item">
+                           <ul class="con" onclick="orderDetail(1, '${obj.pay_code}')">
+                             <li><label>服务类型</label><span>${obj.service_meal}</span><em>已预约</em></li>
+                             <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
+                             <li><label>下单时间</label><span>${obj.order_time}</span></li>
+                           </ul>
+                           <p class="lineBg"></p>
+                           <p class="order-btn-box"><span class="btn-gray" onclick="cancelOrder('${obj.pay_code}')">取消陪诊</span>
+                             <span class="btn" onclick="viewDetail('1', '${obj.pay_code}')">查看详情</span>
+                           </p>
+                         </div>`;
                 _hdb.html(html);
                 break;
               case 'complete':
                 obj.estimate_status = '0';
                 if(obj.estimate_status === '0'){
-                  html += '<div class="myorder-item">\n' +
-                    '            <ul class="con" onclick="orderDetail(2)">\n' +
-                    '              <li><label>服务类型</label><span>'+ obj.service_meal +'</span><em class="gray">已完成</em></li>\n' +
-                    '              <li><label>服务价格</label><span>'+ obj.service_price +'</span><em class="orange">'+ obj.refund_status +'</em></li>\n' +
-                    '              <li><label>下单时间</label><span>'+ obj.order_time +'</span></li>\n' +
-                    '            </ul>\n' +
-                    '            <p class="lineBg"></p>\n' + '<p class="order-btn-box"><span class="btn" onclick="servicesEvaluate(\'2\')">服务评价</span></p>' +
-                    '          </div>';
+                  html += `<div class="myorder-item">
+                           <ul class="con" onclick="orderDetail(2, '${obj.pay_code}')">
+                             <li><label>服务类型</label><span>${obj.service_meal}</span><em>已完成</em></li>
+                             <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
+                             <li><label>下单时间</label><span>${obj.order_time}</span></li>
+                           </ul>
+                           <p class="lineBg"></p>
+                           <p class="order-btn-box"><span class="btn" onclick="servicesEvaluate('2', '${obj.pay_code}')">服务评价</span></p>
+                         </div>`;
                 }else if(obj.estimate_status === '1'){
-                  html += '<div class="myorder-item">\n' +
-                    '            <ul class="con" onclick="orderDetail(3)">\n' +
-                    '              <li><label>服务类型</label><span>'+ obj.service_meal +'</span><em class="gray">已完成</em></li>\n' +
-                    '              <li><label>服务价格</label><span>'+ obj.service_price +'</span><em class="orange">'+ obj.refund_status +'</em></li>\n' +
-                    '              <li><label>下单时间</label><span>'+ obj.order_time +'</span></li>\n' +
-                    '            </ul>\n' +
-                    '            <p class="lineBg"></p>\n' + '<p class="order-btn-box"><span class="btn" onclick="viewDetail(\'3\')">查看详情</span></p>' +
-                    '          </div>';
+                  html += `<div class="myorder-item">
+                           <ul class="con" onclick="orderDetail(3, '${obj.pay_code}')">
+                             <li><label>服务类型</label><span>${obj.service_meal}</span><em>已完成</em></li>
+                             <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
+                             <li><label>下单时间</label><span>${obj.order_time}</span></li>
+                           </ul>
+                           <p class="lineBg"></p>
+                           <p class="order-btn-box"><span class="btn" onclick="viewCommentDetail('3', '${obj.pay_code}')">查看评价</span></p>
+                         </div>`;
                 }
                 _hdb.html(html);
                 break;
               case 'close':
-                html += '<div class="myorder-item">\n' +
-                  '            <ul class="con" onclick="orderDetail(4)">\n' +
-                  '              <li><label>服务类型</label><span>'+ obj.service_meal +'</span><em class="gray">已关闭</em></li>\n' +
-                  '              <li><label>服务价格</label><span>'+ obj.service_price +'</span><em class="orange">'+ obj.refund_status +'</em></li>\n' +
-                  '              <li><label>下单时间</label><span>'+ obj.order_time +'</span></li>\n' +
-                  '            </ul>\n' +
-                  '            <p class="lineBg"></p>\n' +
-                  '            <p class="order-btn-box"><span class="btn" onclick="viewDetail(\'4\')">查看详情</span></p>\n' +
-                  '          </div>';
+                html += `<div class="myorder-item">
+                           <ul class="con" onclick="orderDetail(4, '${obj.pay_code}')">
+                             <li><label>服务类型</label><span>${obj.service_meal}</span><em>已关闭</em></li>
+                             <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
+                             <li><label>下单时间</label><span>${obj.order_time}</span></li>
+                           </ul>
+                           <p class="lineBg"></p>
+                           <p class="order-btn-box"><span class="btn" onclick="viewDetail('4', '${obj.pay_code}')">查看详情</span></p>
+                         </div>`;
                 _hdb.html(html);
                 break;
               default:
@@ -372,6 +389,7 @@
     }
   }
 
+  var reservation_id;  //预约单id,但我这里给的是预约单号pay_code（祥看取消陪诊413行）
   //确认取消
   $('.ok').on('click', function () {
     var Val = $('input[name="item"]:checked').val();
@@ -384,16 +402,19 @@
       var ajaxbg = $("#background, #progressBar");
       $.ajax({
         url: net.cancelAdReservation,
-        data: {'cancelReason': Val, 'reservation_idBODY': '3b5ca64fd3f248fa81ec730d548af295'},
+        data: {cancel_reason: Val, reservation_id: reservation_id},
         type: "POST",
         timeout: 6000,
-        beforeSend: function()
-        {
+        beforeSend: function(request) {
           ajaxbg.show();
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
         },
         success:function(data) {
           ajaxbg.hide();
-          // $.toptip('取消成功', 1000, 'success');
+          // $.toptip('取消成功', 500, 'success');
           console.log(data);
           window.location.reload();
         },
@@ -409,31 +430,38 @@
 
   //取消陪诊
   function cancelOrder(index) {
+    reservation_id = index;
     $('.popup-wrap').css({'display': 'block'});
     console.log(index);
   }
 
   //查看详情
-  function viewDetail(index) {
+  function viewDetail(index, payCode) {
     console.log(index);
-    window.location.href = 'orderDetail.html?type='+index+'&status=1';
+    window.location.href = 'orderDetail.html?type='+index+'&status=1'+'&pay_code='+payCode;
   }
 
   //预约陪诊
-  function appointOrder(index) {
+  function appointOrder(index, payCode) {
     console.log(index);
-    window.location.href = 'appointment.html?type='+index;
+    window.location.href = 'appointment.html?type='+index+'reservation_id='+payCode;
   }
 
   //服务评价
-  function servicesEvaluate(index) {
+  function servicesEvaluate(index, payCode) {
     console.log(index);
-    window.location.href = 'comment.html?type='+index;
+    window.location.href = 'comment.html?type='+index+'reservation_id='+payCode;
+  }
+
+  //查看评价
+  function viewCommentDetail(index, payCode) {
+    console.log(index);
+    window.location.href = 'commentDetail.html?type='+index+'reservation_id='+payCode;
   }
 
   //订单详情各页面
-  function orderDetail(index) {
-    window.location.href = 'orderDetail.html?type='+index;
+  function orderDetail(index, payCode) {
+    window.location.href = 'orderDetail.html?type='+index+'&pay_code='+payCode;
     console.log(index);
   }
 </script>

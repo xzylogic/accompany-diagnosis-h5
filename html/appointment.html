@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <title>预约陪诊</title>
    <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
-   <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
-
+   <!--<link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />-->
     <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
     <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
 </head>
@@ -115,10 +114,11 @@
 <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
 <script src="../lib/js/jquery-weui.js"></script>
 <script src="../custom/js/net.js"></script>
+<script src="../custom/js/native.js"></script>
 
 <script>
 
-  // $.toast.prototype.defaults.duration = 800;
+  $.toast.prototype.defaults.duration = 800;
 
   function searchHospital() {
     window.location.href = 'searchHospital.html';
@@ -131,7 +131,7 @@
   function checkName(){
     let _name = $('.am_name').val();
     if(_name.length > 10 || _name === ''){
-      $.toptip('请输入姓名且不超过10位', 800, 'warning');
+      $.toast('请输入姓名且不超过10位', 'forbidden');
       return false;
     }
     return true;
@@ -140,7 +140,7 @@
   function checkTel(){
     let reg = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
     if(reg.test($('.am_tel').val()) === false){
-      $.toptip('手机号码有误，请重填', 800, 'warning');
+      $.toast('手机号码有误，请重填', 'forbidden');
       return false;
     }
     return true;
@@ -149,7 +149,7 @@
   function checkID(){
     let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
     if(reg.test($('.am_ID').val()) === false) {
-      $.toptip('身份证输入不合法', 800, 'warning');
+      $.toast('身份证输入不合法', 'forbidden');
       return false;
     }
     return true;
@@ -168,7 +168,7 @@
       //   window.location.href = 'orderSuccess.html';
       // }
       if(!_self){
-        $.toptip('请选择就诊人', 800, 'warning');
+        $.toast('请选择就诊人', 'forbidden');
         return;
       }else if(!checkName()){
         return;
@@ -177,17 +177,17 @@
       }else if(!checkID()){
         return;
       }else if(!_service){
-        $.toptip('请选择预约陪诊医院', 800, 'warning');
+        $.toast('请选择预约陪诊医院', 'forbidden');
         return;
       }else if(!_room){
-        $.toptip('请输入预约就诊科室', 800, 'warning');
+        $.toast('请输入预约就诊科室', 'forbidden');
         return;
       }else if(!_time){
-        $.toptip('请选择预约陪诊时间', 800, 'warning');
+        $.toast('请选择预约陪诊时间', 'forbidden');
         return;
       }else if(_service === '2'){
         if(!_proName){
-          $.toptip('请输入预约专家姓名', 800, 'warning');
+          $.toast('请输入预约专家姓名', 'forbidden');
           return;
         }
       }
@@ -204,20 +204,30 @@
       }else if (_service === '2'){
         outpatient_type = 'expert';
       }
+      var emp_id = getParams('emp_id'), pay_amount = getParams('pay_amount'), pay_code = getParams('pay_code') || getParams('reservation_id');
       $.ajax({
         type: "POST",
         url: net.saveAdReservation,
         data : {
-          'is_self' : is_self,
-          'patient_name': patient_name,
-          'patient_mobile': patient_mobile,
-          'patient_personcard': patient_personcard,
-          'hospital_name': hospital_name,
-          'outpatient_type': outpatient_type,
-          'department': department,
-          'acc_time': acc_time,
-          'reservation_time': reservation_time,
-          'expert_name': expert_name,
+          is_self : is_self,
+          patient_name: patient_name,
+          patient_mobile: patient_mobile,
+          patient_personcard: patient_personcard,
+          hospital_name: hospital_name,
+          outpatient_type: outpatient_type,
+          department: department,
+          acc_time: acc_time,
+          reservation_time: reservation_time,
+          expert_name: expert_name,
+          emp_id: emp_id,
+          pay_amount: pay_amount,
+          pay_code: pay_code,
+        },
+        beforeSend: function(request) {
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function(data){
           console.log(data);
@@ -228,7 +238,7 @@
       });
       window.location.href = 'orderSuccess.html';
     }else{
-      $.toptip('请同意服务须知后预约', 800, 'error');
+      $.toast('请同意服务须知后预约', 'forbidden');
     }
   }
 
@@ -245,9 +255,12 @@
       url: net.scheduleTime,
       type: "get",
       timeout: 6000,
-      beforeSend: function()
-      {
+      beforeSend: function(request) {
         ajaxbg.show();
+        request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+        request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+        request.setRequestHeader('appid', localStorage.getItem('appid'));
+        request.setRequestHeader('timestamp', new Date().getTime());
       },
       success:function(data)
       {
@@ -293,10 +306,18 @@
 
   $(document).ready(function () {
     $('#radio1').click(function () {
+      var uid = localStorage.getItem('uid');
+      console.log(uid)
       $.ajax({
         type: "GET",
         url: net.userAccountInfo,
-        data : {'uid' : 'c87aa0b01a4243828ce184fc0ee32506'},
+        data : {'uid' : uid},
+        beforeSend: function(request) {
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
         success: function(data){
           console.log(data);
           $('.am_name').val(data.data.name);

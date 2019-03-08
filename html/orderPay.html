@@ -50,6 +50,7 @@
   <script type="text/javascript" src="../lib/js/flexible.js"></script>
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+  <script type="text/javascript" src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/native.js"></script>
   <script src="../custom/js/net.js"></script>
@@ -78,14 +79,13 @@
 
     $(function () {
       var netToken = localStorage.getItem('netToken');
-      var requestUrl= localStorage.getItem('requestUrl');
       var channelCode= localStorage.getItem('channelCode');
       var lightAppCode=localStorage.getItem('lightAppCode');
       var uid= localStorage.getItem('uid');
       //订单金额和订单id
       var orderId=getParams("orderId");
       var totalFee=decodeURIComponent(getParams("totalFee"));
-      console.log(orderId, '----------',decodeURIComponent(totalFee));
+      console.log(orderId, '----------',totalFee);
       $(".total-box span").html(totalFee+'/次');
       // $(".total-box span").html("￥"+totalFee);
       var newTab;
@@ -155,6 +155,7 @@
             }),
             success:function(data){
               if(data.code==0){
+                console.log(data);
                 newTab.document.write(data.data);
               }else if(data.code==12){
                 $(".mytip").html("账户在其他设备登录,请重新登录");

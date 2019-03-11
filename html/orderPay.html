@@ -133,12 +133,12 @@
             type:"post",
             contentType: 'application/json',
             beforeSend: function(request) {
-              request.setRequestHeader("uid",uid);
               request.setRequestHeader("token",netToken);
               request.setRequestHeader("channelCode",channelCode);
               request.setRequestHeader("lightAppCode",lightAppCode);
-              request.setRequestHeader('appid', localStorage.getItem('appid'));
               request.setRequestHeader('timestamp', new Date().getTime());
+              // request.setRequestHeader("uid",uid);
+              // request.setRequestHeader('appid', localStorage.getItem('appid'));
             },
             data:JSON.stringify({
               "amount":totalFee,
@@ -155,14 +155,16 @@
 
             }),
             success:function(data){
-              if(data.code==0){
+              if(data.code===0){
                 console.log(data);
                 newTab.document.write(data.data);
-              }else if(data.code==12){
-                $(".mytip").html("账户在其他设备登录,请重新登录");
+              }else if(data.code===12){
+                $.toast("账户在其他设备登录,请重新登录", 'forbidden');
+                // $(".mytip").html("账户在其他设备登录,请重新登录");
                 // showMyTip();
               }else{
-                $(".mytip").html(data.msg||"跳转支付失败");
+                $.toast(data.msg||"跳转支付失败", 'forbidden');
+                // $(".mytip").html(data.msg||"跳转支付失败");
                 // showMyTip();
               }
             },

@@ -1,0 +1,200 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>选择医院</title>
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+
+</head>
+
+<body>
+	<div class="container searchContainer">
+		<div class="search-top">
+        <div class="box">
+            <img src="../custom/images/search.png" class="search-icon" />
+            <input id="txt-search" type="search" autocomplete="off" placeholder="" />
+            <img class="clear-icon" src="../custom/images/close.png" />
+        </div>
+        <span id="search-cancel">取消</span>
+    </div>
+    <!--历史记录-->
+    <div class="history-content" >
+        <div id="history-div">
+            <p>历史搜索</p>
+            <ul></ul>
+        </div>
+        <div class="history-clear" onclick="clearHistory()">清空搜索记录</div>
+    </div>
+    <!--搜索无数据-->
+    <div class="custom-nodata" style="display:none;">
+      <img src="../custom/images/nodata.png">
+      <p>暂无相关信息</p>
+    </div>
+    <!--搜索有数据-->
+    <div class="havedata havedata-hospitals" style="display:block;">
+      <h4>相关医院</h4>
+      <p class="border-top"></p>
+      <ul>
+        <!--<li>-->
+            <!--<h5>上海交通大学医学院附属仁济医院南院</h5>-->
+            <!--<p>上海市闵行区浦江镇江文路681号</p>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<h5>上海交通大学医学院附属仁济医院南院</h5>-->
+            <!--<p>上海市闵行区浦江镇江文路681号</p>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<h5>上海交通大学医学院附属仁济医院南院</h5>-->
+            <!--<p>上海市闵行区浦江镇江文路681号</p>-->
+        <!--</li>-->
+        <!--<li>-->
+            <!--<h5>上海交通大学医学院附属仁济医院南院</h5>-->
+            <!--<p>上海市闵行区浦江镇江文路681号</p>-->
+        <!--</li>-->
+      </ul>
+    </div>
+	</div>
+
+  <script type="text/javascript" src="../lib/js/flexible.js"></script>
+  <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+  <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+  <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/net.js"></script>
+
+  <script>
+    $('.clear-icon').click(function () {
+      $('#txt-search').val('');
+      $('.history-content').css({'display': 'block'});
+      liClick();
+    });
+    // 防抖实现
+    function debounce(fn, delay) {
+      var handle;
+      return function () {
+        // 取消之前的延时调用
+        clearTimeout(handle);
+        handle = setTimeout(() => {
+          fn();
+        }, delay);
+      }
+    }
+
+    function searchHospitalName(){
+      var kwName = $("#txt-search").val();
+      $('.history-content').css({'display': 'none'});
+      console.log(kwName);
+      $.ajax({
+        url: net.queryAdHospital,
+        type: "get",
+        data:{kwName: kwName},
+        beforeSend: function(request) {
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
+        success:function(data){
+          if(data.code === 0){
+            $('.havedata-hospitals ul').empty();
+
+            console.log(data)
+            data.data.map(function (val) {
+              $('.havedata-hospitals ul').append(
+                `<li class="search-hospital">
+                <h5>${val.hospitalName}</h5>
+                <p>${val.hospitalAddress}</p>
+              </li>`
+              );
+            });
+            $('.search-hospital').click(function () {
+              window.history.back();
+            });
+          }
+        },
+        error:function(){
+          $('.havedata-hospitals ul').empty();
+          console.log('发送失败');
+        }
+      });
+    }
+
+    initLocalStorage();
+
+    $("#txt-search").bind('input propertychange', debounce(searchHospitalName, 500));
+    $("#txt-search").on('keypress', function (e) {
+      // console.log(e.keyCode)
+      if(e.keyCode === 13){
+        setHistoryItems($("#txt-search").val());
+        console.log(localStorage.getItem('historyItems'));
+        initLocalStorage();
+        liClick();
+        searchHospitalName();
+      }
+    });
+
+    function initLocalStorage() {
+      var _localStorage = localStorage,
+        historyItems = _localStorage.historyItems;
+
+      console.log(historyItems + '--historyItems--');
+      if (historyItems !== undefined) {
+        var onlyItem = historyItems.split('|');
+        if (onlyItem.length > 0) {
+          var key = '';
+          for (var i = 0; i < onlyItem.length; i++) {
+            key = key + '<li>' + onlyItem[i] + '</li>';
+          }
+          console.log('历史记录:'+key);
+          $('#history-div ul').html(key);
+        }
+      }
+    }
+
+    //标签搜索
+    function liClick() {
+      $('#history-div ul li').on('click', function () {
+        var text = $(this).text().trim();
+        setHistoryItems(text);
+        console.log($(this).text());
+        initLocalStorage();
+        $("#txt-search").val(text);
+        searchHospitalName();
+      });
+    }
+    liClick();
+
+    function setHistoryItems(keyword) {
+      var maxNum = 10;
+      keyword = keyword.trim();
+      var _localStorage2 = localStorage,
+        historyItems = _localStorage2.historyItems;
+
+      if (historyItems === undefined) {
+        localStorage.historyItems = keyword;
+        // console.log(localStorage + '------');
+      } else {
+        var onlyItem = historyItems.split('|').filter(function (e) {
+          return e != keyword;
+        });
+        if (onlyItem.length >= 10) {
+          onlyItem = onlyItem.splice(0, maxNum - 1);
+        }
+        if (onlyItem.length > 0) historyItems = keyword + '|' + onlyItem.join('|');
+        localStorage.historyItems = historyItems;
+      }
+    }
+
+    function clearHistory() {
+      localStorage.removeItem('historyItems');
+      $('.history-content').css({display: 'none'});
+    }
+
+    $('#search-cancel').click(function () {
+      window.history.back();
+    })
+  </script>
+
+</body>
+</html>

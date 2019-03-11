@@ -1,0 +1,257 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>陪诊服务</title>
+  <!--<link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />-->
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+
+</head>
+
+<body>
+	<div class="container">
+    <div class="introduce-wrap">
+      <div class="scroll-wrap">
+        <span class="topPic"><img src="../custom/images/top.png"></span>
+        <div class="box">
+          <h2>陪诊团队介绍</h2>
+          <div class="teamInfo">
+            <p>健康云陪诊团队是由专业陪诊人员组成，致力为大众提供全方位、专业及贴心的陪诊服务，让您感到贴心、安心、放心。</p>
+            <p>团队人员拥有专业陪诊背景，服务于三甲或主要医院，并且接受过专业的陪诊培训。</p>
+          </div>
+        </div>
+        <div class="box">
+          <h2>服务流程</h2>
+          <ul class="mytab"><li><span class="active" onclick="show(this, 1);return false;">全程陪诊服务套餐</span></li><li><span onclick="show(this, 2);return false;">简易陪诊服务套餐</span></li></ul>
+          <div class="tabContent" style="display:block;" id="content1">
+            <ul class="stepList">
+              <li class="stepPic1">下单后，联系客户了解病情和就诊需求，嘱咐诊前注意事项。</li>
+              <li class="stepPic2">代理办卡、缴费、领取检查单、取药等繁杂手续，客户只需在休息区候诊。</li>
+              <li class="stepPic3">陪诊专员可协助向医生准确的描述病情，让医生了解病情。</li>
+              <li class="stepPic4">在陌生又严肃的医院环境里，陪诊人员给予细心贴心的关爱和家人般的温暖呵护。</li>
+              <li class="stepPic5">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
+            </ul>
+            <p class="price-box">
+              服务价格<em class="price1">￥480.00</em><span class="price2">￥<span>398.00</span></span><em class="stxt">/次</em>
+            </p>
+          </div>
+          <div class="tabContent" style="display:none;" id="content2">
+            <ul class="stepList">
+              <li class="stepPic1">下单后，联系客户了解病情和就诊需求，嘱咐诊前注意事项。</li>
+              <li class="stepPic6">陪诊人员对就诊流程进行统筹规划，对客户的就诊事项一一安排，让客户快速完成就诊。</li>
+              <li class="stepPic7">引导客户到相应地点进行办卡、缴费、候诊、就诊、检查、取药等。</li>
+              <li class="stepPic8">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
+            </ul>
+            <p class="price-box">
+              服务价格<em class="price1">￥298.00</em><span class="price2">￥<span>98.00</span></span><em class="stxt">/次</em>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="custom-btm-fixed custom-btm-fixed-white">
+        <p class="stxt">
+          <label class="custom_check_label custom_check_slabel">
+            <input type="checkbox" name="" id="radio5" value="1" hidden />
+            <label for="radio5" class="icon-check"></label>
+            <span class="name"><span>我已阅读并同意</span><a style="color:#0CB7F5;position: absolute;" onclick="serviceNotice()">《服务须知》</a></span>
+          </label>
+        </p>
+        <span class="custom-btm-btn" style="position: relative; z-index: 111;">立即购买</span>
+      </div>
+    </div>
+    <!-- 确认购买弹出层 -->
+    <div class="popup-wrap" style="display:none;">
+      <div class="lightbox"></div>
+      <div class="popup-con popup-con-middle">
+        <h2 class="popup-title">确认购买</h2>
+        <div class="popup-txt" style="padding-top: 0;color: #666;">
+          您是否确认购买服务<br>全程陪诊套餐 ¥398/次
+        </div>
+        <div class="popup-btmbtn"><span class="gray">取消</span><span class="ok">确认</span></div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="../lib/js/flexible.js"></script>
+  <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+  <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../custom/js/native.js"></script>
+  <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/net.js"></script>
+
+  <script>
+    $.toast.prototype.defaults.duration = 800;
+
+    window.onload = function () {
+      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+      var ajaxbg = $("#background, #progressBar");
+      //订单详情页：myorderList.html
+      NativeFunc({
+        ACTION: "RIGHTBTN",
+        PARAM:{
+          BTNS:[
+            {
+              ICON:"1.png",
+              ICONS:"1.png",
+              EVENT:"SEARCH"
+            },
+            {
+              ICON:"2.png",
+              EVENT:"DADAD",
+            }
+          ]
+        }
+      });
+
+      var pageData = {
+        netToken: '',
+        uid: '',
+        channelCode: '',
+        lightAppCode: '',
+      };
+      var code = getParams('code');
+
+      $.ajax({
+        type: "GET",
+        url: net.userGetTokenByAuthCode,
+        data : {'authCode' : code},
+        beforeSend: function(request) {
+          ajaxbg.show();
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
+        success: function(data){
+          ajaxbg.hide();
+          var tokenData = data.data;
+          // console.log(data);
+          if(data.code === 0){
+            localStorage.setItem('netToken', tokenData.token);
+            localStorage.setItem('uid', tokenData.uid);
+            localStorage.setItem('channelCode', tokenData.channelCode);
+            localStorage.setItem('lightAppCode', tokenData.lightAppCode);
+            localStorage.setItem('appid', tokenData.appid);
+          }else{
+            pageData.netToken = localStorage.getItem('netToken');
+            pageData.uid= localStorage.getItem('uid');
+            pageData.channelCode= localStorage.getItem('channelCode');
+            pageData.lightAppCode=localStorage.getItem('lightAppCode');
+            // console.log(pageData.netToken);
+            if(!pageData.netToken){
+              $.toast('请求错误', 'forbidden');
+            }
+          }
+        },
+        error: function (err) {
+          ajaxbg.hide();
+          console.log(err);
+        }
+      });
+    }
+
+
+    function show(obj, id) {
+        $('.mytab li span').removeClass('active');
+        $(obj).addClass('active');
+
+        $('.tabContent').hide();
+        $('#content'+id).show();
+      }
+
+    function serviceNotice(){
+      window.location.href = 'instructions.html';
+    }
+
+    // $('.name span:eq(0)').click(function () {
+    //   const _radio5 = $('#radio5').prop('checked');
+    //   if(_radio5){
+    //     $('.custom-btm-btn').css({'background': '#0CB7F5'});
+    //   }else{
+    //     $('.custom-btm-btn').css({'background': 'lightgray'});
+    //   }
+    // });
+
+    $('.custom-btm-btn').click(function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+      var ajaxbg = $("#background, #progressBar");
+      const _radio5 = $('#radio5').prop('checked');
+      if(_radio5){
+        $('.popup-wrap').css({'display': 'block'});
+        $('.gray').click(function () {
+          $('.popup-wrap').css({'display': 'none'});
+        });
+        $('.ok').click(function () {
+          var totalFee;
+          $('.popup-wrap').css({'display': 'none'});
+          if($('.mytab li span:eq(0)').hasClass('active')){
+            totalFee = $('.price2:eq(0) span').html();
+          }else{
+            totalFee = $('.price2:eq(1) span').html();
+          }
+          var service_meal = $('.active').html();
+          var uid = localStorage.getItem('uid');
+          var order_id;
+          console.log(service_meal, 'uid', uid);
+          $.ajax({
+            type: "POST",
+            url: net.makeOrder,
+            data : {
+              uid : uid,
+              service_meal: service_meal,
+              pay_amount: totalFee,
+            },
+            beforeSend: function(request) {
+              ajaxbg.show();
+              request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+              request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+              request.setRequestHeader('appid', localStorage.getItem('appid'));
+              request.setRequestHeader('timestamp', new Date().getTime());
+            },
+            success: function(data){
+              ajaxbg.hide();
+              console.log(data);
+              order_id = data.data.order_id;
+              window.location.href = `./orderPay.html?totalFee=${totalFee}&orderId=${order_id}`;
+            },
+            error: function (err) {
+              ajaxbg.hide();
+              console.log(err)
+            }
+          });
+        })
+      }else{
+        console.log('请同意服务须知后购买');
+        $.toast('请同意服务须知后购买', 'forbidden');
+      }
+    })
+
+    let oTop = $(".active").offset().top;
+    //获取切换栏的高度，此高度用于保证内容的平滑过渡
+    let martop = $('.active').outerHeight();
+
+    let sTop = 0;
+    // 监听页面的滚动
+    $('.scroll-wrap').scroll(function () {
+      // 获取页面向上滚动的距离
+      sTop = $(this).scrollTop();
+      // 当切换栏到达屏幕顶端
+      if (sTop >= oTop) {
+        // 修改切换栏position属性，使之固定在屏幕顶端
+        $(".mytab").css({ "position": "fixed", "top": "0", 'box-shadow': '0 1px 0 0 #DDDDDD', 'width': '100%', 'z-index': '100'});
+        // 修改内容的margin-top值，保证平滑过渡
+        $(".tabContent").css({ "margin-top": martop });
+      } else {
+        // 当切换栏脱离屏幕顶端时，回复原来的属性
+        $(".mytab").css({ "position": "static" });
+        $(".tabContent").css({ "margin-top": "0" });
+      }
+    });
+  </script>
+</body>
+</html>

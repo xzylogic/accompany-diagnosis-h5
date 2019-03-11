@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>申请退款</title>
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+
+</head>
+
+<body>
+	<div class="container">
+    <div class="refund-form-wrap" style="display:block;">
+      <div class="scroll-wrap">
+        <div class="scroll-wrap-con">
+          <div class="refund-form-con1">
+            <p><label>服务类型</label><span>全程陪诊服务套餐</span></p>
+            <p><label>服务价格</label><span>￥398.00/次</span></p>
+            <p><label>下单时间</label><span>2018-11-13 12:34:56</span></p>
+          </div>
+          <div class="refund-form-con2">
+            <div class="weui-cell">
+                <label class="weui-label">退款原因</label>
+            </div>
+            <div class="textarea-wrap" style="margin-bottom:.3rem;">
+                <textarea class="weui-textarea" placeholder="请填写退款原因" rows="3"  onkeyup="wordStatic(this);" maxlength="200"></textarea>
+                <div class="weui-textarea-counter"><span id="num">0</span>/200</div>
+            </div>
+            <p class="border-top"></p>
+            <div class="weui-cell">
+                <label class="weui-label">退款金额<br /><em class="stxt">最多￥398.00</em></label>
+                <div class="weui-cell__bd  custom-txt-right">
+                    <span class="total">￥398.00</span>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="custom-btm-fixed">
+          <span class="custom-btm-btn" onclick="refundSubmit()">提交</span>
+      </div>
+    </div>
+    <!--申请提交成功-->
+    <div class="pay-result-box" style="display:none;">
+      <div class="con">
+        <img src="../custom/images/ordersuccess.png" style="width:2.88rem ;height: 2.28rem;">
+        <h4>退款成功</h4>
+        <p class="txt">您已成功提交退款申请，客服将第一时间电话联系您处理，请保持手机畅通！</p>
+        <div class="btn-box">
+          <span onclick="refundDetail()">查看详情</span>
+        </div>
+      </div>
+    </div>
+	</div>
+
+  <script type="text/javascript" src="../lib/js/flexible.js"></script>
+  <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+  <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+  <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/net.js"></script>
+  <script src="../custom/js/native.js"></script>
+
+  <script>
+    var pay_code = getParams('pay_code'), price = getParams('apply_refundment_price'), refund_code = getParams('refund_code');
+
+    function wordStatic(input) {
+        // 获取要显示已经输入字数文本框对象
+        var content = document.getElementById('num');
+        if (content && input) {
+            // 获取输入框输入内容长度并更新到界面
+            var value = input.value;
+            // 将换行符不计算为单词数
+            value = value.replace(/\n|\r/gi,"");
+            // 更新计数
+            content .innerText = value.length;
+        }
+    }
+
+    function refundSubmit() {
+      console.log(pay_code)
+      if($('.weui-textarea').val()){
+        $('.refund-form-wrap').empty();
+        $.ajax({
+          type: "POST",
+          url: net.adOrderRefundment,
+          data : {pay_code : pay_code, apply_refundment_cause: $('.weui-textarea').val(), apply_refundment_price: price},
+          beforeSend: function(request) {
+            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+            request.setRequestHeader('appid', localStorage.getItem('appid'));
+            request.setRequestHeader('timestamp', new Date().getTime());
+          },
+          success: function(data){
+            if(data.code === 0){
+              $('.pay-result-box').css({'display': 'block'});
+              // $.toast('退款成功');
+              // window.location.href = refundDetail.html;
+            }else{
+              console.log('退款失败');
+            }
+            // console.log(data);
+          },
+          error: function (err) {
+            console.log(err)
+          }
+        });
+      }else{
+        $.toptip('请您填写退款原因～', 800, 'error');
+      }
+
+    }
+
+    function refundDetail() {
+      window.location.href = 'refundDetail.html?pay_code='+pay_code;
+      // $.ajax({
+      //   type: "POST",
+      //   url: net.orderDetail,
+      //   data : {'pay_code' : pay_code},
+      //   success: function(data){
+      //     console.log(data);
+      //     window.location.href = 'refundDetail.html?pay_code='+pay_code;
+      //   },
+      //   error: function (err) {
+      //     console.log(err)
+      //   }
+      // });
+    }
+  </script>
+
+</body>
+</html>

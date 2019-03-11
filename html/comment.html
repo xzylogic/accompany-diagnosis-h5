@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>服务评价</title>
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+
+</head>
+
+<body>
+	<div class="container">
+    <div class="comment-wrap">
+      <div class="user-mes-box">
+        <span class="pic"><img src="../custom/images/head_bg.png"></span>
+        <div class="con1">
+          <h5><span class="name">李四</span>1355657656</h5>
+          <p class="p1">上海健康云陪诊服务中心</p>
+        </div>
+      </div>
+      <h3>服务评价</h3>
+      <div class="comment-box">
+        <p class="action-box">
+          <span class="expression1" onclick="show(this, 'very-good');return false;">非常满意</span>
+          <span class="expression2" onclick="show(this, 'satisfied');return false;">满意</span>
+          <span class="expression3" onclick="show(this, 'general');return false;">一般</span>
+          <span class="expression4" onclick="show(this, 'yawp');return false;">不满意</span>
+        </p>
+        <div class="textarea-wrap">
+            <textarea class="weui-textarea" placeholder="请输入您的评价" rows="3"  onkeyup="wordStatic(this);" maxlength="100"></textarea>
+            <div class="weui-textarea-counter"><span id="num">0</span>/100</div>
+        </div>
+      </div>
+    </div>
+    <div class="custom-btm-fixed">
+        <span class="custom-btm-btn" onclick="evaluateSubmit()">提交评价</span>
+    </div>
+  </div>
+  <script type="text/javascript" src="../lib/js/flexible.js"></script>
+  <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+  <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+  <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/native.js"></script>
+
+  <script>
+    $.toast.prototype.defaults.duration = 800;
+
+    var evalueteVal, textVal = $('.weui-textarea').val();
+    function show(obj, val)
+    {
+      $('.action-box span').removeClass('active');
+      $(obj).addClass('active');
+      evalueteVal = val;
+    }
+
+    function wordStatic(input) {
+        var content = document.getElementById('num');
+        if (content && input) {
+            var value = input.value;
+            value = value.replace(/\n|\r/gi,"");
+            content .innerText = value.length;
+        }
+    }
+
+    function evaluateSubmit() {
+      if(evalueteVal && textVal){
+        $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+          '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+        var ajaxbg = $("#background, #progressBar");
+        var reservation_id = getParams('reservation_id') || getParams('pay_code');
+        $.ajax({
+          type: "POST",
+          url: net.adReservationEvaluate,
+          data : {
+            satisfied_level : evalueteVal,
+            evaluate_content: textVal,
+            reservation_id: reservation_id
+          },
+          beforeSend: function(request) {
+            ajaxbg.show();
+            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+            request.setRequestHeader('appid', localStorage.getItem('appid'));
+            request.setRequestHeader('timestamp', new Date().getTime());
+          },
+          success: function(data){
+            ajaxbg.hide();
+            // console.log(data);
+            window.location.href = 'commentDetail.html?reservation_id='+reservation_id;
+          },
+          error: function (err) {
+            ajaxbg.hide();
+            console.log(err)
+          }
+        });
+      }else{
+        $.toast('请选择并进行评价后提交~', 'forbidden');
+      }
+    }
+  </script>
+</body>
+</html>

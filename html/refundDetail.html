@@ -61,6 +61,7 @@
       url: net.orderDetail,
       data : {'pay_code' : pay_code},
       beforeSend: function(request) {
+        request.setRequestHeader('token', localStorage.getItem('netToken'));
         request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
         request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
         request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -68,12 +69,13 @@
       },
       success: function(data){
         console.log(data);
-        var datas = data.data.refundment_detail;
-        console.log(datas.prompt);
-        var refundStatus = datas.refund_status;
-        var html = '';
+        if(data.code === 0){
+          var datas = data.data.refundment_detail;
+          console.log(datas.prompt);
+          var refundStatus = datas.refund_status;
+          var html = '';
 
-        var content = `<h2>退款信息</h2>
+          var content = `<h2>退款信息</h2>
         <div class="refund-detail-con2">
           <div class="title">
             <span>${datas.service_meal}</span><span class="price">￥${datas.pay_amount}/次</span>
@@ -87,19 +89,19 @@
           </ul>
         </div>`;
 
-        switch (refundStatus) {
-          case 'refund_ing':
-            html += `<p class="state-txt-box state1"><span>退款中</span></p>
+          switch (refundStatus) {
+            case 'refund_ing':
+              html += `<p class="state-txt-box state1"><span>退款中</span></p>
             <div class="refund-detail-con1">
               <div class="state1-con">
                 <p class="txt">${datas.prompt}</p>
                 <p class="order-btn-box"><span onclick="cancelRes('${datas.refund_code}')">撤销申请</span></p>
               </div>
             </div>${content}`;
-            $('.refund-detail-wrap').html(html);
-            break;
-          case 'refund_success':
-            html += `<p class="state-txt-box state2""><span>退款成功<em class="stxt">${datas.refund_success_time}</em></span></p>
+              $('.refund-detail-wrap').html(html);
+              break;
+            case 'refund_success':
+              html += `<p class="state-txt-box state2""><span>退款成功<em class="stxt">${datas.refund_success_time}</em></span></p>
             <div class="refund-detail-con1">
               <div class="state2-con">
                 <ul class="mes-list">
@@ -108,20 +110,20 @@
                 </ul>
               </div>
             </div>${content}`;
-            $('.refund-detail-wrap').html(html);
-            break;
-          case 'refund_close':
-            html += `<p class="state-txt-box state-graytxt-box state3"><span>退款关闭<em class="stxt">${datas.refund_close_Time}</em></span></p>
+              $('.refund-detail-wrap').html(html);
+              break;
+            case 'refund_close':
+              html += `<p class="state-txt-box state-graytxt-box state3"><span>退款关闭<em class="stxt">${datas.refund_close_Time}</em></span></p>
             <div class="refund-detail-con1">
               <div class="state3-con">
                 <p class="txt">因您撤销退款申请，退款已关闭，交易将正常进行。</p>
               </div>
             </div>${content}`;
-            $('.refund-detail-wrap').html(html);
-            break;
-          default:
-            break;
-
+              $('.refund-detail-wrap').html(html);
+              break;
+            default:
+              break;
+          }
         }
       },
       error: function (err) {
@@ -133,11 +135,9 @@
       console.log('撤销申请');
       $.ajax({
         type: "POST",
-        url: net.adRescindRefundment,
-        data : {
-          refund_code: refund_code,
-        },
+        url: net.adRescindRefundment+'?refund_code='+refund_code,
         beforeSend: function(request) {
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));

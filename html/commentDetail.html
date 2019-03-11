@@ -55,11 +55,11 @@
       var ajaxbg = $("#background, #progressBar");
       var reservation_id = getParams('reservation_id') || getParams('pay_code');
       $.ajax({
-        type: "POST",
-        url: net.adViewEvaluate,
-        data : {reservation_id: reservation_id},
+        type: "GET",
+        url: net.adViewEvaluate+'?reservation_id='+reservation_id,
         beforeSend: function(request) {
           ajaxbg.show();
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -68,16 +68,20 @@
         success: function(data){
           ajaxbg.hide();
           // console.log(data);
-          var datas = data.data.accompany_info_dto;
-          var headHtml = '', contentHtml = '';
-          headHtml += `<h5><span class="name">${datas.emp_name}</span>${datas.emp_mobile}</h5>
-          <p class="p1">${datas.organization}</p>`;
-          contentHtml += `<li>
-            <div class="top"><em class="expression1">${data.data.satisfied_level}</em><span class="date">${datas.acc_time}</span></div>
-            <p>${data.data.evaluate_content}</p>
-          </li>`
-          $('.con1').html(headHtml);
-          $('.comment-list').html(contentHtml);
+          if(data.code === 0){
+            var datas = data.data.accompany_info_dto;
+            var headHtml = '', contentHtml = '';
+            headHtml += `<h5><span class="name">${datas.emp_name}</span>${datas.emp_mobile}</h5>
+              <p class="p1">${datas.organization}</p>`;
+                contentHtml += `<li>
+                <div class="top"><em class="expression1">${data.data.satisfied_level}</em><span class="date">${datas.acc_time}</span></div>
+                <p>${data.data.evaluate_content}</p>
+              </li>`
+            $('.con1').html(headHtml);
+            $('.comment-list').html(contentHtml);
+          }else{
+            console.log(data);
+          }
         },
         error: function (err) {
           ajaxbg.hide();

@@ -47,6 +47,7 @@
         type: "get",
         beforeSend: function(request) {
           ajaxbg.show();
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -54,8 +55,11 @@
         },
         success:function(data){
           ajaxbg.hide();
-          $('.instructions-wrap').html(data.data);
-          console.log(data);
+          if(data.code === 0){
+            $('.instructions-wrap').html(data.data);
+          }else{
+            console.log(data);
+          }
         },
         error:function(err){
           ajaxbg.hide();

@@ -119,6 +119,7 @@
         data : {'authCode' : code},
         beforeSend: function(request) {
           ajaxbg.show();
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -177,58 +178,70 @@
     $('.custom-btm-btn').click(function (e) {
       e.preventDefault();
       e.stopPropagation();
-      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
-        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
-      var ajaxbg = $("#background, #progressBar");
       const _radio5 = $('#radio5').prop('checked');
       if(_radio5){
         $('.popup-wrap').css({'display': 'block'});
         $('.gray').click(function () {
           $('.popup-wrap').css({'display': 'none'});
         });
-        $('.ok').click(function () {
-          var totalFee;
-          $('.popup-wrap').css({'display': 'none'});
-          if($('.mytab li span:eq(0)').hasClass('active')){
-            totalFee = $('.price2:eq(0) span').html();
-          }else{
-            totalFee = $('.price2:eq(1) span').html();
-          }
-          var service_meal = $('.active').html();
-          var uid = localStorage.getItem('uid');
-          var order_id;
-          console.log(service_meal, 'uid', uid);
-          $.ajax({
-            type: "POST",
-            url: net.makeOrder,
-            data : {
-              uid : uid,
-              service_meal: service_meal,
-              pay_amount: totalFee,
-            },
-            beforeSend: function(request) {
-              ajaxbg.show();
-              request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-              request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-              request.setRequestHeader('appid', localStorage.getItem('appid'));
-              request.setRequestHeader('timestamp', new Date().getTime());
-            },
-            success: function(data){
-              ajaxbg.hide();
-              console.log(data);
-              order_id = data.data.order_id;
-              window.location.href = `./orderPay.html?totalFee=${totalFee}&orderId=${order_id}`;
-            },
-            error: function (err) {
-              ajaxbg.hide();
-              console.log(err)
-            }
-          });
-        })
       }else{
         console.log('请同意服务须知后购买');
         $.toast('请同意服务须知后购买', 'forbidden');
       }
+    })
+
+    $('.ok').click(function () {
+      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+      var ajaxbg = $("#background, #progressBar");
+      var totalFee;
+      $('.popup-wrap').css({'display': 'none'});
+      if($('.mytab li span:eq(0)').hasClass('active')){
+        totalFee = $('.price2:eq(0) span').html();
+      }else{
+        totalFee = $('.price2:eq(1) span').html();
+      }
+      var service_meal = $('.active').html();
+      var uid = localStorage.getItem('uid');
+      var order_id;
+      console.log(service_meal, 'uid', uid);
+      $.ajax({
+        type: "POST",
+        url: net.makeOrder,
+        data : JSON.stringify({
+          'uid' : uid,
+          'service_meal': service_meal,
+          'pay_amount': totalFee
+        }),
+        contentType: 'application/json; charset=utf-8',
+        beforeSend: function(request) {
+          ajaxbg.show();
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
+        success: function(data){
+          if(data.code === 0){
+            var datas = data.data;
+            ajaxbg.hide();
+            console.log(data);
+            var order_code = datas.order_code,
+                service_meal = datas.service_meal,
+                pay_amount = datas.pay_amount,
+                biz_id = datas.biz_id,
+                biz_name = datas.biz_name;
+            window.location.href = `./orderPay.html?order_code=${order_code}&service_meal=${service_meal}&pay_amount=${pay_amount}&biz_id=${biz_id}&biz_name=${biz_name}`;
+          }else{
+            console.log(data);
+          }
+        },
+        error: function (err) {
+          ajaxbg.hide();
+          console.log(err)
+        }
+      });
     })
 
     let oTop = $(".active").offset().top;

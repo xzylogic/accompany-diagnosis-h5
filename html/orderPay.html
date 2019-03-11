@@ -83,11 +83,15 @@
       var lightAppCode=localStorage.getItem('lightAppCode');
       var uid= localStorage.getItem('uid');
       //订单金额和订单id
-      var orderId=getParams("orderId");
-      var totalFee=decodeURIComponent(getParams("totalFee"));
-      console.log(orderId, '----------',totalFee);
-      $(".total-box span").html(totalFee+'/次');
-      // $(".total-box span").html("￥"+totalFee);
+      var order_code=getParams("order_code"),
+          service_meal = getParams('service_meal'),
+          biz_id = getParams('biz_id'),
+          biz_name = getParams('biz_name'),
+          pay_amount=getParams("pay_amount");
+      // var pay_amount=decodeURIComponent(getParams("pay_amount"));
+      console.log(order_code, '----------',pay_amount);
+      $(".total-box span").html(pay_amount+'/次');
+      // $(".total-box span").html("￥"+pay_amount);
       var newTab;
       //操作系统
       var ua = navigator.userAgent;
@@ -136,22 +140,22 @@
               request.setRequestHeader("token",netToken);
               request.setRequestHeader("channelCode",channelCode);
               request.setRequestHeader("lightAppCode",lightAppCode);
+              request.setRequestHeader('appid', localStorage.getItem('appid'));
               request.setRequestHeader('timestamp', new Date().getTime());
               // request.setRequestHeader("uid",uid);
-              // request.setRequestHeader('appid', localStorage.getItem('appid'));
             },
             data:JSON.stringify({
-              "amount":totalFee,
+              "amount":pay_amount,
               "payType":checkedWay,
-              "merchantId":"3101180901",//待定字段商户ID
-              "businessNo":orderId,//待定字段业务单号
+              "merchantId":biz_id,//待定字段商户ID
+              "businessNo":order_code,//待定字段业务单号
               "uid":uid,
               "clientIp":returnCitySN.cip,
               "os": os,
-              "merchantName": "健康云app健康商城",//待定字段
-              "subject":"订单名称",//待定字段
-              "orderDesc":"订单描述",//待定字段
-              "orderItemDesc":"商品描述"//待定字段
+              "merchantName": service_meal,//待定字段
+              "subject":service_meal,//待定字段
+              "orderDesc":service_meal,//待定字段
+              "orderItemDesc":service_meal//待定字段
 
             }),
             success:function(data){

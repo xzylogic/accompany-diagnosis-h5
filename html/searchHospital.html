@@ -90,6 +90,7 @@
         type: "get",
         data:{kwName: kwName},
         beforeSend: function(request) {
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -103,12 +104,15 @@
             data.data.map(function (val) {
               $('.havedata-hospitals ul').append(
                 `<li class="search-hospital">
-                <h5>${val.hospitalName}</h5>
-                <p>${val.hospitalAddress}</p>
+                <h5>${val.hospital_name}</h5>
+                <p>${val.hospital_address}</p>
               </li>`
               );
             });
             $('.search-hospital').click(function () {
+              var hpName = $(this).children('h5').text();
+              localStorage.setItem('hospitalName', hpName);
+              setHistoryItems(hpName);
               window.history.back();
             });
           }

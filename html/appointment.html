@@ -163,6 +163,9 @@
             _proName = $('.am_proName').val(),
             _time = $('.am_time').val();
       console.log(_self);
+      // var time1 = _time.substr(_time.length-2, 2);
+      // var time2 = _time.charAt(_time.length-2);
+      // console.log(time1, 'time2', time2)
 
       // if(checkName() && checkTel() && checkID()){
       //   window.location.href = 'orderSuccess.html';
@@ -192,24 +195,18 @@
         }
       }
       var is_self, patient_name = $('.am_name').val(), patient_mobile = $('.am_tel').val(), patient_personcard = $('.am_ID').val(),
-        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, acc_time = _time, reservation_time='2019-03-04',
+        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, acc_date = _time, acc_am_pm='am',
         expert_name = _proName;
       if(_self === '1'){
         is_self = 'yes';
       }else if(_self === '2'){
         is_self = 'no';
       }
+      var pay_amount = getParams('pay_amount'), pay_code = getParams('pay_code');
+      var data;
       if(_service === '1'){
-        outpatient_type = 'normal';
-      }else if (_service === '2'){
-        outpatient_type = 'expert';
-      }
-      var ajaxbg = $("#background, #progressBar");
-      var emp_id = getParams('emp_id'), pay_amount = getParams('pay_amount'), pay_code = getParams('pay_code');
-      $.ajax({
-        type: "POST",
-        url: net.saveAdReservation,
-        data : {
+        outpatient_type = 'common';
+        data = JSON.stringify({
           is_self : is_self,
           patient_name: patient_name,
           patient_mobile: patient_mobile,
@@ -217,15 +214,37 @@
           hospital_name: hospital_name,
           outpatient_type: outpatient_type,
           department: department,
-          acc_time: acc_time,
-          reservation_time: reservation_time,
-          expert_name: expert_name,
-          emp_id: emp_id,
+          acc_date: time1,
+          acc_am_pm: time2,
           pay_amount: pay_amount,
           pay_code: pay_code,
-        },
+        })
+      }else if (_service === '2'){
+        outpatient_type = 'expert';
+        data = JSON.stringify({
+          is_self : is_self,
+          patient_name: patient_name,
+          patient_mobile: patient_mobile,
+          patient_personcard: patient_personcard,
+          hospital_name: hospital_name,
+          outpatient_type: outpatient_type,
+          department: department,
+          acc_date: time1,
+          acc_am_pm: time2,
+          expert_name: expert_name,
+          pay_amount: pay_amount,
+          pay_code: pay_code,
+        })
+      }
+      var ajaxbg = $("#background, #progressBar");
+      $.ajax({
+        type: "POST",
+        url: net.saveAdReservation,
+        data : data,
+        contentType: 'application/json; charset=utf-8',
         beforeSend: function(request) {
           ajaxbg.show();
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -233,8 +252,12 @@
         },
         success: function(data){
           ajaxbg.hide();
-          console.log(data);
-          window.location.href = 'orderSuccess.html?pay_code='+;
+          if(data.code === 0){
+            console.log(data);
+            window.location.href = 'orderSuccess.html?pay_code='+pay_code;
+          }else{
+            console.log(data)
+          }
         },
         error: function (err) {
           ajaxbg.hide();
@@ -246,6 +269,7 @@
     }
   }
 
+  var time1, time2;
   window.onload = function () {
     let hospitalName = localStorage.getItem('hospitalName') || '';
     console.log(hospitalName)
@@ -261,6 +285,7 @@
       timeout: 6000,
       beforeSend: function(request) {
         ajaxbg.show();
+        request.setRequestHeader('token', localStorage.getItem('netToken'));
         request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
         request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
         request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -269,24 +294,24 @@
       success:function(data)
       {
         ajaxbg.hide();
-        console.log(data);
-        var time = [], timeDetail = [];
-        data && data.data.map(function (val,i) {
-          // console.log(val,i);
-          time.push(val.time);
-          // if(val.am === 0 && val.pm === 1){
-          //   timeDetail = ['上午', '下午'];
-          // }else if(val.am === 0){
-          //   timeDetail = ['上午'];
-          // }else if(val.pm === 1){
-          //   timeDetail = ['下午'];
-          // }else{
-          //   timeDetail = [];
-          // }
-        });
-        $(".am_time").picker({
-          title: "请选择",
-          cols: [{
+        if(data.code === 0){
+          var time = [], timeDetail = [];
+          data && data.data.map(function (val,i) {
+            // console.log(val,i);
+            time.push(val.time);
+            // if(val.am === 0 && val.pm === 1){
+            //   timeDetail = ['上午', '下午'];
+            // }else if(val.am === 0){
+            //   timeDetail = ['上午'];
+            // }else if(val.pm === 1){
+            //   timeDetail = ['下午'];
+            // }else{
+            //   timeDetail = [];
+            // }
+          });
+          $(".am_time").picker({
+            title: "请选择",
+            cols: [{
               textAlign: 'center',
               values: time,
               //如果你希望显示文案和实际值不同，可以在这里加一个displayValues: [.....]
@@ -294,12 +319,21 @@
               textAlign: 'center',
               values: ['上午', '下午'],
             }
-          ],
-          // value: '2017-08-09 全天',
-          onChange: function (picker, values, displayValues) {
-            console.log(values);
-          }
-        });
+            ],
+            // value: '2017-08-09 全天',
+            onChange: function (picker, values, displayValues) {
+              console.log(values);
+              time1 = values[0];
+              if(values[1] === '上午'){
+                time2 = 'am';
+              }else if(values[1] === '下午'){
+                time2 = 'pm';
+              }
+            }
+          });
+        }else {
+          console.log(data);
+        }
       },
       error:function(){
         ajaxbg.hide();
@@ -317,6 +351,7 @@
         url: net.userAccountInfo,
         data : {'uid' : uid},
         beforeSend: function(request) {
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));

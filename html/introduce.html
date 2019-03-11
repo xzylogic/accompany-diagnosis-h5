@@ -233,6 +233,8 @@
                 biz_id = datas.biz_id,
                 biz_name = datas.biz_name;
             window.location.href = `./orderPay.html?order_code=${order_code}&service_meal=${service_meal}&pay_amount=${pay_amount}&biz_id=${biz_id}&biz_name=${biz_name}`;
+          }else{
+            console.log(data);
           }
         },
         error: function (err) {

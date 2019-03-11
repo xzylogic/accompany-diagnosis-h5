@@ -63,7 +63,7 @@
   <script src="../custom/js/native.js"></script>
 
   <script>
-    var pay_code = getParams('pay_code'), price = getParams('apply_refundment_price'), refund_code = getParams('refund_code');
+    var pay_code = getParams('pay_code'), price = getParams('apply_refundment_price');
 
     function wordStatic(input) {
         // 获取要显示已经输入字数文本框对象
@@ -79,13 +79,16 @@
     }
 
     function refundSubmit() {
-      console.log(pay_code)
+      var refundCause = $('.weui-textarea').val();
+      console.log(pay_code, 'refundCause', refundCause);
+
       if($('.weui-textarea').val()){
         $('.refund-form-wrap').empty();
         $.ajax({
           type: "POST",
           url: net.adOrderRefundment,
-          data : {pay_code : pay_code, apply_refundment_cause: $('.weui-textarea').val(), apply_refundment_price: price},
+          data : JSON.stringify({pay_code : pay_code, apply_refundment_cause: refundCause, apply_refundment_price: price}),
+          contentType: 'application/json; charset=utf-8',
           beforeSend: function(request) {
             request.setRequestHeader('token', localStorage.getItem('netToken'));
             request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
@@ -101,7 +104,7 @@
             }else{
               console.log('退款失败');
             }
-            // console.log(data);
+            console.log(data);
           },
           error: function (err) {
             console.log(err)

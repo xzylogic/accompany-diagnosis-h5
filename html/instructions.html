@@ -55,8 +55,11 @@
         },
         success:function(data){
           ajaxbg.hide();
-          $('.instructions-wrap').html(data.data);
-          console.log(data);
+          if(data.code === 0){
+            $('.instructions-wrap').html(data.data);
+          }else{
+            console.log(data);
+          }
         },
         error:function(err){
           ajaxbg.hide();

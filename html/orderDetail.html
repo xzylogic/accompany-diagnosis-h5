@@ -164,58 +164,59 @@
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function(data){
-          ajaxbg.hide();
-          console.log(data);
-          var datas = data.data, datasDetails = datas.reservation_detail, datasDetail = datasDetails.accompany_info_dto, refundDetail = datas.refundment_detail;
-          var html = '', btnHtml = '';
-          reservation_id = datasDetails.id;
+          if(data.code === 0){
+            ajaxbg.hide();
+            console.log(data);
+            var datas = data.data, datasDetails = datas.reservation_detail, datasDetail = datasDetails.accompany_info_dto || '', refundDetail = datas.refundment_detail;
+            var html = '', btnHtml = '';
+            reservation_id = datasDetails.id;
 
-          var content1 = `<div class="detail-content">
-          <div class="user-mes-box state3-user-mes">
-            <span class="pic"><img src="../custom/images/head_bg.png"></span>
-            <div class="con1">
-              <h5><span class="name">${datasDetails.patient_name}</span><span>${datasDetails.patient_mobile}</span></h5>
-              <p class="p1">${datasDetail.organization}</p>
-              <p class="border-top-dashed not-state3"></p>
-              <p class="p2 not-state3"><label>陪诊时间</label><span>${datasDetails.acc_date}</span></p>
-            </div>
-            <div class="con2">
-              <p class="border-top-dashed"></p>
-              <p class="p2"><label>陪诊时间</label><span>${datasDetails.acc_date}</span></p>
-              <p class="p2 p3"><label>陪诊记录</label><span>${datasDetail.acc_record}</span></p>
-            </div>
-          </div>
-          <div class="title">
-            <span>${datas.service_meal}</span><span class="price">￥${datas.service_price}/次</span>
-          </div>
-          <p class="order-btn-box">
-            <span class="btn-gray" onclick="refund('${datas.pay_code}', '${refundDetail.apply_refund_price}', '${refundDetail.refund_code}')">申请退款</span>
-            <em class="orange" style="display:none">退款成功</em>
-          </p>
-          <div class="orderDetail">
-            <p class="lineBg"></p>
-            <ul class="mes-list mes-list-width datasDetails">
-                <li><label>预约单号</label><span>${datasDetails.reservation_code}</span></li>
-                <li><label>就诊人</label><span>${datasDetails.consult_person}</span></li>
-                <li><label>就诊人姓名</label><span>${datasDetails.patient_name}</span></li>
-                <li><label>就诊人手机号</label><span>${datasDetails.patient_mobile}</span></li>
-                <li><label>预约陪诊医院</label><span>${datasDetails.hospital_name}</span></li>
-                <li><label>预约门诊类型</label><span>${datasDetails.outpatient_type}</span></li>
-                <li><label>预约就诊科室</label><span>${datasDetails.department}</span></li>
-                <li><label>预约专家姓名</label><span>${datasDetails.expert_name}</span></li>
-                <li><label>预约陪诊时间</label><span>${datasDetails.acc_date}</span></li>
-                <li><label>预约提交时间</label><span>${datasDetails.reservation_time}</span></li>
-            </ul>
-          </div>
-          <p class="lineBg"></p>
-          <ul class="mes-list orderLists">
-              <li><label>订单编号</label><span>${datas.pay_code}</span></li>
-              <li><label>支付方式</label><span>${datas.pay_way}</span></li>
-              <li><label>下单时间</label><span>${datas.order_time}</span></li>
-          </ul>
-        </div>`;
+            var content1 = `<div class="detail-content">
+                <div class="user-mes-box state3-user-mes">
+                  <span class="pic"><img src="../custom/images/head_bg.png"></span>
+                  <div class="con1">
+                    <h5><span class="name">${datasDetails.patient_name}</span><span>${datasDetails.patient_mobile}</span></h5>
+                    <p class="p1">${datasDetail.organization || ''}</p>
+                    <p class="border-top-dashed not-state3"></p>
+                    <p class="p2 not-state3"><label>陪诊时间</label><span>${datasDetails.acc_date}</span></p>
+                  </div>
+                  <div class="con2">
+                    <p class="border-top-dashed"></p>
+                    <p class="p2"><label>陪诊时间</label><span>${datasDetails.acc_date}</span></p>
+                    <p class="p2 p3"><label>陪诊记录</label><span>${datasDetail.acc_record || ''}</span></p>
+                  </div>
+                </div>
+                <div class="title">
+                  <span>${datas.service_meal}</span><span class="price">￥${datas.service_price}/次</span>
+                </div>
+                <p class="order-btn-box">
+                  <span class="btn-gray" onclick="refund('${datas.pay_code}', '${datas.service_price}')">申请退款</span>
+                  <em class="orange" style="display:none">退款成功</em>
+                </p>
+                <div class="orderDetail">
+                  <p class="lineBg"></p>
+                  <ul class="mes-list mes-list-width datasDetails">
+                      <li><label>预约单号</label><span>${datasDetails.reservation_code}</span></li>
+                      <li><label>就诊人</label><span>${datasDetails.consult_person}</span></li>
+                      <li><label>就诊人姓名</label><span>${datasDetails.patient_name}</span></li>
+                      <li><label>就诊人手机号</label><span>${datasDetails.patient_mobile}</span></li>
+                      <li><label>预约陪诊医院</label><span>${datasDetails.hospital_name}</span></li>
+                      <li><label>预约门诊类型</label><span>${datasDetails.outpatient_type}</span></li>
+                      <li><label>预约就诊科室</label><span>${datasDetails.department}</span></li>
+                      <li><label>预约专家姓名</label><span>${datasDetails.expert_name}</span></li>
+                      <li><label>预约陪诊时间</label><span>${datasDetails.acc_date}</span></li>
+                      <li><label>预约提交时间</label><span>${datasDetails.reservation_time}</span></li>
+                  </ul>
+                </div>
+                <p class="lineBg"></p>
+                <ul class="mes-list orderLists">
+                    <li><label>订单编号</label><span>${datas.pay_code}</span></li>
+                    <li><label>支付方式</label><span>${datas.pay_way}</span></li>
+                    <li><label>下单时间</label><span>${datas.order_time}</span></li>
+                </ul>
+              </div>`;
 
-          var content2 = `<div class="detail-content"><div class="title">
+            var content2 = `<div class="detail-content"><div class="title">
                               <span>${datas.service_meal}</span><span class="price">￥${datas.service_price}/次</span>
                             </div>
                             <p class="order-btn-box">
@@ -229,73 +230,74 @@
                             </ul></div>`;
 
 
-          // var aaa = datas.order_status;
-          switch (datas.order_status) {
-            case 'wait_reservation':
-              html += `<p class="state-txt-box state1"><span>待预约</span></p>
+            // var aaa = datas.order_status;
+            switch (datas.order_status) {
+              case 'wait_reservation':
+                html += `<p class="state-txt-box state1"><span>待预约</span></p>
                       ${content2}`;
-              btnHtml += `<span class="custom-btm-btn btn2">去预约</span>`;
-              $('.scroll-wrap-con').html(html);
-              $('.custom-btm-fixed').html(btnHtml);
-              // $('.state1, .btn2').css({'display': 'block'});
-              $('.btn2').click(function () {
-                window.location.href = `appointment.html?emp_id=${datasDetail.emp_id}&pay_amount=${datas.service_price}&pay_code=${datasDetails.pay_code}`;
-              });
-              break;
-            case 'reservation':
-              html += `<p class="state-txt-box state2"><span>已预约</span></p>
-                      ${content1}`;
-              btnHtml += `<span class="custom-btm-btn custom-btm-graybtn btn1">取消陪诊</span>`;
-              $('.scroll-wrap-con').html(html);
-              $('.custom-btm-fixed').html(btnHtml);
-              datasDetails.reservation_status = 'wait_write_off';
-              if(datasDetails.reservation_status === 'wait_confirm'){
-                $('.user-mes-box').css({display: 'none'});
-              }else if(datasDetails.reservation_status === 'wait_write_off'){
-                $('.user-mes-box').css({display: 'block'}).removeClass('state3-user-mes');
-              }
-              //取消陪诊弹出框
-              $('.btn1').click(function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                console.log('取消陪诊弹出框');
-                $('.cancel-reason').css({'display': 'block'});
-                $('.gray').click(function () {
-                  $('.popup-wrap').css({'display': 'none'});
+                btnHtml += `<span class="custom-btm-btn btn2">去预约</span>`;
+                $('.scroll-wrap-con').html(html);
+                $('.custom-btm-fixed').html(btnHtml);
+                // $('.state1, .btn2').css({'display': 'block'});
+                $('.btn2').click(function () {
+                  window.location.href = `appointment.html?pay_amount=${datas.service_price}&pay_code=${datasDetails.pay_code}`;
                 });
-              });
-              break;
-            case 'complete':
-              console.log('complete');
-              html += `<p class="state-txt-box state3"><span>已完成</span></p>
+                break;
+              case 'reservation':
+                html += `<p class="state-txt-box state2"><span>已预约</span></p>
                       ${content1}`;
-              $('.order-btn-box').css({'display': 'none'});
-              if(datasDetails.reservation_status === 'done_no_evaluate'){
-                btnHtml += `<span class="custom-btm-btn btn3">服务评价</span>`;
-              }else if(datasDetails.reservation_status === 'done_evaluated'){
-                btnHtml += `<span class="custom-btm-btn btn4">查看评价</span>`;
-              }
-              $('.scroll-wrap-con').html(html);
-              $('.custom-btm-fixed').html(btnHtml);
-              $('.btn3').click(function () {
-                window.location.href = 'comment.html?reservation_id='+datasDetails.id;
-              });
-              $('.btn4').click(function () {
-                window.location.href = 'commentDetail.html?reservation_id='+datasDetails.id;
-              });
-              break;
-            case 'close':
-              html += `<p class="state-txt-box state-graytxt-box state4"><span>已关闭</span></p>
+                btnHtml += `<span class="custom-btm-btn custom-btm-graybtn btn1">取消陪诊</span>`;
+                $('.scroll-wrap-con').html(html);
+                $('.custom-btm-fixed').html(btnHtml);
+                datasDetails.reservation_status = 'wait_write_off';
+                if(datasDetails.reservation_status === 'wait_confirm'){
+                  $('.user-mes-box').css({display: 'none'});
+                }else if(datasDetails.reservation_status === 'wait_write_off'){
+                  $('.user-mes-box').css({display: 'block'}).removeClass('state3-user-mes');
+                }
+                //取消陪诊弹出框
+                $('.btn1').click(function (e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  console.log('取消陪诊弹出框');
+                  $('.cancel-reason').css({'display': 'block'});
+                  $('.gray').click(function () {
+                    $('.popup-wrap').css({'display': 'none'});
+                  });
+                });
+                break;
+              case 'complete':
+                console.log('complete');
+                html += `<p class="state-txt-box state3"><span>已完成</span></p>
+                      ${content1}`;
+                $('.order-btn-box').css({'display': 'none'});
+                if(datasDetails.reservation_status === 'done_no_evaluate'){
+                  btnHtml += `<span class="custom-btm-btn btn3">服务评价</span>`;
+                }else if(datasDetails.reservation_status === 'done_evaluated'){
+                  btnHtml += `<span class="custom-btm-btn btn4">查看评价</span>`;
+                }
+                $('.scroll-wrap-con').html(html);
+                $('.custom-btm-fixed').html(btnHtml);
+                $('.btn3').click(function () {
+                  window.location.href = 'comment.html?reservation_id='+datasDetails.id;
+                });
+                $('.btn4').click(function () {
+                  window.location.href = 'commentDetail.html?reservation_id='+datasDetails.id;
+                });
+                break;
+              case 'close':
+                html += `<p class="state-txt-box state-graytxt-box state4"><span>已关闭</span></p>
                       ${content2}`;
-              $('.scroll-wrap-con').html(html);
-              $('.btn-gray').css({'display': 'none'});
-              $('.orange').css({'display': 'block'});
-              // console.log('close');
-              break;
-            default:
-              console.log('type类型出现错误');
-              break;
+                $('.scroll-wrap-con').html(html);
+                $('.btn-gray').css({'display': 'none'});
+                $('.orange').css({'display': 'block'});
+                // console.log('close');
+                break;
+              default:
+                console.log('无法识别', datas.order_status);
+                return '';
+            }
           }
         },
         error: function (err) {
@@ -307,12 +309,12 @@
     }
 
     //申请退款
-    function refund(payCode, price, refundCode) {
-      window.location.href = 'refund.html?pay_code='+payCode+'&apply_refundment_price='+price+'&refund_code='+refundCode;
+    function refund(payCode, price) {
+      window.location.href = 'refund.html?pay_code='+payCode+'&apply_refundment_price='+price;
     }
 
     function cancelRes(i) {
-      var _ci = $('.weiui-input'), _ok = $('#ok'), _know=$('.know');
+      var _ci = $('.weiui-input'), _ok = $('#ok');
       var val = $('input[name="item"]:checked').val();
       console.log(typeof val, val, '_ci =', _ci.val());
 
@@ -335,7 +337,8 @@
             $('.popup-wrap').css({'display': 'none'});
             $.ajax({
               url: net.cancelAdReservation,
-              data: {cancel_reason: Val, reservation_id: reservation_id},
+              data: JSON.stringify({cancel_reason: Val, reservation_id: reservation_id}),
+              contentType: 'application/json; charset=utf-8',
               type: "POST",
               timeout: 6000,
               beforeSend: function (request) {

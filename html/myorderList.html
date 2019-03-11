@@ -152,8 +152,8 @@
   $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
     '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
   var ajaxbg = $("#background, #progressBar");
-  orderList('', '', 1);
-  function orderList(func, index, page) {
+  orderList('', '');
+  function orderList(func, index) {
     $('.custom-nav span').removeClass('active');
     let _hdb = $('.have-data-box');
     $(func).addClass('active');
@@ -278,12 +278,13 @@
       type: "GET",
       url: net.orderList,
       data : {
-        uid : 'ff80808154177829015417b846d40017',
+        uid : localStorage.getItem('uid'),
         order_status: index,
-        page: page,
+        page: 1,
       },
       beforeSend: function(request) {
         ajaxbg.show();
+        request.setRequestHeader('token', localStorage.getItem('netToken'));
         request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
         request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
         request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -410,6 +411,7 @@
         timeout: 6000,
         beforeSend: function(request) {
           ajaxbg.show();
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));

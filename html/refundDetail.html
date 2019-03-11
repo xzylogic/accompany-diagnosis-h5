@@ -61,6 +61,7 @@
       url: net.orderDetail,
       data : {'pay_code' : pay_code},
       beforeSend: function(request) {
+        request.setRequestHeader('token', localStorage.getItem('netToken'));
         request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
         request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
         request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -138,6 +139,7 @@
           refund_code: refund_code,
         },
         beforeSend: function(request) {
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));

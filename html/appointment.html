@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>预约陪诊</title>
    <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
-   <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
+   <!--<link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />-->
     <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
     <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
 </head>
@@ -226,6 +226,7 @@
         },
         beforeSend: function(request) {
           ajaxbg.show();
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -234,7 +235,7 @@
         success: function(data){
           ajaxbg.hide();
           console.log(data);
-          window.location.href = 'orderSuccess.html?pay_code='+;
+          window.location.href = 'orderSuccess.html?pay_code='+pay_code;
         },
         error: function (err) {
           ajaxbg.hide();
@@ -261,6 +262,7 @@
       timeout: 6000,
       beforeSend: function(request) {
         ajaxbg.show();
+        request.setRequestHeader('token', localStorage.getItem('netToken'));
         request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
         request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
         request.setRequestHeader('appid', localStorage.getItem('appid'));
@@ -317,6 +319,7 @@
         url: net.userAccountInfo,
         data : {'uid' : uid},
         beforeSend: function(request) {
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));

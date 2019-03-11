@@ -87,6 +87,7 @@
           url: net.adOrderRefundment,
           data : {pay_code : pay_code, apply_refundment_cause: $('.weui-textarea').val(), apply_refundment_price: price},
           beforeSend: function(request) {
+            request.setRequestHeader('token', localStorage.getItem('netToken'));
             request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
             request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
             request.setRequestHeader('appid', localStorage.getItem('appid'));

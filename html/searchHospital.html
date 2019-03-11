@@ -67,6 +67,7 @@
     $('.clear-icon').click(function () {
       $('#txt-search').val('');
       $('.history-content').css({'display': 'block'});
+      liClick();
     });
     // 防抖实现
     function debounce(fn, delay) {
@@ -128,17 +129,9 @@
         setHistoryItems($("#txt-search").val());
         console.log(localStorage.getItem('historyItems'));
         initLocalStorage();
+        liClick();
         searchHospitalName();
       }
-    });
-
-    //标签搜索
-    $('#history-div ul li').on('click', function () {
-      var text = $(this).text().trim();
-      setHistoryItems(text);
-      console.log($(this).text());
-      $("#txt-search").val(text);
-      searchHospitalName();
     });
 
     function initLocalStorage() {
@@ -156,10 +149,22 @@
           console.log('历史记录:'+key);
           $('#history-div ul').html(key);
         }
-      }else{
-        $('.history-content').css({'display': 'none'});
       }
     }
+
+    //标签搜索
+    function liClick() {
+      $('#history-div ul li').on('click', function () {
+        var text = $(this).text().trim();
+        setHistoryItems(text);
+        console.log($(this).text());
+        initLocalStorage();
+        $("#txt-search").val(text);
+        searchHospitalName();
+      });
+    }
+    liClick();
+
     function setHistoryItems(keyword) {
       var maxNum = 10;
       keyword = keyword.trim();
@@ -182,8 +187,8 @@
     }
 
     function clearHistory() {
-      $('.history-content').empty();
       localStorage.removeItem('historyItems');
+      $('.history-content').css({display: 'none'});
     }
 
     $('#search-cancel').click(function () {

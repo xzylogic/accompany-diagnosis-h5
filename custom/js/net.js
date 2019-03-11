@@ -24,20 +24,21 @@ var ajaxRoot = '/gw/';
 // };
 
 
-const net = {
+var net = {
   // getAdServiceGuidelines: 'http://10.1.64.194/accompany-diagnosis-service-api/api/reservation/getServiceGuidelines',  //服务须知
   getAdServiceGuidelines: net_Root + '/reservation/getServiceGuidelines',  //服务须知
   makeOrder: netRoot + 'adMakeOrder',  //生成订单
   userAccountInfo: netRoot + 'userAccountInfo',  //用户信息
-  queryAdHospital: netRoot + '/hospital/query',  //医院查询
+  queryAdHospital: netRoot + 'queryAdHospital',  //医院查询
   saveAdReservation: net_Root + '/reservation/save',  //预约
   cancelAdReservation: net_Root + '/reservation/cancel',  //取消预约
   adReservationEvaluate: net_Root + '/reservation/evaluate',  //评价
   adViewEvaluate: net_Root + '/reservation/viewEvaluate',  //查看评价
   orderList: netRoot + 'adOrderList',  //陪诊订单列表
   orderDetail: netRoot + 'adOrderDetail',  //陪诊订单详情
-  scheduleTime: netRoot + 'api/diagnosis/reservation/scheduleTime',  //预约陪诊时间
+  scheduleTime: netRoot + 'adScheduleTime',  //预约陪诊时间
   adOrderRefundment: netRoot + 'adOrderRefundment',  //退款
+  adRescindRefundment: netRoot + 'adRescindRefundment',  //撤销申请退款
 
   scanConsume: netRoot + 'pay-agency-api/wdepay/scanConsume',  //支付
   userGetTokenByAuthCode: ajaxRoot + 'userGetTokenByAuthCode',//根据code换token

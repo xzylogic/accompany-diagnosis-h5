@@ -26,10 +26,12 @@
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
+  <script src="../custom/js/native.js"></script>
 
   <script>
     function viewAppoint() {
-      window.location.href = 'orderDetail_cancel.html';
+      var payCode = getParams('pay_code');
+      window.location.href = 'orderDetail.html?pay_code='+payCode;
     }
   </script>
 

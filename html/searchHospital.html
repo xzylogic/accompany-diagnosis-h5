@@ -88,21 +88,29 @@
         url: net.queryAdHospital,
         type: "get",
         data:{kwName: kwName},
+        beforeSend: function(request) {
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
         success:function(data){
-          $('.havedata-hospitals ul').empty();
+          if(data.code === 0){
+            $('.havedata-hospitals ul').empty();
 
-          data.data.map(function (val) {
-            $('.havedata-hospitals ul').append(
-              `<li class="search-hospital">
+            console.log(data)
+            data.data.map(function (val) {
+              $('.havedata-hospitals ul').append(
+                `<li class="search-hospital">
                 <h5>${val.hospitalName}</h5>
                 <p>${val.hospitalAddress}</p>
               </li>`
-            );
+              );
+            });
             $('.search-hospital').click(function () {
-              window.localStorage.setItem('hospitalName', $(this).children('h5').text());
               window.history.back();
-            })
-          })
+            });
+          }
         },
         error:function(){
           $('.havedata-hospitals ul').empty();
@@ -120,30 +128,19 @@
         setHistoryItems($("#txt-search").val());
         console.log(localStorage.getItem('historyItems'));
         initLocalStorage();
+        searchHospitalName();
       }
     });
-    // $("#txt-search").bind('input propertychange', function () {
-    // // $("#txt-search").on('change', function () {
-    //   var serVal = $(this).val();
-    //   // console.log(serVal);
-    //   // var value = $(".input").val();
-    //   var kwName = $(this).val();
-    //   console.log(kwName);
-    //   debounce(searchHospitalName, 500)
-    //
-    //   // setHistoryItems(serVal);
-    // });
+
     //标签搜索
-    $('#history-div li').bind('click', function () {
+    $('#history-div ul li').on('click', function () {
       var text = $(this).text().trim();
       setHistoryItems(text);
-      console.log($(this).text())
-
-      // $(this).click(function (e) {
-      //   console.log(e.target.value)
-      // })
-
+      console.log($(this).text());
+      $("#txt-search").val(text);
+      searchHospitalName();
     });
+
     function initLocalStorage() {
       var _localStorage = localStorage,
         historyItems = _localStorage.historyItems;

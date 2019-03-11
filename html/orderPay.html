@@ -137,6 +137,7 @@
               request.setRequestHeader("token",netToken);
               request.setRequestHeader("channelCode",channelCode);
               request.setRequestHeader("lightAppCode",lightAppCode);
+              request.setRequestHeader('appid', localStorage.getItem('appid'));
               request.setRequestHeader('timestamp', new Date().getTime());
             },
             data:JSON.stringify({

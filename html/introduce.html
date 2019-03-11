@@ -84,23 +84,27 @@
     $.toast.prototype.defaults.duration = 800;
 
     window.onload = function () {
+      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+      var ajaxbg = $("#background, #progressBar");
       //订单详情页：myorderList.html
-      // NativeFunc({
-      //   ACTION: "RIGHTBTN",
-      //   PARAM:{
-      //     BTNS:[
-      //       {
-      //         ICON:"1.png",
-      //         ICONS:"1.png",
-      //         EVENT:"SEARCH"
-      //       },
-      //       {
-      //         ICON:"2.png",
-      //         EVENT:"DADAD",
-      //       }
-      //     ]
-      //   }
-      // });
+      NativeFunc({
+        ACTION: "RIGHTBTN",
+        PARAM:{
+          BTNS:[
+            {
+              ICON:"1.png",
+              ICONS:"1.png",
+              EVENT:"SEARCH"
+            },
+            {
+              ICON:"2.png",
+              EVENT:"DADAD",
+            }
+          ]
+        }
+      });
+
       var pageData = {
         netToken: '',
         uid: '',
@@ -114,12 +118,14 @@
         url: net.userGetTokenByAuthCode,
         data : {'authCode' : code},
         beforeSend: function(request) {
+          ajaxbg.show();
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function(data){
+          ajaxbg.hide();
           var tokenData = data.data;
           // console.log(data);
           if(data.code === 0){
@@ -140,6 +146,7 @@
           }
         },
         error: function (err) {
+          ajaxbg.hide();
           console.log(err);
         }
       });
@@ -170,6 +177,9 @@
     $('.custom-btm-btn').click(function (e) {
       e.preventDefault();
       e.stopPropagation();
+      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+      var ajaxbg = $("#background, #progressBar");
       const _radio5 = $('#radio5').prop('checked');
       if(_radio5){
         $('.popup-wrap').css({'display': 'block'});
@@ -197,17 +207,20 @@
               pay_amount: totalFee,
             },
             beforeSend: function(request) {
+              ajaxbg.show();
               request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
               request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
               request.setRequestHeader('appid', localStorage.getItem('appid'));
               request.setRequestHeader('timestamp', new Date().getTime());
             },
             success: function(data){
+              ajaxbg.hide();
               console.log(data);
               order_id = data.data.order_id;
               window.location.href = `./orderPay.html?totalFee=${totalFee}&orderId=${order_id}`;
             },
             error: function (err) {
+              ajaxbg.hide();
               console.log(err)
             }
           });

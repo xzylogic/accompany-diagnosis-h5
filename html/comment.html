@@ -65,6 +65,9 @@
 
     function evaluateSubmit() {
       if(evalueteVal && textVal){
+        $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+          '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+        var ajaxbg = $("#background, #progressBar");
         var reservation_id = getParams('reservation_id') || getParams('pay_code');
         $.ajax({
           type: "POST",
@@ -75,16 +78,19 @@
             reservation_id: reservation_id
           },
           beforeSend: function(request) {
+            ajaxbg.show();
             request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
             request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
             request.setRequestHeader('appid', localStorage.getItem('appid'));
             request.setRequestHeader('timestamp', new Date().getTime());
           },
           success: function(data){
-            console.log(data);
+            ajaxbg.hide();
+            // console.log(data);
             window.location.href = 'commentDetail.html?reservation_id='+reservation_id;
           },
           error: function (err) {
+            ajaxbg.hide();
             console.log(err)
           }
         });

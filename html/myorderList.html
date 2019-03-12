@@ -246,7 +246,6 @@
                 _hdb.html(html);
                 break;
               case 'complete':
-                obj.estimate_status = '0';
                 if(obj.estimate_status === '0'){
                   html += `<div class="myorder-item">
                            <ul class="con" onclick="orderDetail(2, '${obj.pay_code}')">
@@ -265,7 +264,7 @@
                              <li><label>下单时间</label><span>${obj.order_time}</span></li>
                            </ul>
                            <p class="lineBg"></p>
-                           <p class="order-btn-box"><span class="btn" onclick="viewCommentDetail('3', '${obj.pay_code}')">查看评价</span></p>
+                           <p class="order-btn-box"><span class="btn" onclick="viewCommentDetail('3', '${obj.reservation_id}')">查看评价</span></p>
                          </div>`;
                 }
                 _hdb.html(html);
@@ -339,7 +338,7 @@
 
   var reservation_id;  //预约单id,但我这里给的是预约单号pay_code（祥看取消陪诊413行）
   //确认取消
-  $('.ok').on('click', function () {
+  $('#ok').on('click', function () {
     var Val = $('input[name="item"]:checked').val();
     var otherVal = $('.weiui-input').val();
     if(Val && otherVal.length < 50){
@@ -369,6 +368,11 @@
             window.location.reload();
           }else{
             console.log(data);
+            $('.cancel-reason').css({'display': 'none'});
+            $('.cancelNotice').css({'display': 'block'});
+            $('.know, .close').click(function () {
+              $('.cancelNotice').css({'display': 'none'});
+            });
           }
         },
         error:function(err){
@@ -412,9 +416,9 @@
   }
 
   //查看评价
-  function viewCommentDetail(index, payCode) {
+  function viewCommentDetail(index, id) {
     console.log(index);
-    window.location.href = 'commentDetail.html?reservation_id='+payCode;
+    window.location.href = 'commentDetail.html?reservation_id='+id;
   }
 
   //订单详情各页面

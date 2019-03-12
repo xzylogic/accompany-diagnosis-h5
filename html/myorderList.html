@@ -158,120 +158,7 @@
     let _hdb = $('.have-data-box');
     $(func).addClass('active');
     _hdb.empty();
-    var html = '';
-    // switch (index) {
-    //   case 0:
-    //     html = '<div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(0)">\n' +
-    //       '              <li><label>服务类型</label><span>全程陪诊服务套餐</span><em>待预约</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange" style="display: none;">退款中</em></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn" onclick="appointOrder(\'预约陪诊1\')">预约陪诊</span></p>\n' +
-    //       '          </div>\n' +
-    //       '          <div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(1)">\n' +
-    //       '              <li><label>服务类型</label><span>全程陪诊服务套餐</span><em>已预约</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn-gray" onclick="cancelOrder(\'取消陪诊1\')">取消陪诊</span>\n' +
-    //       '              <span class="btn" onclick="viewDetail(\'1\')">查看详情</span>\n' +
-    //       '            </p>\n' +
-    //       '          </div>\n' +
-    //       '          <div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(2)">\n' +
-    //       '              <li><label>服务类型</label><span>全程陪诊服务套餐</span><em class="gray">已完成</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange" style="display: none;">退款中</em></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn" onclick="servicesEvaluate(\'2\')">服务评价</span></p>\n' +
-    //       '          </div>\n' +
-    //       '          <div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(3)">\n' +
-    //       '              <li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已完成</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange" style="display: none;">退款中</em></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn" onclick="viewDetail(\'3\')">查看详情</span></p>\n' +
-    //       '          </div>\n' +
-    //       '          <div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(4)">\n' +
-    //       '              <li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已关闭</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款成功</em></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn" onclick="viewDetail(\'4\')">查看详情</span></p>\n' +
-    //       '          </div>';
-    //     _hdb.html(html);
-    //     break;
-    //   case 1:
-    //     html = '<div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(0)">\n' +
-    //       '              <li><label>服务类型</label><span>全程陪诊服务套餐</span><em>待预约</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange" style="display: none;">退款中</em></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn" onclick="appointOrder(\'预约陪诊1\')">预约陪诊</span></p>\n' +
-    //       '          </div>';
-    //     _hdb.html(html);
-    //     break;
-    //   case 2:
-    //     html = '<div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(1)">\n' +
-    //       '              <li><label>服务类型</label><span>全程陪诊服务套餐</span><em>已预约</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn-gray" onclick="cancelOrder(\'取消陪诊1\')">取消陪诊</span>\n' +
-    //       '              <span class="btn" onclick="viewDetail(\'1\')">查看详情</span>\n' +
-    //       '            </p>\n' +
-    //       '          </div>';
-    //     _hdb.html(html);
-    //     break;
-    //   case 3:
-    //     html = '<div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(2)">\n' +
-    //       '              <li><label>服务类型</label><span>全程陪诊服务套餐</span><em class="gray">已完成</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange" style="display: none;">退款中</em></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn" onclick="servicesEvaluate(\'2\')">服务评价</span></p>\n' +
-    //       '          </div>\n' +
-    //       '          <div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(3)">\n' +
-    //       '              <li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已完成</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange" style="display: none;">退款中</em></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn" onclick="viewDetail(\'3\')">查看详情</span></p>\n' +
-    //       '          </div>';
-    //     _hdb.html(html);
-    //     break;
-    //   case 4:
-    //     html = '<div class="myorder-item">\n' +
-    //       '            <ul class="con" onclick="orderDetail(4)">\n' +
-    //       '              <li><label>服务类型</label><span>简易陪诊服务套餐</span><em class="gray">已关闭</em></li>\n' +
-    //       '              <li><label>服务价格</label><span>￥398.00/次</span><em class="orange">退款成功</em></li>\n' +
-    //       '              <li><label>下单时间</label><span>2018-11-13 12:34:56</span></li>\n' +
-    //       '            </ul>\n' +
-    //       '            <p class="lineBg"></p>\n' +
-    //       '            <p class="order-btn-box"><span class="btn" onclick="viewDetail(\'4\')">查看详情</span></p>\n' +
-    //       '          </div>';
-    //     _hdb.html(html);
-    //     break;
-    //   default:
-    //     return '';
-    // }
+    var html = '', htmlRefundDetail = '', refundContent = '';
 
     console.log(index)
     $.ajax({
@@ -295,19 +182,43 @@
         console.log(data);
         if(data.code === 0){
           data.data.content.map(function (obj) {
-            console.log(obj.order_status);
+            // console.log(obj.order_status);
+            // console.log(obj.refund_status);
             if(obj.refund_status === 'refund_close'){
               obj.refund_status = '退款关闭';
+              refundContent = `<em class="gray">退款关闭</em>`;
             }else if(obj.refund_status === 'refund_ing'){
               obj.refund_status = '退款中';
+              refundContent = `<em class="orange">退款中</em>`;
             }else if(obj.refund_status === 'refund_success'){
               obj.refund_status = '退款成功';
+              refundContent = `<em class="orange">退款成功</em>`;
             }else{
               obj.refund_status = '';
             }
             switch (obj.order_status) {
               case 'wait_reservation':
-                html += `<div class="myorder-item">
+                htmlRefundDetail = `<div class="myorder-item">
+                           <ul class="con" onclick="viewRefundDetail('${obj.pay_code}')">
+                             <li><label>服务类型</label><span>${obj.service_meal}</span>${refundContent}</li>
+                             <li><label>服务价格</label><span>${obj.service_price}</span></li>
+                             <li><label>下单时间</label><span>${obj.order_time}</span></li>
+                           </ul>
+                           <p class="lineBg"></p>
+                           <p class="order-btn-box"><span class="btn" onclick="viewRefundDetail('${obj.pay_code}')">查看详情</span></p>
+                         </div>`;
+                switch (obj.refund_status) {
+                  case '退款中':
+                    html += htmlRefundDetail;
+                    break;
+                  case '退款成功':
+                    html += htmlRefundDetail;
+                    break;
+                  case '退款关闭':
+                    html += htmlRefundDetail;
+                    break;
+                  default:
+                    html += `<div class="myorder-item">
                            <ul class="con" onclick="orderDetail(0, '${obj.pay_code}')">
                              <li><label>服务类型</label><span>${obj.service_meal}</span><em>待预约</em></li>
                              <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
@@ -316,6 +227,8 @@
                            <p class="lineBg"></p>
                            <p class="order-btn-box"><span class="btn" onclick="appointOrder('预约陪诊1', '${obj.pay_code}', '${obj.service_price}')">预约陪诊</span></p>
                          </div>`;
+                    break;
+                }
                 _hdb.html(html);
                 break;
               case 'reservation':
@@ -358,7 +271,27 @@
                 _hdb.html(html);
                 break;
               case 'close':
-                html += `<div class="myorder-item">
+                htmlRefundDetail = `<div class="myorder-item">
+                           <ul class="con" onclick="viewRefundDetail('${obj.pay_code}')">
+                             <li><label>服务类型</label><span>${obj.service_meal}</span>${refundContent}</li>
+                             <li><label>服务价格</label><span>${obj.service_price}</span></li>
+                             <li><label>下单时间</label><span>${obj.order_time}</span></li>
+                           </ul>
+                           <p class="lineBg"></p>
+                           <p class="order-btn-box"><span class="btn" onclick="viewRefundDetail('${obj.pay_code}')">查看详情</span></p>
+                         </div>`;
+                switch (obj.refund_status) {
+                  case '退款中':
+                    html += htmlRefundDetail;
+                    break;
+                  case '退款成功':
+                    html += htmlRefundDetail;
+                    break;
+                  case '退款关闭':
+                    html += htmlRefundDetail;
+                    break;
+                  default:
+                    html += `<div class="myorder-item">
                            <ul class="con" onclick="orderDetail(4, '${obj.pay_code}')">
                              <li><label>服务类型</label><span>${obj.service_meal}</span><em>已关闭</em></li>
                              <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
@@ -367,13 +300,14 @@
                            <p class="lineBg"></p>
                            <p class="order-btn-box"><span class="btn" onclick="viewDetail('4', '${obj.pay_code}')">查看详情</span></p>
                          </div>`;
+                    break;
+                }
                 _hdb.html(html);
                 break;
               default:
                 break;
             }
           })
-
         }
       },
       error: function (err) {
@@ -457,7 +391,12 @@
   //查看详情
   function viewDetail(index, payCode) {
     console.log(index);
-    window.location.href = 'orderDetail.html?type='+index+'&status=1'+'&pay_code='+payCode;
+    window.location.href = 'orderDetail.html?pay_code='+payCode;
+  }
+
+  //查看退款详情
+  function viewRefundDetail(payCode) {
+    window.location.href = 'refundDetail.html?pay_code='+payCode;
   }
 
   //预约陪诊
@@ -469,18 +408,18 @@
   //服务评价
   function servicesEvaluate(index, id) {
     console.log(index, id);
-    window.location.href = 'comment.html?type='+index+'&reservation_id='+id;
+    window.location.href = 'comment.html?reservation_id='+id;
   }
 
   //查看评价
   function viewCommentDetail(index, payCode) {
     console.log(index);
-    window.location.href = 'commentDetail.html?type='+index+'reservation_id='+payCode;
+    window.location.href = 'commentDetail.html?reservation_id='+payCode;
   }
 
   //订单详情各页面
   function orderDetail(index, payCode) {
-    window.location.href = 'orderDetail.html?type='+index+'&pay_code='+payCode;
+    window.location.href = 'orderDetail.html?pay_code='+payCode;
     console.log(index);
   }
 </script>

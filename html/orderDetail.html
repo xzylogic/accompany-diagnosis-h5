@@ -167,22 +167,22 @@
           if(data.code === 0){
             ajaxbg.hide();
             console.log(data);
-            var datas = data.data, datasDetails = datas.reservation_detail, datasDetail = datasDetails.accompany_info_dto || '', refundDetail = datas.refundment_detail;
+            var datas = data.data, datasDetails = datas.reservation_detail || '', datasDetail = (datasDetails && datasDetails.accompany_info_dto) || '', refundDetail = datas.refundment_detail;
             var html = '', btnHtml = '';
-            reservation_id = datasDetails.id;
+            reservation_id = (datasDetails && datasDetails.id) || '';
 
             var content1 = `<div class="detail-content">
                 <div class="user-mes-box state3-user-mes">
                   <span class="pic"><img src="../custom/images/head_bg.png"></span>
                   <div class="con1">
-                    <h5><span class="name">${datasDetails.patient_name}</span><span>${datasDetails.patient_mobile}</span></h5>
+                    <h5><span class="name">${datasDetails.patient_name || ''}</span><span>${datasDetails.patient_mobile || ''}</span></h5>
                     <p class="p1">${datasDetail.organization || ''}</p>
                     <p class="border-top-dashed not-state3"></p>
-                    <p class="p2 not-state3"><label>陪诊时间</label><span>${datasDetails.acc_date}</span></p>
+                    <p class="p2 not-state3"><label>陪诊时间</label><span>${datasDetails.acc_date || ''}</span></p>
                   </div>
                   <div class="con2">
                     <p class="border-top-dashed"></p>
-                    <p class="p2"><label>陪诊时间</label><span>${datasDetails.acc_date}</span></p>
+                    <p class="p2"><label>陪诊时间</label><span>${datasDetails.acc_date || ''}</span></p>
                     <p class="p2 p3"><label>陪诊记录</label><span>${datasDetail.acc_record || ''}</span></p>
                   </div>
                 </div>
@@ -196,16 +196,16 @@
                 <div class="orderDetail">
                   <p class="lineBg"></p>
                   <ul class="mes-list mes-list-width datasDetails">
-                      <li><label>预约单号</label><span>${datasDetails.reservation_code}</span></li>
-                      <li><label>就诊人</label><span>${datasDetails.consult_person}</span></li>
-                      <li><label>就诊人姓名</label><span>${datasDetails.patient_name}</span></li>
-                      <li><label>就诊人手机号</label><span>${datasDetails.patient_mobile}</span></li>
-                      <li><label>预约陪诊医院</label><span>${datasDetails.hospital_name}</span></li>
-                      <li><label>预约门诊类型</label><span>${datasDetails.outpatient_type}</span></li>
-                      <li><label>预约就诊科室</label><span>${datasDetails.department}</span></li>
-                      <li><label>预约专家姓名</label><span>${datasDetails.expert_name}</span></li>
-                      <li><label>预约陪诊时间</label><span>${datasDetails.acc_date}</span></li>
-                      <li><label>预约提交时间</label><span>${datasDetails.reservation_time}</span></li>
+                      <li><label>预约单号</label><span>${datasDetails.reservation_code || ''}</span></li>
+                      <li><label>就诊人</label><span>${datasDetails.consult_person || ''}</span></li>
+                      <li><label>就诊人姓名</label><span>${datasDetails.patient_name || ''}</span></li>
+                      <li><label>就诊人手机号</label><span>${datasDetails.patient_mobile || ''}</span></li>
+                      <li><label>预约陪诊医院</label><span>${datasDetails.hospital_name || ''}</span></li>
+                      <li><label>预约门诊类型</label><span>${datasDetails.outpatient_type || ''}</span></li>
+                      <li><label>预约就诊科室</label><span>${datasDetails.department || ''}</span></li>
+                      <li><label>预约专家姓名</label><span>${datasDetails.expert_name || ''}</span></li>
+                      <li><label>预约陪诊时间</label><span>${datasDetails.acc_date || ''}</span></li>
+                      <li><label>预约提交时间</label><span>${datasDetails.reservation_time || ''}</span></li>
                   </ul>
                 </div>
                 <p class="lineBg"></p>
@@ -240,7 +240,7 @@
                 $('.custom-btm-fixed').html(btnHtml);
                 // $('.state1, .btn2').css({'display': 'block'});
                 $('.btn2').click(function () {
-                  window.location.href = `appointment.html?pay_amount=${datas.service_price}&pay_code=${datasDetails.pay_code}`;
+                  window.location.href = `appointment.html?pay_amount=${datas.service_price}&pay_code=${datas.pay_code}`;
                 });
                 break;
               case 'reservation':

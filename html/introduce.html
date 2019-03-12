@@ -83,7 +83,8 @@
   <script>
     $.toast.prototype.defaults.duration = 800;
 
-    window.onload = function () {
+    document.addEventListener('DOMContentLoaded', function () {
+      alert('123')
       $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
         '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
       var ajaxbg = $("#background, #progressBar");
@@ -126,6 +127,7 @@
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function(data){
+          alert(JSON.stringify(data.data));
           ajaxbg.hide();
           var tokenData = data.data;
           // console.log(data);
@@ -151,7 +153,9 @@
           console.log(err);
         }
       });
-    }
+    })
+
+
 
 
     function show(obj, id) {

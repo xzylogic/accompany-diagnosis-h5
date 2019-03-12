@@ -158,7 +158,7 @@
     let _hdb = $('.have-data-box');
     $(func).addClass('active');
     _hdb.empty();
-    var html = '', htmlRefundDetail = '', refundContent = '';
+    var html = '', htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
 
     console.log(index)
     $.ajax({
@@ -187,12 +187,18 @@
             if(obj.refund_status === 'refund_close'){
               obj.refund_status = '退款关闭';
               refundContent = `<em class="gray">退款关闭</em>`;
+              refundStatus = '<em class="gray">已关闭</em>';
+              refundBtn = `<span class="btn" onclick="viewRefundDetail('${obj.pay_code}')">查看详情</span>`;
             }else if(obj.refund_status === 'refund_ing'){
               obj.refund_status = '退款中';
               refundContent = `<em class="orange">退款中</em>`;
+              refundStatus = '<em>待预约</em>';
+              refundBtn = `<span class="btn" onclick="appointBtn()">预约陪诊</span>`;
             }else if(obj.refund_status === 'refund_success'){
               obj.refund_status = '退款成功';
               refundContent = `<em class="orange">退款成功</em>`;
+              refundStatus = '<em class="gray">已关闭</em>';
+              refundBtn = `<span class="btn" onclick="viewRefundDetail('${obj.pay_code}')">查看详情</span>`;
             }else{
               obj.refund_status = '';
             }
@@ -200,12 +206,12 @@
               case 'wait_reservation':
                 htmlRefundDetail = `<div class="myorder-item">
                            <ul class="con" onclick="viewRefundDetail('${obj.pay_code}')">
-                             <li><label>服务类型</label><span>${obj.service_meal}</span>${refundContent}</li>
-                             <li><label>服务价格</label><span>${obj.service_price}</span></li>
+                             <li><label>服务类型</label><span>${obj.service_meal}</span>${refundStatus}</li>
+                             <li><label>服务价格</label><span>${obj.service_price}</span>${refundContent}</li>
                              <li><label>下单时间</label><span>${obj.order_time}</span></li>
                            </ul>
                            <p class="lineBg"></p>
-                           <p class="order-btn-box"><span class="btn" onclick="viewRefundDetail('${obj.pay_code}')">查看详情</span></p>
+                           <p class="order-btn-box">${refundBtn}</p>
                          </div>`;
                 switch (obj.refund_status) {
                   case '退款中':
@@ -249,7 +255,7 @@
                 if(obj.estimate_status === '0'){
                   html += `<div class="myorder-item">
                            <ul class="con" onclick="orderDetail(2, '${obj.pay_code}')">
-                             <li><label>服务类型</label><span>${obj.service_meal}</span><em>已完成</em></li>
+                             <li><label>服务类型</label><span>${obj.service_meal}</span><em class="gray">已完成</em></li>
                              <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
                              <li><label>下单时间</label><span>${obj.order_time}</span></li>
                            </ul>
@@ -259,7 +265,7 @@
                 }else if(obj.estimate_status === '1'){
                   html += `<div class="myorder-item">
                            <ul class="con" onclick="orderDetail(3, '${obj.pay_code}')">
-                             <li><label>服务类型</label><span>${obj.service_meal}</span><em>已完成</em></li>
+                             <li><label>服务类型</label><span>${obj.service_meal}</span><em class="gray">已完成</em></li>
                              <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
                              <li><label>下单时间</label><span>${obj.order_time}</span></li>
                            </ul>
@@ -292,7 +298,7 @@
                   default:
                     html += `<div class="myorder-item">
                            <ul class="con" onclick="orderDetail(4, '${obj.pay_code}')">
-                             <li><label>服务类型</label><span>${obj.service_meal}</span><em>已关闭</em></li>
+                             <li><label>服务类型</label><span>${obj.service_meal}</span><em class="gray">已关闭</em></li>
                              <li><label>服务价格</label><span>${obj.service_price}</span><em class="orange">${obj.refund_status}</em></li>
                              <li><label>下单时间</label><span>${obj.order_time}</span></li>
                            </ul>
@@ -408,6 +414,12 @@
     console.log(index);
     window.location.href = `appointment.html?pay_amount=${price}&pay_code=${payCode}`;
   }
+
+  // 退款中的预约陪诊按钮提示功能
+  function appointBtn() {
+    $.toptip('该订单正在申请退款中，暂不能预约，请先撤销申请', 2000, 'error');
+  }
+
 
   //服务评价
   function servicesEvaluate(index, id) {

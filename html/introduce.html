@@ -73,6 +73,7 @@
       </div>
     </div>
   </div>
+  <a class="myOrderList" href="myorderList.html" style="position: fixed;z-index: 11;font-size: 15px;width: 40px;height: 40px;line-height: 20px;border-radius: 25px;bottom: 10%;right: 10%;background: lightblue;opacity: 0.9;text-align: center;padding: 5px;">我的订单</a>
   <script type="text/javascript" src="../lib/js/flexible.js"></script>
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
@@ -89,24 +90,24 @@
       var ajaxbg = $("#background, #progressBar");
       //订单详情页：myorderList.
 
-      setTimeout(function () {
-        NativeFunc({
-          ACTION: "RIGHTBTN",
-          PARAM:{
-            BTNS:[
-              {
-                ICON:"1.png",
-                ICONS:"1.png",
-                EVENT:"SEARCH"
-              },
-              {
-                ICON:"2.png",
-                EVENT:"DADAD",
-              }
-            ]
-          }
-        });
-      }, 200);
+      // setTimeout(function () {
+      //   NativeFunc({
+      //     ACTION: "RIGHTBTN",
+      //     PARAM:{
+      //       BTNS:[
+      //         {
+      //           ICON:"1.png",
+      //           ICONS:"1.png",
+      //           EVENT:"SEARCH"
+      //         },
+      //         {
+      //           ICON:"2.png",
+      //           EVENT:"DADAD",
+      //         }
+      //       ]
+      //     }
+      //   });
+      // }, 200);
 
       var pageData = {
         netToken: '',

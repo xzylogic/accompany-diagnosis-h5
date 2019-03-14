@@ -38,6 +38,11 @@ var net = {
   scheduleTime: netRoot + 'adScheduleTime',  //预约陪诊时间
   adOrderRefundment: netRoot + 'adOrderRefundment',  //退款
   adRescindRefundment: netRoot + 'adRescindRefundment',  //撤销申请退款
+  adGetSdkPayParams: netRoot + 'adGetSdkPayParams',  //获取SDK支付参数
+
+  //商城支付接口
+  createPay: netRoot + 'createPay',  //获取订单id
+  payAgent: netRoot + 'payAgent',  //统一支付
 
   scanConsume: ajaxRoot + 'pay-agency-api/wdepay/scanConsume',  //支付
   userGetTokenByAuthCode: ajaxRoot + 'userGetTokenByAuthCode',//根据code换token

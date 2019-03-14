@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="format-detection" content="telephone=no">
   <title>支付订单</title>
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
@@ -17,7 +18,7 @@
         </div>
         <p class="lineBg"></p>
         <div class="total-box">
-            <h3>¥398.00</h3>
+            <h3>¥<em>398.00</em></h3>
             <p>全程陪诊服务套餐<span>¥398.00/次</span></p>
         </div>
         <p class="lineBg"></p>
@@ -28,7 +29,7 @@
               <img src="../custom/images/apliy.png">
               <span>支付宝支付</span>
               <label class="custom_check_label">
-                  <input type="radio" name="pay" id="radio1" value="1" hidden />
+                  <input type="radio" name="pay" id="radio1" value="1" hidden checked/>
                   <label for="radio1" class="icon-check"></label>
               </label>
             </li>
@@ -78,19 +79,25 @@
     });
 
     $(function () {
+      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+      var ajaxbg = $("#background, #progressBar");
+
       var netToken = localStorage.getItem('netToken');
       var channelCode= localStorage.getItem('channelCode');
       var lightAppCode=localStorage.getItem('lightAppCode');
+      var appid=localStorage.getItem('appid');
       var uid= localStorage.getItem('uid');
       //订单金额和订单id
       var order_code=getParams("order_code"),
-          service_meal = getParams('service_meal'),
+          service_meal = decodeURIComponent(getParams('service_meal')),
           biz_id = getParams('biz_id'),
-          biz_name = getParams('biz_name'),
+          biz_name = decodeURIComponent(getParams('biz_name')),
           pay_amount=getParams("pay_amount");
       // var pay_amount=decodeURIComponent(getParams("pay_amount"));
       console.log(order_code, '----------',pay_amount);
-      $(".total-box span").html(pay_amount+'/次');
+      $(".total-box em:eq(0)").text(pay_amount);
+      $(".total-box span:eq(0)").html('¥'+pay_amount+'/次');
       // $(".total-box span").html("￥"+pay_amount);
       var newTab;
       //操作系统
@@ -112,7 +119,7 @@
       //   $("#alipay label")[0].removeClass("checkRadio");
       // })
       //支付
-      var checkedWay;
+      var checkedWay = '';
       $(".custom-btm-btn").on("click",function (){
         if($('#radio1').is(':checked')){
           console.log(1);
@@ -129,59 +136,150 @@
         // }else if($("#wechat label").hasClass("checkRadio")){
         //   checkedWay="wechat"
         // }
-        //请求统一支付
-        newTab=window.open();
-        try {
-          $.ajax({
-            url:net.scanConsume,
-            type:"post",
-            contentType: 'application/json',
-            beforeSend: function(request) {
-              request.setRequestHeader("token",netToken);
-              request.setRequestHeader("channelCode",channelCode);
-              request.setRequestHeader("lightAppCode",lightAppCode);
-              request.setRequestHeader('appid', localStorage.getItem('appid'));
-              request.setRequestHeader('timestamp', new Date().getTime());
-              // request.setRequestHeader("uid",uid);
-            },
-            data:JSON.stringify({
-              "amount":pay_amount,
-              "payType":checkedWay,
-              "merchantId":biz_id,//待定字段商户ID
-              "businessNo":order_code,//待定字段业务单号
-              "uid":uid,
-              "clientIp":returnCitySN.cip,
-              "os": os,
-              "merchantName": service_meal,//待定字段
-              "subject":service_meal,//待定字段
-              "orderDesc":service_meal,//待定字段
-              "orderItemDesc":service_meal//待定字段
 
-            }),
-            success:function(data){
-              if(data.code===0){
-                console.log(data);
-                newTab.document.write(data.data);
-              }else if(data.code===12){
-                $.toast("账户在其他设备登录,请重新登录", 'forbidden');
-                // $(".mytip").html("账户在其他设备登录,请重新登录");
+        //调接口创建支付信息
+        // showMyloading();
+        // newTab=window.open();
+        // console.log(newTab)
+        var createPayResponse;
+
+
+        var Pro = function () {
+          alert(1)
+          return new Promise(function (resolve, reject) {
+            $.ajax({
+              url:net.adGetSdkPayParams,
+              type:"post",
+              async:false,
+              timeout: 6000,
+              data:JSON.stringify({
+                "amount": (Number(getParams(pay_amount)).toFixed(2))*100,
+                "business_no": order_code,
+                "biz_name": biz_name,
+                "order_name": service_meal,
+                "os": os,
+                "uid": uid,
+                "biz_id": biz_id,
+                "pay_channel": checkedWay,
+              }),
+              contentType: 'application/json; charset=utf-8',
+              beforeSend: function(request) {
+                ajaxbg.show();
+                request.setRequestHeader("token",netToken);
+                request.setRequestHeader("channelCode",channelCode);
+                request.setRequestHeader("lightAppCode",lightAppCode);
+                request.setRequestHeader("appid",appid);
+                request.setRequestHeader('timestamp', new Date().getTime());
+              },
+              success:function(firstData){
+                ajaxbg.hide();
+                alert(firstData)
+                console.log(firstData);
+                firstData = JSON.parse(firstData);
+                console.log(firstData);
+                if(firstData.code === 0){
+                  createPayResponse = firstData;
+                  resolve(firstData);
+                }else{
+                  // $(".mytip").html(data.msg||"创建支付信息接口出错");
+                  $.toast(firstData.msg || "创建支付信息接口出错", 'forbidden');
+                  // showMyTip();
+                }
+                // hideMyloading();
+              },
+              error:function(error){
                 // showMyTip();
-              }else{
-                $.toast(data.msg||"跳转支付失败", 'forbidden');
-                // $(".mytip").html(data.msg||"跳转支付失败");
+                // hideMyloading();
+                ajaxbg.hide();
+                reject('请求错误');
+              }
+            });
+          })
+        };
+
+        var scanConsumeResponse;
+        Pro().then(function (firData) {
+          alert(2)
+
+          var secData = firData.data;
+          console.log(firData);
+          try {
+            $.ajax({
+              url:net.payAgent,
+              type:"post",
+              timeout: 6000,
+              beforeSend: function(request) {
+                ajaxbg.show();
+                request.setRequestHeader("token",netToken);
+                request.setRequestHeader("channelCode",channelCode);
+                request.setRequestHeader("lightAppCode",lightAppCode);
+                request.setRequestHeader('appid', localStorage.getItem('appid'));
+                request.setRequestHeader('timestamp', new Date().getTime());
+                // request.setRequestHeader("uid",uid);
+              },
+              data:JSON.stringify({
+                "amount":pay_amount,
+                "payType":checkedWay,
+                "merchantId":biz_id,//待定字段商户ID
+                "businessNo":order_code,//待定字段业务单号
+                "uid":uid,
+                "clientIp":returnCitySN.cip,
+                "os": os,
+                "merchantName": secData.subject,//待定字段测试商户
+                "subject":service_meal,//待定字段订单名称
+                "orderDesc":secData.body,//待定字段订单描述
+                "orderItemDesc":secData.description//待定字段商品描述
+
+              }),
+              contentType: 'application/json; charset=utf-8',
+              success:function(data){
+                ajaxbg.hide();
+                alert(data)
+                if(data.code === 0){
+                  scanConsumeResponse = data;
+                }else if(data.code === 12){
+                  $.toast("账户在其他设备登录,请重新登录", 'forbidden');
+                  // $(".mytip").html("账户在其他设备登录,请重新登录");
+                  // showMyTip();
+                }else{
+                  $.toast(data.msg||"跳转支付失败", 'forbidden');
+                  // $(".mytip").html(data.msg||"跳转支付失败");
+                  // showMyTip();
+                }
+              },
+              error:function(error){
+                ajaxbg.hide();
+                console.log(error)
                 // showMyTip();
               }
-            },
-            error:function(error){
-              console.log(error)
-              // showMyTip();
-            }
-          })
-        } catch (e) {
-          // hideMyloading();
-          // showMyTip();
-          console.log(e);
-        }
+            })
+          } catch (e) {
+            // hideMyloading();
+            // showMyTip();
+            console.log(e);
+          }
+
+          if(scanConsumeResponse && scanConsumeResponse.code === 0){
+            newTab=window.open();
+            newTab.document.write(scanConsumeResponse.data);
+          }
+
+
+          // if(data.code === 0){
+          //   scanConsumeResponse = data;
+          // }else if(data.code === 12){
+          //   $.toast("账户在其他设备登录,请重新登录", 'forbidden');
+          //   // $(".mytip").html("账户在其他设备登录,请重新登录");
+          //   // showMyTip();
+          // }else{
+          //   $.toast(data.msg||"跳转支付失败", 'forbidden');
+          //   // $(".mytip").html(data.msg||"跳转支付失败");
+          //   // showMyTip();
+          // }
+        });
+
+
+
 
       })
 

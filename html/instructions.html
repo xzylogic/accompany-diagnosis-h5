@@ -36,9 +36,19 @@
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/net.js"></script>
+  <script src="../custom/js/native.js"></script>
 
   <script>
     window.onload = function() {
+      // setTimeout(function () {
+      //   NativeFunc({
+      //     ACTION: "CLOSEPAGE",
+      //     PARAM: {
+      //       INDEX: 1
+      //     }
+      //   });
+      // }, 50);
+
       $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
         '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
       var ajaxbg = $("#background, #progressBar");

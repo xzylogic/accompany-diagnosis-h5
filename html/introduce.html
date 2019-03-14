@@ -67,13 +67,13 @@
       <div class="popup-con popup-con-middle">
         <h2 class="popup-title">确认购买</h2>
         <div class="popup-txt" style="padding-top: 0;color: #666;">
-          您是否确认购买服务<br>全程陪诊套餐 ¥398/次
+          您是否确认购买服务<br><span>全程陪诊套餐 ¥398/次</span>
         </div>
         <div class="popup-btmbtn"><span class="gray">取消</span><span class="ok">确认</span></div>
       </div>
     </div>
   </div>
-  <a class="myOrderList" href="myorderList.html" style="position: fixed;z-index: 11;font-size: 15px;width: 40px;height: 40px;line-height: 20px;border-radius: 25px;bottom: 10%;right: 10%;background: lightblue;opacity: 0.9;text-align: center;padding: 5px;">我的订单</a>
+  <img src="../custom/images/order@3x.png" onclick="turnList()" style="position: fixed;z-index: 11;font-size: 15px;width: 40px;height: 40px;line-height: 20px;border-radius: 25px;bottom: 10%;right: 10%;background: lightblue;opacity: 0.9;text-align: center;padding: 5px;">我的订单</a>
   <script type="text/javascript" src="../lib/js/flexible.js"></script>
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
@@ -83,11 +83,15 @@
 
   <script>
     $.toast.prototype.defaults.duration = 800;
+    $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
+      '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
+    var ajaxbg = $("#background, #progressBar");
+
+    function turnList(){
+      window.location.href = 'myorderList.html';
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
-      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
-        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
-      var ajaxbg = $("#background, #progressBar");
       //订单详情页：myorderList.
 
       // setTimeout(function () {
@@ -160,20 +164,22 @@
 
 
 
+    var status;
     function show(obj, id) {
-        $('.mytab li span').removeClass('active');
-        $(obj).addClass('active');
+      $('.mytab li span').removeClass('active');
+      $(obj).addClass('active');
 
-        $('.tabContent').hide();
-        $('#content'+id).show();
-      }
+      $('.tabContent').hide();
+      $('#content'+id).show();
+      status = id;
+    }
 
     function serviceNotice(){
       window.location.href = 'instructions.html';
     }
 
     // $('.name span:eq(0)').click(function () {
-    //   const _radio5 = $('#radio5').prop('checked');
+    //   var _radio5 = $('#radio5').prop('checked');
     //   if(_radio5){
     //     $('.custom-btm-btn').css({'background': '#0CB7F5'});
     //   }else{
@@ -184,8 +190,10 @@
     $('.custom-btm-btn').click(function (e) {
       e.preventDefault();
       e.stopPropagation();
-      const _radio5 = $('#radio5').prop('checked');
+      var _radio5 = $('#radio5').prop('checked');
       if(_radio5){
+        console.log(status , typeof status)
+        status === '2' ? $('.popup-txt span').text('简易陪诊套餐 ¥98/次') : $('.popup-txt span').text('全程陪诊套餐 ¥398/次');
         $('.popup-wrap').css({'display': 'block'});
         $('.gray').click(function () {
           $('.popup-wrap').css({'display': 'none'});
@@ -197,9 +205,6 @@
     })
 
     $('.ok').click(function () {
-      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
-        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
-      var ajaxbg = $("#background, #progressBar");
       var totalFee;
       $('.popup-wrap').css({'display': 'none'});
       if($('.mytab li span:eq(0)').hasClass('active')){
@@ -250,11 +255,11 @@
       });
     })
 
-    let oTop = $(".active").offset().top;
+    var oTop = $(".active").offset().top;
     //获取切换栏的高度，此高度用于保证内容的平滑过渡
-    let martop = $('.active').outerHeight();
+    var martop = $('.active').outerHeight();
 
-    let sTop = 0;
+    var sTop = 0;
     // 监听页面的滚动
     $('.scroll-wrap').scroll(function () {
       // 获取页面向上滚动的距离
@@ -262,7 +267,7 @@
       // 当切换栏到达屏幕顶端
       if (sTop >= oTop) {
         // 修改切换栏position属性，使之固定在屏幕顶端
-        $(".mytab").css({ "position": "fixed", "top": "0", 'box-shadow': '0 1px 0 0 #DDDDDD', 'width': '100%', 'z-index': '100'});
+        $(".mytab").css({ "position": "fixed", "top": "0", 'box-shadow': '0 1px 0 0 #DDDDDD', 'width': '100%', 'z-index': '100', 'background': 'white'});
         // 修改内容的margin-top值，保证平滑过渡
         $(".tabContent").css({ "margin-top": martop });
       } else {

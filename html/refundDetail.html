@@ -132,40 +132,37 @@
     });
 
     function cancelRes(refund_code){
-      console.log('撤销申请');
-      $.ajax({
-        type: "POST",
-        url: net.adRescindRefundment+'?refund_code='+refund_code,
-        beforeSend: function(request) {
-          request.setRequestHeader('token', localStorage.getItem('netToken'));
-          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-          request.setRequestHeader('appid', localStorage.getItem('appid'));
-          request.setRequestHeader('timestamp', new Date().getTime());
-        },
-        success: function(data){
-          console.log(data);
-          if(data.code === 0){
-            window.location.reload();
-          }
-        },
-        error: function (err) {
-          console.log(err)
-        }
-      });
-    }
-
-    $('.order-btn-box').click(function () {
       $.confirm("是否确认撤销本次退款申请？", function() {
         //点击确认后的回调函数
         $('.state1-con, .state1, .weui-dialog, .weui-mask').css({'display': 'none'});
         $('.state3-con, .state3').css({'display': 'block'});
+        console.log('撤销申请');
+        $.ajax({
+          type: "POST",
+          url: net.adRescindRefundment+'?refund_code='+refund_code,
+          beforeSend: function(request) {
+            request.setRequestHeader('token', localStorage.getItem('netToken'));
+            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+            request.setRequestHeader('appid', localStorage.getItem('appid'));
+            request.setRequestHeader('timestamp', new Date().getTime());
+          },
+          success: function(data){
+            console.log(data);
+            if(data.code === 0){
+              window.location.reload();
+            }
+          },
+          error: function (err) {
+            console.log(err)
+          }
+        });
       }, function() {
         console.log('取消');
         $('.weui-dialog, .weui-mask').css({'display': 'none'});
         //点击取消后的回调函数
       });
-    })
+    }
   </script>
 </body>
 </html>

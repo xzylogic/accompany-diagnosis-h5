@@ -73,7 +73,7 @@
       </div>
     </div>
   </div>
-  <img src="../custom/images/order@3x.png" onclick="turnList()" style="position: fixed;z-index: 11;font-size: 15px;width: 40px;height: 40px;line-height: 20px;border-radius: 25px;bottom: 10%;right: 10%;background: lightblue;opacity: 0.9;text-align: center;padding: 5px;">我的订单</a>
+  <a class="gotoList" href="myorderList.html">&nbsp;</a>
   <script type="text/javascript" src="../lib/js/flexible.js"></script>
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
@@ -86,10 +86,6 @@
     $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
       '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
     var ajaxbg = $("#background, #progressBar");
-
-    function turnList(){
-      window.location.href = 'myorderList.html';
-    }
 
     document.addEventListener('DOMContentLoaded', function () {
       //订单详情页：myorderList.

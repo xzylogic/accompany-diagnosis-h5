@@ -18,7 +18,7 @@
                   <label class="weui-label">就诊人</label>
                   <div class="weui-cell__bd custom-txt-right">
                     <label class="custom_check_label custom_check_slabel">
-                        <input type="radio" name="ifSelf" id="radio1" value="1" hidden />
+                        <input type="radio" name="ifSelf" id="radio1" value="1" hidden checked/>
                         <label for="radio1" class="icon-check"></label>
                         <span class="name">本人</span>
                     </label>&nbsp;&nbsp;&nbsp;
@@ -50,7 +50,7 @@
               <div class="weui-cell" onclick="searchHospital()">
                   <label class="weui-label">预约陪诊医院</label>
                   <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input am_hospital" disabled="disabled" placeholder="请选择" type="text" />
+                      <input class="weui-input am_hospital max-hei" disabled="disabled" placeholder="请选择" type="text" />
                   </div>
                   <span class="arrow-r"></span>
               </div>
@@ -58,7 +58,7 @@
                   <label class="weui-label">预约门诊类型</label>
                   <div class="weui-cell__bd custom-txt-right">
                     <label class="custom_check_label custom_check_slabel">
-                        <input type="radio" name="service" id="radio3" value="1" hidden />
+                        <input type="radio" name="service" id="radio3" value="1" hidden checked />
                         <label for="radio3" class="icon-check"></label>
                         <span class="name">普通门诊</span>
                     </label>&nbsp;&nbsp;&nbsp;
@@ -101,8 +101,9 @@
       <label class="custom_check_label custom_check_slabel">
         <input type="checkbox" name="" id="radio5" value="1" hidden />
         <label for="radio5" class="icon-check"></label>
-        <span class="name">我已阅读并同意<a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a></span>
+        <span class="name">我已阅读并同意</span>
       </label>
+      <a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a>
     </p>
     <span class="custom-btm-btn" id="order" onclick="order()">预约</span>
     <!--<span class="custom-btm-btn">保存</span>-->

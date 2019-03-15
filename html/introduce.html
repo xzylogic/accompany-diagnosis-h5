@@ -85,9 +85,7 @@
 
   <script>
     $.toast.prototype.defaults.duration = 800;
-    $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
-      '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
-    var ajaxbg = $("#background, #progressBar");
+
 
     document.addEventListener('DOMContentLoaded', function () {
       //订单详情页：myorderList.
@@ -119,7 +117,7 @@
       };
       var code = getParams('code');
 
-      showMyloading();;
+      showMyloading();
 
       $.ajax({
         type: "GET",
@@ -133,7 +131,7 @@
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function(data){
-          hideMyloading();;
+          hideMyloading();
           var tokenData = data.data;
           if(data.code === 0){
             localStorage.setItem('netToken', tokenData.token);
@@ -153,7 +151,7 @@
           }
         },
         error: function (err) {
-          hideMyloading();;
+          hideMyloading();
           console.log(err);
         }
       });
@@ -211,7 +209,7 @@
       var uid = localStorage.getItem('uid');
       var order_id;
       console.log(service_meal, 'uid', uid);
-      showMyloading();;
+      showMyloading();
       $.ajax({
         type: "POST",
         url: net.makeOrder,
@@ -242,10 +240,10 @@
           }else{
             console.log(data);
           }
-          hideMyloading();;
+          hideMyloading();
         },
         error: function (err) {
-          hideMyloading();;
+          hideMyloading();
           console.log(err)
         }
       });

@@ -15,7 +15,7 @@
         <div class="box">
             <img src="../custom/images/search.png" class="search-icon" />
             <input id="txt-search" type="search" autocomplete="off" placeholder="" />
-            <img class="clear-icon" src="../custom/images/close.png" />
+            <img class="clear-icon" src="../custom/images/close.png" style="display: none;"/>
         </div>
         <span id="search-cancel">取消</span>
     </div>
@@ -67,14 +67,18 @@
   <script>
     $('.clear-icon').click(function () {
       $('#txt-search').val('');
-      $('.history-content').css({'display': 'block'});
+      historyShow();
+      $(this).css({'display': 'none'});
       liClick();
     });
 
-    if(localStorage.getItem('historyItems')){
-      $('.history-content').css({'display': 'block'});
-    }else{
-      $('.history-content').css({'display': 'none'});
+    historyShow();
+    function historyShow() {
+      if(localStorage.getItem('historyItems')){
+        $('.history-content').css({'display': 'block'});
+      }else{
+        $('.history-content').css({'display': 'none'});
+      }
     }
 
     // 防抖实现
@@ -90,6 +94,7 @@
     }
 
     function searchHospitalName(){
+      $('.clear-icon').css({'display': 'block'});
       $('.custom-nodata').css({'display': 'none'});
       var kwName = $("#txt-search").val();
       $('.history-content').css({'display': 'none'});

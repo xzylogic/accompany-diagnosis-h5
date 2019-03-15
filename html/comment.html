@@ -69,9 +69,6 @@
     function evaluateSubmit() {
       var textVal = $('.weui-textarea').val();
       if(evalueteVal && textVal){
-        $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
-          '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
-        var ajaxbg = $("#background, #progressBar");
         var reservation_id = getParams('reservation_id') || getParams('pay_code');
         $.ajax({
           type: "POST",
@@ -83,7 +80,7 @@
           }),
           contentType: 'application/json; charset=utf-8',
           beforeSend: function(request) {
-            showMyloading();;
+            showMyloading();
             request.setRequestHeader('token', localStorage.getItem('netToken'));
             request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
             request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
@@ -91,7 +88,7 @@
             request.setRequestHeader('timestamp', new Date().getTime());
           },
           success: function(data){
-            hideMyloading();;
+            hideMyloading();
             if(data.code === 0){
               window.location.href = 'commentDetail.html?reservation_id='+reservation_id;
             }else{
@@ -99,7 +96,7 @@
             }
           },
           error: function (err) {
-            hideMyloading();;
+            hideMyloading();
             console.log(err)
           }
         });

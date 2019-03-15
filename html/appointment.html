@@ -176,15 +176,13 @@
     }else{
       $('.order_proName').css({'display': 'none'});
     }
-    $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
-      '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
-    var ajaxbg = $("#background, #progressBar");
+
     $.ajax({
       url: net.scheduleTime,
       type: "get",
       timeout: 6000,
       beforeSend: function(request) {
-        showMyloading();;
+        showMyloading();
         request.setRequestHeader('token', localStorage.getItem('netToken'));
         request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
         request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
@@ -193,7 +191,7 @@
       },
       success:function(data)
       {
-        hideMyloading();;
+        hideMyloading();
         if(data.code === 0){
           var time = [], timeDetail = [];
           data && data.data.map(function (val,i) {
@@ -236,7 +234,7 @@
         }
       },
       error:function(){
-        hideMyloading();;
+        hideMyloading();
         console.log('发送失败');
       }
     });
@@ -317,14 +315,14 @@
           pay_code: pay_code,
         })
       }
-      var ajaxbg = $("#background, #progressBar");
+
       $.ajax({
         type: "POST",
         url: net.saveAdReservation,
         data : data,
         contentType: 'application/json; charset=utf-8',
         beforeSend: function(request) {
-          showMyloading();;
+          showMyloading();
           request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
@@ -332,7 +330,7 @@
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function(data){
-          hideMyloading();;
+          hideMyloading();
           if(data.code === 0){
             console.log(data);
             window.location.href = 'orderSuccess.html?pay_code='+pay_code;
@@ -341,7 +339,7 @@
           }
         },
         error: function (err) {
-          hideMyloading();;
+          hideMyloading();
           console.log(err)
         }
       });

@@ -69,16 +69,12 @@
     //   }
     // })
 
+    $.toast.prototype.defaults.duration = 800;
 
-
-    $('.pay-way-list li:eq(0)').click(function (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    $('.pay-way-list li:eq(0)').click(function () {
       $('#radio1').prop('checked', true);
     });
-    $('.pay-way-list li:eq(1)').click(function (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    $('.pay-way-list li:eq(1)').click(function () {
       $('#radio2').prop('checked', true);
     });
 
@@ -142,8 +138,9 @@
           // window.location.href = 'payResult.html';
         }
         if(checkedWay === ""){
-          $(".mytip").html("请选择支付方式");
-          showMyTip();
+          // $(".mytip").html("请选择支付方式");
+          $.toast("请选择支付方式", 'forbidden');
+          // showMyTip();
           return;
         }
         // if($("#alipay label").hasClass("checkRadio")){
@@ -195,10 +192,10 @@
                   createPayResponse = firstData;
                   resolve(firstData);
                 }else{
-                  $(".mytip").html(data.msg||"创建支付信息接口出错");
-                  // $.toast(firstData.msg || "创建支付信息接口出错", 'forbidden');
                   //showMyTip();
                   hideMyloading();
+                  // $(".mytip").html(data.msg||"创建支付信息接口出错");
+                  $.toast(firstData.msg || "创建支付信息接口出错", 'forbidden');
                 }
                 // hideMyloading();
               },
@@ -246,7 +243,7 @@
               }),
               contentType: 'application/json; charset=utf-8',
               success:function(data){
-                // hideMyloading();
+                hideMyloading();
                 // alert(data)
                 if(data.code === 0){
                   scanConsumeResponse = data;
@@ -284,14 +281,13 @@
                 hideMyloading();
               },
               error:function(error){
-                // hideMyloading();
                 console.log(error)
                 //showMyTip();
                 hideMyloading();
               }
             })
           } catch (e) {
-            // hideMyloading();
+            hideMyloading();
             // showMyTip();
             console.log(e);
           }
@@ -301,18 +297,6 @@
             newTab.document.write(scanConsumeResponse.data);
           }
 
-
-          // if(data.code === 0){
-          //   scanConsumeResponse = data;
-          // }else if(data.code === 12){
-          //   $.toast("账户在其他设备登录,请重新登录", 'forbidden');
-          //   // $(".mytip").html("账户在其他设备登录,请重新登录");
-          //   // showMyTip();
-          // }else{
-          //   $.toast(data.msg||"跳转支付失败", 'forbidden');
-          //   // $(".mytip").html(data.msg||"跳转支付失败");
-          //   // showMyTip();
-          // }
         });
 
 

@@ -67,9 +67,9 @@
     var pay_code = getParams('pay_code'), price = getParams('apply_refundment_price'), meal = decodeURIComponent(getParams('meal')), time = decodeURIComponent(getParams('time'));
 
     $(function () {
-      var refundMes = `<p><label>服务类型</label><span>${meal}</span></p>
-            <p><label>服务价格</label><span>￥${price}/次</span></p>
-            <p><label>下单时间</label><span>${time}</span></p>`;
+      var refundMes = '<p><label>服务类型</label><span>'+ meal +'</span></p> ' +
+        '<p><label>服务价格</label><span>￥'+ price +'/次</span></p> ' +
+        '<p><label>下单时间</label><span>'+ time +'</span></p>';
       $('.refund-form-con1').html(refundMes);
     });
 

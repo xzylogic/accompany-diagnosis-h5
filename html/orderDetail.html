@@ -240,15 +240,16 @@
                 $('.user-mes-box').css({display: 'block'}).removeClass('state3-user-mes');
               }
               //取消陪诊弹出框
-              $('.btn1').click(function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
-                console.log('取消陪诊弹出框');
-                $('.cancel-reason').css({'display': 'block'});
-                $('.gray').click(function () {
-                  $('.popup-wrap').css({'display': 'none'});
-                });
+              $('.btn1').click(function () {
+                $.toast('请您先取消陪诊再申请退款～', 'forbidden');
+                // e.preventDefault();
+                // e.stopPropagation();
+                //
+                // console.log('取消陪诊弹出框');
+                // $('.cancel-reason').css({'display': 'block'});
+                // $('.gray').click(function () {
+                //   $('.popup-wrap').css({'display': 'none'});
+                // });
               });
               break;
             case 'complete':

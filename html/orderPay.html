@@ -150,7 +150,6 @@
         // }
 
         //调接口创建支付信息
-        showMyloading();
         // newTab=window.open();
         // console.log(newTab)
         var createPayResponse;
@@ -183,7 +182,6 @@
                 request.setRequestHeader('timestamp', new Date().getTime());
               },
               success:function(firstData){
-                hideMyloading();
                 // alert(firstData)
                 console.log(firstData);
                 firstData = JSON.parse(firstData);
@@ -191,6 +189,7 @@
                 if(firstData.code === 0){
                   createPayResponse = firstData;
                   resolve(firstData);
+                  hideMyloading();
                 }else{
                   //showMyTip();
                   hideMyloading();

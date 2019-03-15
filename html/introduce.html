@@ -34,7 +34,7 @@
               <li class="stepPic5">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
             </ul>
             <p class="price-box">
-              服务价格<em class="price1">￥598.00</em><span class="price2">￥<span>0.02.00</span></span><em class="stxt">/次</em>
+              服务价格<em class="price1">￥598.00</em><span class="price2">￥<span>0.02</span></span><em class="stxt">/次</em>
             </p>
           </div>
           <div class="tabContent" style="display:none;" id="content2">
@@ -45,7 +45,7 @@
               <li class="stepPic8">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
             </ul>
             <p class="price-box">
-              服务价格<em class="price1">￥138.00</em><span class="price2">￥<span>0.01.00</span></span><em class="stxt">/次</em>
+              服务价格<em class="price1">￥138.00</em><span class="price2">￥<span>0.01</span></span><em class="stxt">/次</em>
             </p>
           </div>
         </div>
@@ -239,7 +239,6 @@
                 pay_amount = datas.pay_amount,
                 biz_id = datas.biz_id,
                 biz_name = datas.biz_name;
-            window.location.href = './orderPay.html?order_code=${order_code}&service_meal=${service_meal}&pay_amount=${pay_amount}&biz_id=${biz_id}&biz_name=${biz_name}';
             window.location.href = './orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name;
           }else{
             console.log(data);

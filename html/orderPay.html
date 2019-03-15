@@ -14,12 +14,12 @@
 	<div class="container">
     <div class="order-pay-wrap">
         <div class="title-box">
-            1145687254778<br />上海健康云陪诊服务中心
+            <span>1145687254778</span><br /><span>上海健康云陪诊服务中心</span>
         </div>
         <p class="lineBg"></p>
         <div class="total-box">
-            <h3>¥<em>398.00</em></h3>
-            <p>全程陪诊服务套餐<span>¥398.00/次</span></p>
+            <h3>¥<em></em></h3>
+            <p><em>全程陪诊服务套餐</em><span></span></p>
         </div>
         <p class="lineBg"></p>
         <div class="pay-way">
@@ -54,6 +54,7 @@
   <script type="text/javascript" src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/native.js"></script>
+  <script src="../custom/js/common.js"></script>
   <script src="../custom/js/net.js"></script>
 
   <script>
@@ -67,6 +68,9 @@
     //     window.location.href = 'payResult.html';
     //   }
     // })
+
+
+
     $('.pay-way-list li:eq(0)').click(function (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -79,11 +83,18 @@
     });
 
     $(function () {
+      //click事件优化
+      FastClick.attach(document.body);
+
+      var requestUrl=nativeObj.htmlPath;
+      localStorage.setItem('requestUrl', requestUrl);
+      console.log(requestUrl);
       $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
         '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
       var ajaxbg = $("#background, #progressBar");
 
       var netToken = localStorage.getItem('netToken');
+          requestUrl= localStorage.getItem('requestUrl');
       var channelCode= localStorage.getItem('channelCode');
       var lightAppCode=localStorage.getItem('lightAppCode');
       var appid=localStorage.getItem('appid');
@@ -96,8 +107,11 @@
           pay_amount=getParams("pay_amount");
       // var pay_amount=decodeURIComponent(getParams("pay_amount"));
       console.log(order_code, '----------',pay_amount);
+      $(".title-box span:eq(0)").text(order_code);
+      $(".title-box span:eq(1)").text(biz_name);
       $(".total-box em:eq(0)").text(pay_amount);
-      $(".total-box span:eq(0)").html('¥'+pay_amount+'/次');
+      $(".total-box em:eq(1)").text(service_meal);
+      $(".total-box span:eq(0)").text('¥'+pay_amount+'/次');
       // $(".total-box span").html("￥"+pay_amount);
       var newTab;
       //操作系统
@@ -125,11 +139,15 @@
           console.log(1);
           checkedWay="alipay";
           // window.location.href = 'payResult.html';
-        }
-        if($('#radio2').is(':checked')){
+        }else if($('#radio2').is(':checked')){
           console.log(2);
           checkedWay="wechat";
           // window.location.href = 'payResult.html';
+        }
+        if(checkedWay === ""){
+          $(".mytip").html("请选择支付方式");
+          showMyTip();
+          return;
         }
         // if($("#alipay label").hasClass("checkRadio")){
         //   checkedWay="alipay"
@@ -138,14 +156,13 @@
         // }
 
         //调接口创建支付信息
-        // showMyloading();
+        showMyloading();
         // newTab=window.open();
         // console.log(newTab)
         var createPayResponse;
 
 
         var Pro = function () {
-          alert(1)
           return new Promise(function (resolve, reject) {
             $.ajax({
               url:net.adGetSdkPayParams,
@@ -164,7 +181,7 @@
               }),
               contentType: 'application/json; charset=utf-8',
               beforeSend: function(request) {
-                ajaxbg.show();
+                showMyloading();;
                 request.setRequestHeader("token",netToken);
                 request.setRequestHeader("channelCode",channelCode);
                 request.setRequestHeader("lightAppCode",lightAppCode);
@@ -172,8 +189,8 @@
                 request.setRequestHeader('timestamp', new Date().getTime());
               },
               success:function(firstData){
-                ajaxbg.hide();
-                alert(firstData)
+                hideMyloading();;
+                // alert(firstData)
                 console.log(firstData);
                 firstData = JSON.parse(firstData);
                 console.log(firstData);
@@ -181,16 +198,17 @@
                   createPayResponse = firstData;
                   resolve(firstData);
                 }else{
-                  // $(".mytip").html(data.msg||"创建支付信息接口出错");
-                  $.toast(firstData.msg || "创建支付信息接口出错", 'forbidden');
-                  // showMyTip();
+                  $(".mytip").html(data.msg||"创建支付信息接口出错");
+                  // $.toast(firstData.msg || "创建支付信息接口出错", 'forbidden');
+                  //showMyTip();
+                  hideMyloading();
                 }
                 // hideMyloading();
               },
               error:function(error){
-                // showMyTip();
-                // hideMyloading();
-                ajaxbg.hide();
+                //showMyTip();
+                hideMyloading();
+                // hideMyloading();;
                 reject('请求错误');
               }
             });
@@ -199,8 +217,6 @@
 
         var scanConsumeResponse;
         Pro().then(function (firData) {
-          alert(2)
-
           var secData = firData.data;
           console.log(firData);
           try {
@@ -209,7 +225,7 @@
               type:"post",
               timeout: 6000,
               beforeSend: function(request) {
-                ajaxbg.show();
+                // showMyloading();;
                 request.setRequestHeader("token",netToken);
                 request.setRequestHeader("channelCode",channelCode);
                 request.setRequestHeader("lightAppCode",lightAppCode);
@@ -218,7 +234,7 @@
                 // request.setRequestHeader("uid",uid);
               },
               data:JSON.stringify({
-                "amount":pay_amount,
+                "amount":((Number(pay_amount).toFixed(2))*100).toFixed(0),
                 "payType":checkedWay,
                 "merchantId":biz_id,//待定字段商户ID
                 "businessNo":order_code,//待定字段业务单号
@@ -233,24 +249,48 @@
               }),
               contentType: 'application/json; charset=utf-8',
               success:function(data){
-                ajaxbg.hide();
-                alert(data)
+                // hideMyloading();;
+                // alert(data)
                 if(data.code === 0){
                   scanConsumeResponse = data;
                 }else if(data.code === 12){
                   $.toast("账户在其他设备登录,请重新登录", 'forbidden');
                   // $(".mytip").html("账户在其他设备登录,请重新登录");
-                  // showMyTip();
+                  // //showMyTip();
                 }else{
                   $.toast(data.msg||"跳转支付失败", 'forbidden');
                   // $(".mytip").html(data.msg||"跳转支付失败");
-                  // showMyTip();
+                  // //showMyTip();
                 }
+
+                if(data.code === 0){
+                  // localStorage.setItem("businessNo",firstData.data);
+                  localStorage.setItem("businessNo", order_code);
+                  if(checkedWay === "alipay"){
+                    document.write(data.data);
+                  }else{
+                    localStorage.setItem("payRes",data.data);
+                    NativeFunc({
+                      ACTION: "OPENURL",
+                      PARAM: {
+                        URL: requestUrl +"/blank.html"
+                      }
+                    })
+                  }
+                }else if(data.code === 12){
+                  $(".mytip").html("账户在其他设备登录,请重新登录");
+                  //showMyTip();
+                }else{
+                  $(".mytip").html(data.msg||"跳转支付失败");
+                  //showMyTip();
+                }
+                hideMyloading();
               },
               error:function(error){
-                ajaxbg.hide();
+                // hideMyloading();;
                 console.log(error)
-                // showMyTip();
+                //showMyTip();
+                hideMyloading();
               }
             })
           } catch (e) {

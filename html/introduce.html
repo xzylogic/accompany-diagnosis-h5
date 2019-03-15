@@ -80,6 +80,7 @@
   <script type="text/javascript" src="../custom/js/native.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/net.js"></script>
+  <script src="../custom/js/common.js"></script>
 
   <script>
     $.toast.prototype.defaults.duration = 800;
@@ -117,12 +118,13 @@
       };
       var code = getParams('code');
 
+      showMyloading();;
+
       $.ajax({
         type: "GET",
         url: net.userGetTokenByAuthCode,
         data : {'authCode' : code},
         beforeSend: function(request) {
-          ajaxbg.show();
           request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
@@ -130,9 +132,8 @@
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function(data){
-          ajaxbg.hide();
+          hideMyloading();;
           var tokenData = data.data;
-          // console.log(data);
           if(data.code === 0){
             localStorage.setItem('netToken', tokenData.token);
             localStorage.setItem('uid', tokenData.uid);
@@ -151,14 +152,11 @@
           }
         },
         error: function (err) {
-          ajaxbg.hide();
+          hideMyloading();;
           console.log(err);
         }
       });
-    })
-
-
-
+    });
 
     var status;
     function show(obj, id) {
@@ -174,14 +172,14 @@
       window.location.href = 'instructions.html';
     }
 
-    // $('.name span:eq(0)').click(function () {
-    //   var _radio5 = $('#radio5').prop('checked');
-    //   if(_radio5){
-    //     $('.custom-btm-btn').css({'background': '#0CB7F5'});
-    //   }else{
-    //     $('.custom-btm-btn').css({'background': 'lightgray'});
-    //   }
-    // });
+    // // $('.name span:eq(0)').click(function () {
+    // //   var _radio5 = $('#radio5').prop('checked');
+    // //   if(_radio5){
+    // //     $('.custom-btm-btn').css({'background': '#0CB7F5'});
+    // //   }else{
+    // //     $('.custom-btm-btn').css({'background': 'lightgray'});
+    // //   }
+    // // });
 
     $('.custom-btm-btn').click(function (e) {
       e.preventDefault();
@@ -198,7 +196,7 @@
         console.log('请同意服务须知后购买');
         $.toast('请同意服务须知后购买', 'forbidden');
       }
-    })
+    });
 
     $('.ok').click(function () {
       var totalFee;
@@ -212,6 +210,7 @@
       var uid = localStorage.getItem('uid');
       var order_id;
       console.log(service_meal, 'uid', uid);
+      showMyloading();;
       $.ajax({
         type: "POST",
         url: net.makeOrder,
@@ -222,7 +221,6 @@
         }),
         contentType: 'application/json; charset=utf-8',
         beforeSend: function(request) {
-          ajaxbg.show();
           request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
@@ -232,20 +230,21 @@
         success: function(data){
           if(data.code === 0){
             var datas = data.data;
-            ajaxbg.hide();
             console.log(data);
             var order_code = datas.order_code,
                 service_meal = datas.service_meal,
                 pay_amount = datas.pay_amount,
                 biz_id = datas.biz_id,
                 biz_name = datas.biz_name;
-            window.location.href = `./orderPay.html?order_code=${order_code}&service_meal=${service_meal}&pay_amount=${pay_amount}&biz_id=${biz_id}&biz_name=${biz_name}`;
+            window.location.href = './orderPay.html?order_code=${order_code}&service_meal=${service_meal}&pay_amount=${pay_amount}&biz_id=${biz_id}&biz_name=${biz_name}';
+            window.location.href = './orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name;
           }else{
             console.log(data);
           }
+          hideMyloading();;
         },
         error: function (err) {
-          ajaxbg.hide();
+          hideMyloading();;
           console.log(err)
         }
       });

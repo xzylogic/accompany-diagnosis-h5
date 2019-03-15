@@ -24,7 +24,7 @@
         </div>
         <div class="box">
           <h2>服务流程</h2>
-          <ul class="mytab"><li><span class="active" onclick="show(this, 1);return false;">全程陪诊服务套餐</span></li><li><span onclick="show(this, 2);return false;">简易陪诊服务套餐</span></li></ul>
+          <ul class="mytab"><li><span class="serviceMeal active">全程陪诊服务套餐</span></li><li><span class="serviceMeal">简易陪诊服务套餐</span></li></ul>
           <div class="tabContent" style="display:block;" id="content1">
             <ul class="stepList">
               <li class="stepPic1">下单后，联系客户了解病情和就诊需求，嘱咐诊前注意事项。</li>
@@ -156,16 +156,19 @@
         }
       });
     });
-
     var status;
-    function show(obj, id) {
+    $('.serviceMeal').click(function () {
       $('.mytab li span').removeClass('active');
-      $(obj).addClass('active');
-
-      $('.tabContent').hide();
-      $('#content'+id).show();
-      status = id;
-    }
+      $(this).addClass('active');
+      console.log($(this).text)
+      if($(this).text() === '全程陪诊服务套餐'){
+        status = 1;
+        $('#content1').show();
+      }else{
+        status = 2;
+        $('#content2').show();
+      }
+    });
 
     function serviceNotice(){
       window.location.href = 'instructions.html';
@@ -180,21 +183,20 @@
     // //   }
     // // });
 
-    $('.custom-btm-btn').click(function (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    $('.custom-btm-btn').click(function () {
       var _radio5 = $('#radio5').prop('checked');
       if(_radio5){
         console.log(status , typeof status)
         status === '2' ? $('.popup-txt span').text('简易陪诊套餐 ¥98/次') : $('.popup-txt span').text('全程陪诊套餐 ¥398/次');
         $('.popup-wrap').css({'display': 'block'});
-        $('.gray').click(function () {
-          $('.popup-wrap').css({'display': 'none'});
-        });
       }else{
         console.log('请同意服务须知后购买');
         $.toast('请同意服务须知后购买', 'forbidden');
       }
+    });
+
+    $('.gray').click(function () {
+      $('.popup-wrap').css({'display': 'none'});
     });
 
     $('.ok').click(function () {

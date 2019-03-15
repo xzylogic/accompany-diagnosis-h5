@@ -178,27 +178,6 @@
     })
   }, 100);
 
-  var mescroll = new MeScroll("mescroll", {
-    up: {
-      callback: orderList, //上拉加载的回调
-    }
-  });
-
-  //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
-  // function upCallback(page) {
-  //   var pageIndex = page.num-1;
-  //   $.ajax({
-  //     url: net.orderList+'?num=' + pageIndex + "&size=" + page.size, //如何修改page.num从0开始 ?
-  //     success: function (curPageData) {
-  //       mescroll.endSuccess(curPageData.length, hasNext);
-  //     },
-  //     error: function(e) {
-  //       //联网失败的回调,隐藏下拉刷新和上拉加载的状态
-  //       mescroll.endErr();
-  //     }
-  //   })
-  // }
-
   var listStatus = '', _hdb = $('.have-data-box');
   $('.orderListData').on('click', function () {
     switch ($(this).text()) {
@@ -230,11 +209,29 @@
     orderList();
   });
 
-  orderList();
+  var mescroll = new MeScroll("mescroll", {
+    up: {
+      callback: orderList, //上拉加载的回调
+    }
+  });
 
-  // orderList('', '');
+  //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
+  // function upCallback(page) {
+  //   var pageIndex = page.num-1;
+  //   $.ajax({
+  //     url: net.orderList+'?num=' + pageIndex + "&size=" + page.size, //如何修改page.num从0开始 ?
+  //     success: function (curPageData) {
+  //       mescroll.endSuccess(curPageData.length, hasNext);
+  //     },
+  //     error: function(e) {
+  //       //联网失败的回调,隐藏下拉刷新和上拉加载的状态
+  //       mescroll.endErr();
+  //     }
+  //   })
+  // }
+
   function orderList(page) {
-    page = {num:1, size:10};
+    page = {num:1, size:3};
     var html = '', htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
     $('.custom-nodata').css({'display': 'none'});
     console.log(listStatus);
@@ -255,6 +252,7 @@
         request.setRequestHeader('timestamp', new Date().getTime());
       },
       success: function(data){
+        mescroll.endSuccess(data.length, data.data.more);
         hideMyloading();
         console.log(data);
         if(data.code === 0){

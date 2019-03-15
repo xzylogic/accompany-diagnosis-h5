@@ -20,7 +20,7 @@
         <span id="search-cancel">取消</span>
     </div>
     <!--历史记录-->
-    <div class="history-content" >
+    <div class="history-content">
         <div id="history-div">
             <p>历史搜索</p>
             <ul></ul>
@@ -28,15 +28,15 @@
         <div class="history-clear" onclick="clearHistory()">清空搜索记录</div>
     </div>
     <!--搜索无数据-->
-    <div class="custom-nodata" style="display:none;">
+    <div class="custom-nodata">
       <img src="../custom/images/nodata.png">
       <p>暂无相关信息</p>
     </div>
     <!--搜索有数据-->
-    <div class="havedata havedata-hospitals" style="display:block;">
-      <h4>相关医院</h4>
-      <p class="border-top"></p>
-      <ul>
+    <div class="havedata havedata-hospitals">
+      <!--<h4>相关医院</h4>-->
+      <!--<p class="border-top"></p>-->
+      <!--<ul>-->
         <!--<li>-->
             <!--<h5>上海交通大学医学院附属仁济医院南院</h5>-->
             <!--<p>上海市闵行区浦江镇江文路681号</p>-->
@@ -53,7 +53,7 @@
             <!--<h5>上海交通大学医学院附属仁济医院南院</h5>-->
             <!--<p>上海市闵行区浦江镇江文路681号</p>-->
         <!--</li>-->
-      </ul>
+      <!--</ul>-->
     </div>
 	</div>
 
@@ -62,6 +62,7 @@
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/net.js"></script>
+  <script src="../custom/js/common.js"></script>
 
   <script>
     $('.clear-icon').click(function () {
@@ -69,6 +70,13 @@
       $('.history-content').css({'display': 'block'});
       liClick();
     });
+
+    if(localStorage.getItem('historyItems')){
+      $('.history-content').css({'display': 'block'});
+    }else{
+      $('.history-content').css({'display': 'none'});
+    }
+
     // 防抖实现
     function debounce(fn, delay) {
       var handle;
@@ -82,6 +90,7 @@
     }
 
     function searchHospitalName(){
+      $('.custom-nodata').css({'display': 'none'});
       var kwName = $("#txt-search").val();
       $('.history-content').css({'display': 'none'});
       console.log(kwName);
@@ -98,15 +107,16 @@
         },
         success:function(data){
           if(data.code === 0){
-            $('.havedata-hospitals ul').empty();
-
+            $('.havedata-hospitals').empty();
+            $('.havedata-hospitals').append('<h4>相关医院</h4>');
             console.log(data)
             data.data.map(function (val) {
-              $('.havedata-hospitals ul').append(
-                `<li class="search-hospital">
-                <h5>${val.hospital_name}</h5>
-                <p>${val.hospital_address}</p>
-              </li>`
+              $('.havedata-hospitals').append(
+                `<p class="border-top"></p>
+                  <ul><li class="search-hospital">
+                    <h5>${val.hospital_name}</h5>
+                    <p>${val.hospital_address}</p>
+                  </li></ul>`
               );
             });
             $('.search-hospital').click(function () {
@@ -118,7 +128,7 @@
           }
         },
         error:function(){
-          $('.havedata-hospitals ul').empty();
+          // $('.havedata-hospitals').empty();
           console.log('发送失败');
         }
       });

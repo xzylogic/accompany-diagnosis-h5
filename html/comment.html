@@ -43,6 +43,7 @@
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/native.js"></script>
   <script src="../custom/js/net.js"></script>
+  <script src="../custom/js/common.js"></script>
 
   <script>
     $.toast.prototype.defaults.duration = 800;
@@ -82,7 +83,7 @@
           }),
           contentType: 'application/json; charset=utf-8',
           beforeSend: function(request) {
-            ajaxbg.show();
+            showMyloading();;
             request.setRequestHeader('token', localStorage.getItem('netToken'));
             request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
             request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
@@ -90,7 +91,7 @@
             request.setRequestHeader('timestamp', new Date().getTime());
           },
           success: function(data){
-            ajaxbg.hide();
+            hideMyloading();;
             if(data.code === 0){
               window.location.href = 'commentDetail.html?reservation_id='+reservation_id;
             }else{
@@ -98,7 +99,7 @@
             }
           },
           error: function (err) {
-            ajaxbg.hide();
+            hideMyloading();;
             console.log(err)
           }
         });

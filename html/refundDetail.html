@@ -52,6 +52,7 @@
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/native.js"></script>
   <script src="../custom/js/net.js"></script>
+  <script src="../custom/js/common.js"></script>
 
   <script>
     var pay_code = getParams('pay_code');
@@ -106,7 +107,7 @@
               <div class="state2-con">
                 <ul class="mes-list">
                   <li><label>退款金额</label><span class="orange">￥${datas.apply_refund_price}</span></li>
-                  <li><label>退款原因</label><span>${datas.oper_refund_cause}</span></li>
+                  <li><label>退款原因</label><span>${datas.apply_refund_cause}</span></li>
                 </ul>
               </div>
             </div>${content}`;

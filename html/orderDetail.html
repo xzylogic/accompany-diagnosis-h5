@@ -136,6 +136,7 @@
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/net.js"></script>
   <script src="../custom/js/native.js"></script>
+  <script src="../custom/js/common.js"></script>
 
   <script>
     var pay_code = getParams('pay_code');
@@ -156,7 +157,7 @@
         url: net.orderDetail,
         data : {pay_code : pay_code},
         beforeSend: function(request) {
-          ajaxbg.show();
+          showMyloading();;
           request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
@@ -165,7 +166,7 @@
         },
         success: function(data){
           if(data.code === 0){
-            ajaxbg.hide();
+            hideMyloading();;
             console.log(data);
             var datas = data.data, datasDetails = datas.reservation_detail || '', datasDetail = (datasDetails && datasDetails.accompany_info_dto) || '', refundDetail = datas.refundment_detail;
             var html = '', btnHtml = '';
@@ -175,7 +176,7 @@
                 <div class="user-mes-box state3-user-mes">
                   <span class="pic"><img src="../custom/images/head_bg.png"></span>
                   <div class="con1">
-                    <h5><span class="name">${datasDetails.patient_name || ''}</span><span>${datasDetails.patient_mobile || ''}</span></h5>
+                    <h5><span class="name">${datasDetails.emp_name || ''}</span><span>${datasDetails.emp_mobile || ''}</span></h5>
                     <p class="p1">${datasDetail.organization || ''}</p>
                     <p class="border-top-dashed not-state3"></p>
                     <p class="p2 not-state3"><label>陪诊时间</label><span>${datasDetails.acc_date || ''}</span></p>
@@ -190,7 +191,7 @@
                   <span>${datas.service_meal}</span><span class="price">￥${datas.service_price}/次</span>
                 </div>
                 <p class="order-btn-box">
-                  <span class="btn-gray" onclick="refund('${datas.pay_code}', '${datas.service_price}')">申请退款</span>
+                  <span class="btn-gray" onclick="refund('${datas.pay_code}', '${datas.service_price}', '${datas.service_meal}', '${datas.order_time}')">申请退款</span>
                   <em class="orange" style="display:none">退款成功</em>
                 </p>
                 <div class="orderDetail">
@@ -220,7 +221,7 @@
                               <span>${datas.service_meal}</span><span class="price">￥${datas.service_price}/次</span>
                             </div>
                             <p class="order-btn-box">
-                              <span class="btn-gray" onclick="refund('${datas.pay_code}', '${datas.service_price}')">申请退款</span>
+                              <span class="btn-gray" onclick="refund('${datas.pay_code}', '${datas.service_price}', '${datas.service_meal}', '${datas.order_time}')">申请退款</span>
                               <em class="orange" style="display:none">退款成功</em>
                             </p><p class="lineBg"></p>
                             <ul class="mes-list orderLists">
@@ -249,7 +250,6 @@
                 btnHtml += `<span class="custom-btm-btn custom-btm-graybtn btn1">取消陪诊</span>`;
                 $('.scroll-wrap-con').html(html);
                 $('.custom-btm-fixed').html(btnHtml);
-                datasDetails.reservation_status = 'wait_write_off';
                 if(datasDetails.reservation_status === 'wait_confirm'){
                   $('.user-mes-box').css({display: 'none'});
                 }else if(datasDetails.reservation_status === 'wait_write_off'){
@@ -301,7 +301,7 @@
           }
         },
         error: function (err) {
-          ajaxbg.hide();
+          hideMyloading();;
           console.log(err);
         }
       });
@@ -309,8 +309,8 @@
     }
 
     //申请退款
-    function refund(payCode, price) {
-      window.location.href = 'refund.html?pay_code='+payCode+'&apply_refundment_price='+price;
+    function refund(payCode, price, meal, time) {
+      window.location.href = 'refund.html?pay_code='+payCode+'&apply_refundment_price='+price+'&meal='+meal+'&time='+time;
     }
 
     function cancelRes(i) {
@@ -342,7 +342,7 @@
               type: "POST",
               timeout: 6000,
               beforeSend: function (request) {
-                ajaxbg.show();
+                showMyloading();;
                 request.setRequestHeader('token', localStorage.getItem('netToken'));
                 request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
                 request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
@@ -350,7 +350,7 @@
                 request.setRequestHeader('timestamp', new Date().getTime());
               },
               success: function (data) {
-                ajaxbg.hide();
+                hideMyloading();;
                 console.log('data', data)
                 if(data.code === 0){
                   window.location.href = 'myorderList.html';
@@ -363,7 +363,7 @@
                 }
               },
               error: function () {
-                ajaxbg.hide();
+                hideMyloading();;
                 console.log('发送失败');
               }
             });

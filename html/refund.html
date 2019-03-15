@@ -16,16 +16,16 @@
       <div class="scroll-wrap">
         <div class="scroll-wrap-con">
           <div class="refund-form-con1">
-            <p><label>服务类型</label><span>全程陪诊服务套餐</span></p>
-            <p><label>服务价格</label><span>￥398.00/次</span></p>
-            <p><label>下单时间</label><span>2018-11-13 12:34:56</span></p>
+            <!--<p><label>服务类型</label><span>全程陪诊服务套餐</span></p>-->
+            <!--<p><label>服务价格</label><span>￥398.00/次</span></p>-->
+            <!--<p><label>下单时间</label><span>2018-11-13 12:34:56</span></p>-->
           </div>
           <div class="refund-form-con2">
             <div class="weui-cell">
                 <label class="weui-label">退款原因</label>
             </div>
             <div class="textarea-wrap" style="margin-bottom:.3rem;">
-                <textarea class="weui-textarea" placeholder="请填写退款原因" rows="3"  onkeyup="wordStatic(this);" maxlength="250"></textarea>
+                <textarea class="weui-textarea" placeholder="请填写退款原因" rows="3" maxlength="250"></textarea>
                 <div class="weui-textarea-counter"><span id="num">0</span>/250</div>
             </div>
             <p class="border-top"></p>
@@ -46,7 +46,7 @@
     <div class="pay-result-box" style="display:none;">
       <div class="con">
         <img src="../custom/images/ordersuccess.png" style="width:2.88rem ;height: 2.28rem;">
-        <h4>退款成功</h4>
+        <h4>提交成功</h4>
         <p class="txt">您已成功提交退款申请，客服将第一时间电话联系您处理，请保持手机畅通！</p>
         <div class="btn-box">
           <span onclick="refundDetail()">查看详情</span>
@@ -61,28 +61,40 @@
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/net.js"></script>
   <script src="../custom/js/native.js"></script>
+  <script src="../custom/js/common.js"></script>
 
   <script>
-    var pay_code = getParams('pay_code'), price = getParams('apply_refundment_price');
+    var pay_code = getParams('pay_code'), price = getParams('apply_refundment_price'), meal = decodeURIComponent(getParams('meal')), time = decodeURIComponent(getParams('time'));
 
-    function wordStatic(input) {
-        // 获取要显示已经输入字数文本框对象
-        var content = document.getElementById('num');
-        if (content && input) {
-            // 获取输入框输入内容长度并更新到界面
-            var value = input.value;
-            // 将换行符不计算为单词数
-            value = value.replace(/\n|\r/gi,"");
-            // 更新计数
-            content .innerText = value.length;
-        }
-    }
+    $(function () {
+      var refundMes = `<p><label>服务类型</label><span>${meal}</span></p>
+            <p><label>服务价格</label><span>￥${price}/次</span></p>
+            <p><label>下单时间</label><span>${time}</span></p>`;
+      $('.refund-form-con1').html(refundMes);
+    });
+
+    // function wordStatic(input) {
+    //     // 获取要显示已经输入字数文本框对象
+    //     var content = document.getElementById('num');
+    //     if (content && input) {
+    //         // 获取输入框输入内容长度并更新到界面
+    //         var value = input.value;
+    //         // 将换行符不计算为单词数
+    //         value = value.replace(/\n|\r/gi,"");
+    //         // 更新计数
+    //         content .innerText = value.length;
+    //     }
+    // }
+    $('.weui-textarea').bind('input', function () {
+      var resonLen = $('.weui-textarea').val().length;
+      $('#num').text(resonLen);
+    });
 
     function refundSubmit() {
-      var refundCause = $('.weui-textarea').val();
+      var refundCause = $('.weui-textarea').val().trim();
       console.log(pay_code, 'refundCause', refundCause);
 
-      if($('.weui-textarea').val()){
+      if(refundCause){
         $('.refund-form-wrap').empty();
         $.ajax({
           type: "POST",

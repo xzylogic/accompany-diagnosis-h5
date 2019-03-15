@@ -37,6 +37,7 @@
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/net.js"></script>
   <script src="../custom/js/native.js"></script>
+  <script src="../custom/js/common.js"></script>
 
   <script>
     window.onload = function() {
@@ -56,7 +57,7 @@
         url: net.getAdServiceGuidelines,
         type: "get",
         beforeSend: function(request) {
-          ajaxbg.show();
+          showMyloading();;
           request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
@@ -64,7 +65,7 @@
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success:function(data){
-          ajaxbg.hide();
+          hideMyloading();;
           if(data.code === 0){
             $('.instructions-wrap').html(data.data);
           }else{
@@ -72,7 +73,7 @@
           }
         },
         error:function(err){
-          ajaxbg.hide();
+          hideMyloading();;
           $('.instructions-wrap').html(err.msg);
           console.log('发送失败');
         }

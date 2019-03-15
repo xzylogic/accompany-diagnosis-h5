@@ -34,7 +34,7 @@
               <li class="stepPic5">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
             </ul>
             <p class="price-box">
-              服务价格<em class="price1">￥480.00</em><span class="price2">￥<span>398.00</span></span><em class="stxt">/次</em>
+              服务价格<em class="price1">￥598.00</em><span class="price2">￥<span>398.00</span></span><em class="stxt">/次</em>
             </p>
           </div>
           <div class="tabContent" style="display:none;" id="content2">
@@ -45,7 +45,7 @@
               <li class="stepPic8">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
             </ul>
             <p class="price-box">
-              服务价格<em class="price1">￥298.00</em><span class="price2">￥<span>98.00</span></span><em class="stxt">/次</em>
+              服务价格<em class="price1">￥138.00</em><span class="price2">￥<span>98.00</span></span><em class="stxt">/次</em>
             </p>
           </div>
         </div>
@@ -55,8 +55,9 @@
           <label class="custom_check_label custom_check_slabel">
             <input type="checkbox" name="" id="radio5" value="1" hidden />
             <label for="radio5" class="icon-check"></label>
-            <span class="name"><span>我已阅读并同意</span><a style="color:#0CB7F5;position: absolute;" onclick="serviceNotice()">《服务须知》</a></span>
+            <span class="name"><span>我已阅读并同意</span></span>
           </label>
+          <a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a>
         </p>
         <span class="custom-btm-btn" style="position: relative; z-index: 111;">立即购买</span>
       </div>
@@ -84,9 +85,7 @@
 
   <script>
     $.toast.prototype.defaults.duration = 800;
-    $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
-      '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
-    var ajaxbg = $("#background, #progressBar");
+
 
     document.addEventListener('DOMContentLoaded', function () {
       //订单详情页：myorderList.
@@ -118,7 +117,7 @@
       };
       var code = getParams('code');
 
-      showMyloading();;
+      showMyloading();
 
       $.ajax({
         type: "GET",
@@ -132,7 +131,7 @@
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function(data){
-          hideMyloading();;
+          hideMyloading();
           var tokenData = data.data;
           if(data.code === 0){
             localStorage.setItem('netToken', tokenData.token);
@@ -152,7 +151,7 @@
           }
         },
         error: function (err) {
-          hideMyloading();;
+          hideMyloading();
           console.log(err);
         }
       });
@@ -210,7 +209,7 @@
       var uid = localStorage.getItem('uid');
       var order_id;
       console.log(service_meal, 'uid', uid);
-      showMyloading();;
+      showMyloading();
       $.ajax({
         type: "POST",
         url: net.makeOrder,
@@ -241,10 +240,10 @@
           }else{
             console.log(data);
           }
-          hideMyloading();;
+          hideMyloading();
         },
         error: function (err) {
-          hideMyloading();;
+          hideMyloading();
           console.log(err)
         }
       });

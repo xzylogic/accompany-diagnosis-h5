@@ -69,16 +69,12 @@
     //   }
     // })
 
+    $.toast.prototype.defaults.duration = 800;
 
-
-    $('.pay-way-list li:eq(0)').click(function (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    $('.pay-way-list li:eq(0)').click(function () {
       $('#radio1').prop('checked', true);
     });
-    $('.pay-way-list li:eq(1)').click(function (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    $('.pay-way-list li:eq(1)').click(function () {
       $('#radio2').prop('checked', true);
     });
 
@@ -89,9 +85,6 @@
       var requestUrl=nativeObj.htmlPath;
       localStorage.setItem('requestUrl', requestUrl);
       console.log(requestUrl);
-      $('body').append('<div id="background" class="background" style="display: none;"></div>\n' +
-        '<div id="progressBar" class="progressBar" style="display: none;">请稍后...</div>');
-      var ajaxbg = $("#background, #progressBar");
 
       var netToken = localStorage.getItem('netToken');
           requestUrl= localStorage.getItem('requestUrl');
@@ -145,8 +138,9 @@
           // window.location.href = 'payResult.html';
         }
         if(checkedWay === ""){
-          $(".mytip").html("请选择支付方式");
-          showMyTip();
+          // $(".mytip").html("请选择支付方式");
+          $.toast("请选择支付方式", 'forbidden');
+          // showMyTip();
           return;
         }
         // if($("#alipay label").hasClass("checkRadio")){
@@ -181,7 +175,7 @@
               }),
               contentType: 'application/json; charset=utf-8',
               beforeSend: function(request) {
-                showMyloading();;
+                showMyloading();
                 request.setRequestHeader("token",netToken);
                 request.setRequestHeader("channelCode",channelCode);
                 request.setRequestHeader("lightAppCode",lightAppCode);
@@ -189,7 +183,7 @@
                 request.setRequestHeader('timestamp', new Date().getTime());
               },
               success:function(firstData){
-                hideMyloading();;
+                hideMyloading();
                 // alert(firstData)
                 console.log(firstData);
                 firstData = JSON.parse(firstData);
@@ -198,17 +192,17 @@
                   createPayResponse = firstData;
                   resolve(firstData);
                 }else{
-                  $(".mytip").html(data.msg||"创建支付信息接口出错");
-                  // $.toast(firstData.msg || "创建支付信息接口出错", 'forbidden');
                   //showMyTip();
                   hideMyloading();
+                  // $(".mytip").html(data.msg||"创建支付信息接口出错");
+                  $.toast(firstData.msg || "创建支付信息接口出错", 'forbidden');
                 }
                 // hideMyloading();
               },
               error:function(error){
                 //showMyTip();
                 hideMyloading();
-                // hideMyloading();;
+                // hideMyloading();
                 reject('请求错误');
               }
             });
@@ -225,7 +219,7 @@
               type:"post",
               timeout: 6000,
               beforeSend: function(request) {
-                // showMyloading();;
+                // showMyloading();
                 request.setRequestHeader("token",netToken);
                 request.setRequestHeader("channelCode",channelCode);
                 request.setRequestHeader("lightAppCode",lightAppCode);
@@ -249,7 +243,7 @@
               }),
               contentType: 'application/json; charset=utf-8',
               success:function(data){
-                // hideMyloading();;
+                hideMyloading();
                 // alert(data)
                 if(data.code === 0){
                   scanConsumeResponse = data;
@@ -287,14 +281,13 @@
                 hideMyloading();
               },
               error:function(error){
-                // hideMyloading();;
                 console.log(error)
                 //showMyTip();
                 hideMyloading();
               }
             })
           } catch (e) {
-            // hideMyloading();
+            hideMyloading();
             // showMyTip();
             console.log(e);
           }
@@ -304,18 +297,6 @@
             newTab.document.write(scanConsumeResponse.data);
           }
 
-
-          // if(data.code === 0){
-          //   scanConsumeResponse = data;
-          // }else if(data.code === 12){
-          //   $.toast("账户在其他设备登录,请重新登录", 'forbidden');
-          //   // $(".mytip").html("账户在其他设备登录,请重新登录");
-          //   // showMyTip();
-          // }else{
-          //   $.toast(data.msg||"跳转支付失败", 'forbidden');
-          //   // $(".mytip").html(data.msg||"跳转支付失败");
-          //   // showMyTip();
-          // }
         });
 
 

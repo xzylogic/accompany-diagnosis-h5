@@ -15,6 +15,12 @@ img[src=""],img:not([src]){opacity:0;}
 .container{width:100%;max-width: 10rem;margin:0 auto;box-sizing: border-box;}
 .weui-label,.weui-cell__bd{font-size: 14px;}
 .weui-cell:before{left:0;}
+.mescroll{margin:0 auto;}
+/*控制选择时间弹出层的大小*/
+.weui-picker-modal{height: 7rem !important;}
+.weui-picker-modal .toolbar .toolbar-inner,.weui-picker-modal .toolbar .toolbar-inner *{height: 1.4rem !important;line-height: 1.4rem !important;font-size: 16px !important;}
+.weui-picker-modal .picker-item{font-size: 14px !important;}
+.weui-picker-modal .picker-modal-inner{height: 6rem !important;}
 @media screen and (min-width: 768px) {
   body{background-color: #586c94;}
   .container{background-color: #F4F4F4;height:100%;min-height: 100vh;width: 10rem;position: relative;}

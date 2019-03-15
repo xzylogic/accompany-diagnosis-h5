@@ -362,7 +362,7 @@
                       '<li><label>服务类型</label><span>'+ obj.service_meal +'</span><em class="gray">已完成</em></li> ' +
                       '<li><label>服务价格</label><span>￥'+ obj.service_price +'/次</span><em class="orange">'+ obj.refund_status +'</em></li> ' +
                       '<li><label>下单时间</label><span>'+ obj.order_time +'</span></li> </ul> <p class="lineBg"></p> ' +
-                      '<p class="order-btn-box"><span class="btn" onclick="servicesEvaluate(\'2\', \''+ obj.reservation_id +'\')">服务评价</span>' +
+                      '<p class="order-btn-box"><span class="btn" onclick="servicesEvaluate(\'2\', \''+ obj.reservation_id +'\', \''+ obj.pay_code +'\')">服务评价</span>' +
                       '</p> </div>';
                   }else if(obj.estimate_status === '1'){
                     html += '<div class="myorder-item"> <ul class="con" onclick="orderDetail(3, \''+ obj.pay_code +'\')"> ' +
@@ -525,9 +525,9 @@
 
 
   //服务评价
-  function servicesEvaluate(index, id) {
+  function servicesEvaluate(index, id, payCode) {
     console.log(index, id);
-    window.location.href = 'comment.html?reservation_id='+id;
+    window.location.href = 'comment.html?reservation_id='+ id +'&pay_code='+ payCode;
   }
 
   //查看评价

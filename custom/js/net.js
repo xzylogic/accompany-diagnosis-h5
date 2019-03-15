@@ -44,6 +44,6 @@ var net = {
   createPay: netRoot + 'createPay',  //获取订单id
   payAgent: netRoot + 'payAgent',  //统一支付
 
-  scanConsume: ajaxRoot + 'pay-agency-api/wdepay/scanConsume',  //支付
+  scanConsume: ajaxRoot + 'payAgent',  //支付
   userGetTokenByAuthCode: ajaxRoot + 'userGetTokenByAuthCode',//根据code换token
 };

@@ -79,6 +79,59 @@
     });
 
     $(function () {
+      var hasWx=true;
+      var forPage=getParams("forPage");
+      //从我的订单直接进入支付页面，不需要连续关闭两个页面
+      if(forPage === '0'){
+        //IOS 直接返回一个Webview 无论有多少页内跳转(等ios发布之后注释放开，不然index:100时 ios闪退)
+        if(nativeObj.frameType === '0'){
+          setTimeout(function () {
+            NativeFunc({
+              ACTION: "BACKMODE",
+              PARAM: {
+                INDEX: "100"
+              }
+            })
+          },100);
+        }
+      } else if(forPage === '2'){
+        setTimeout(function () {
+          NativeFunc({
+            ACTION: "BACKMODE",
+            PARAM: {
+              INDEX: "2"
+            }
+          })
+        },100);
+      }else{
+        setTimeout(function () {
+          NativeFunc({
+            ACTION: "BACKMODE",
+            PARAM: {
+              INDEX: "1"
+            }
+          })
+        },100);
+      }
+      setTimeout(function () {
+        NativeFunc({
+          ACTION: "CHECK_WECHAT_ALIPAY",
+          PARAM: {
+            MODE: "GET"
+          }
+        }, function (response) {
+          if(response) {
+            var objResp = JSON.parse(response);
+            if(objResp.wechat === 0){
+              hasWx=false;
+            }
+            // {
+            //     wechat:0
+            //     alipay:1
+            // }
+          }
+        });
+      },100)
       //click事件优化
       FastClick.attach(document.body);
 
@@ -143,6 +196,12 @@
           // showMyTip();
           return;
         }
+        if(checkedWay === "wechat" && hasWx === false){
+          // $(".mytip").html("微信未安装");
+          $.toast("微信未安装", 'forbidden');
+          // showMyTip();
+          return;
+        }
         // if($("#alipay label").hasClass("checkRadio")){
         //   checkedWay="alipay"
         // }else if($("#wechat label").hasClass("checkRadio")){
@@ -152,8 +211,6 @@
         //调接口创建支付信息
         // newTab=window.open();
         // console.log(newTab)
-        var createPayResponse;
-
 
         var Pro = function () {
           return new Promise(function (resolve, reject) {
@@ -187,7 +244,6 @@
                 firstData = JSON.parse(firstData);
                 console.log(firstData);
                 if(firstData.code === 0){
-                  createPayResponse = firstData;
                   resolve(firstData);
                   hideMyloading();
                 }else{
@@ -208,7 +264,7 @@
           })
         };
 
-        var scanConsumeResponse;
+        // var scanConsumeResponse;
         Pro().then(function (firData) {
           var secData = firData.data;
           console.log(firData);
@@ -244,21 +300,22 @@
               success:function(data){
                 hideMyloading();
                 // alert(data)
-                if(data.code === 0){
-                  scanConsumeResponse = data;
-                }else if(data.code === 12){
-                  $.toast("账户在其他设备登录,请重新登录", 'forbidden');
-                  // $(".mytip").html("账户在其他设备登录,请重新登录");
-                  // //showMyTip();
-                }else{
-                  $.toast(data.msg||"跳转支付失败", 'forbidden');
-                  // $(".mytip").html(data.msg||"跳转支付失败");
-                  // //showMyTip();
-                }
+                // if(data.code === 0){
+                //   scanConsumeResponse = data;
+                // }else if(data.code === 12){
+                //   $.toast("账户在其他设备登录,请重新登录", 'forbidden');
+                //   // $(".mytip").html("账户在其他设备登录,请重新登录");
+                //   // //showMyTip();
+                // }else{
+                //   $.toast(data.msg||"跳转支付失败", 'forbidden');
+                //   // $(".mytip").html(data.msg||"跳转支付失败");
+                //   // //showMyTip();
+                // }
 
                 if(data.code === 0){
                   // localStorage.setItem("businessNo",firstData.data);
                   localStorage.setItem("businessNo", order_code);
+                  localStorage.setItem("pay_amount", pay_amount);
                   if(checkedWay === "alipay"){
                     document.write(data.data);
                   }else{
@@ -271,10 +328,13 @@
                     })
                   }
                 }else if(data.code === 12){
-                  $(".mytip").html("账户在其他设备登录,请重新登录");
+                  // $(".mytip").html("账户在其他设备登录,请重新登录");
+                  $.toast("账户在其他设备登录,请重新登录", 'forbidden');
+
                   //showMyTip();
                 }else{
-                  $(".mytip").html(data.msg||"跳转支付失败");
+                  // $(".mytip").html(data.msg||"跳转支付失败");
+                  $.toast(data.msg || "跳转支付失败", 'forbidden');
                   //showMyTip();
                 }
                 hideMyloading();
@@ -291,10 +351,10 @@
             console.log(e);
           }
 
-          if(scanConsumeResponse && scanConsumeResponse.code === 0){
-            newTab=window.open();
-            newTab.document.write(scanConsumeResponse.data);
-          }
+          // if(scanConsumeResponse && scanConsumeResponse.code === 0){
+          //   newTab=window.open();
+          //   newTab.document.write(scanConsumeResponse.data);
+          // }
 
         });
 

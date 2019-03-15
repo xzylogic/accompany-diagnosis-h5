@@ -41,15 +41,6 @@
 
   <script>
     window.onload = function() {
-      // setTimeout(function () {
-      //   NativeFunc({
-      //     ACTION: "CLOSEPAGE",
-      //     PARAM: {
-      //       INDEX: 1
-      //     }
-      //   });
-      // }, 50);
-
       $.ajax({
         url: net.getAdServiceGuidelines,
         type: "get",
@@ -66,7 +57,7 @@
           if(data.code === 0){
             $('.instructions-wrap').html(data.data);
           }else{
-            console.log(data);
+            $.toast(data.msg || '请求错误~', 'forbidden');
           }
         },
         error:function(err){

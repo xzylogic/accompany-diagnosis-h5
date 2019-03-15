@@ -114,9 +114,8 @@
               // $.toast('退款成功');
               // window.location.href = refundDetail.html;
             }else{
-              console.log('退款失败');
+              $.toast(data.msg || '请求错误~', 'forbidden');
             }
-            console.log(data);
           },
           error: function (err) {
             console.log(err)
@@ -129,7 +128,12 @@
     }
 
     function refundDetail() {
-      window.location.href = 'refundDetail.html?pay_code='+pay_code;
+      NativeFunc({
+        ACTION: "OPENURL",
+        PARAM: {
+          URL: nativeObj.htmlPath + '/refundDetail.html?pay_code=' + pay_code
+        }
+      });
       // $.ajax({
       //   type: "POST",
       //   url: net.orderDetail,

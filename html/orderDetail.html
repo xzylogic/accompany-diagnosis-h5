@@ -263,10 +263,20 @@
               $('.scroll-wrap-con').html(html);
               $('.custom-btm-fixed').html(btnHtml);
               $('.btn3').click(function () {
-                window.location.href = 'comment.html?reservation_id=' + datasDetails.id;
+                NativeFunc({
+                  ACTION: "OPENURL",
+                  PARAM:{
+                    URL: nativeObj.htmlPath + '/comment.html?reservation_id=' + datasDetails.id
+                  }
+                });
               });
               $('.btn4').click(function () {
-                window.location.href = 'commentDetail.html?reservation_id=' + datasDetails.id;
+                NativeFunc({
+                  ACTION: "OPENURL",
+                  PARAM:{
+                    URL: nativeObj.htmlPath + '/commentDetail.html?reservation_id=' + datasDetails.id
+                  }
+                });
               });
               break;
             case 'close':
@@ -280,6 +290,8 @@
               console.log('无法识别', datas.order_status);
               return '';
           }
+        }else{
+          $.toast(data.msg || '请求错误~', 'forbidden');
         }
       },
       error: function (err) {
@@ -292,7 +304,12 @@
 
   //申请退款
   function refund(payCode, price, meal, time) {
-    window.location.href = 'refund.html?pay_code=' + payCode + '&apply_refundment_price=' + price + '&meal=' + meal + '&time=' + time;
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/refund.html?pay_code=' + payCode + '&apply_refundment_price=' + price + '&meal=' + meal + '&time=' + time
+      }
+    });
   }
 
   function cancelRes(i) {
@@ -333,9 +350,14 @@
           },
           success: function (data) {
             hideMyloading();
-            console.log('data', data)
+            // console.log('data', data)
             if (data.code === 0) {
-              window.location.href = 'myorderList.html';
+              NativeFunc({
+                ACTION: "OPENURL",
+                PARAM:{
+                  URL: nativeObj.htmlPath + '/myorderList.html'
+                }
+              });
             } else {
               $('.cancel-reason').css({'display': 'none'});
               $('.cancelNotice').css({'display': 'block'});

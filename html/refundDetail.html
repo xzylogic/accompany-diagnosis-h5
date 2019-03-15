@@ -116,6 +116,8 @@
             default:
               break;
           }
+        }else{
+          $.toast(data.msg || '请求错误~', 'forbidden');
         }
       },
       error: function (err) {
@@ -143,6 +145,8 @@
             console.log(data);
             if(data.code === 0){
               window.location.reload();
+            }else{
+              $.toast(data.msg || '请求错误~', 'forbidden');
             }
           },
           error: function (err) {

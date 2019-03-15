@@ -74,7 +74,7 @@
       </div>
     </div>
   </div>
-  <a class="gotoList" href="myorderList.html">&nbsp;</a>
+  <div class="gotoList" onclick="turnList()">&nbsp;</div>
   <script type="text/javascript" src="../lib/js/flexible.js"></script>
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
@@ -86,6 +86,14 @@
   <script>
     $.toast.prototype.defaults.duration = 800;
 
+    function turnList(){
+      NativeFunc({
+        ACTION: "OPENURL",
+        PARAM:{
+          URL: nativeObj.htmlPath + '/myorderList.html'
+        }
+      });
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
       //订单详情页：myorderList.
@@ -146,7 +154,7 @@
             pageData.lightAppCode=localStorage.getItem('lightAppCode');
             // console.log(pageData.netToken);
             if(!pageData.netToken){
-              $.toast('请求错误', 'forbidden');
+              $.toast(data.msg || '请求错误', 'forbidden');
             }
           }
         },
@@ -173,7 +181,12 @@
     });
 
     function serviceNotice(){
-      window.location.href = 'instructions.html';
+      NativeFunc({
+        ACTION: "OPENURL",
+        PARAM:{
+          URL: nativeObj.htmlPath + '/instructions.html'
+        }
+      });
     }
 
     // // $('.name span:eq(0)').click(function () {
@@ -239,9 +252,17 @@
                 pay_amount = datas.pay_amount,
                 biz_id = datas.biz_id,
                 biz_name = datas.biz_name;
-            window.location.href = './orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name;
+            localStorage.setItem('biz_id', biz_id);
+            localStorage.setItem('order_code', order_code);
+            NativeFunc({
+              ACTION: "OPENURL",
+              PARAM:{
+                URL: nativeObj.htmlPath + '/orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
+              }
+            });
           }else{
             console.log(data);
+            $.toast(data.msg || '请求错误~', 'forbidden');
           }
           hideMyloading();
         },

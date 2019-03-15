@@ -174,7 +174,7 @@
   //     }
   //   });
     nativeObj.RegisterFun(function () {
-      orderList('', '');
+      orderList();
     })
   }, 100);
 
@@ -414,6 +414,8 @@
 
             }
           }) : $('.custom-nodata').css({'display': 'block'});
+        }else{
+          $.toast(data.msg || '请求错误', 'forbidden');
         }
       },
       error: function (err) {

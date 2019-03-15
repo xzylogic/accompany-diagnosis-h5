@@ -74,7 +74,7 @@
             $('.con1').html(headHtml);
             $('.comment-list').html(contentHtml);
           }else{
-            console.log(data);
+            $.toast(data.msg || '请求错误~', 'forbidden');
           }
         },
         error: function (err) {

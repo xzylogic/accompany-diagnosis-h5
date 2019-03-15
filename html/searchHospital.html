@@ -102,7 +102,7 @@
       $.ajax({
         url: net.queryAdHospital,
         type: "get",
-        data:{kwName: kwName},
+        data:{kw_name: kwName},
         beforeSend: function(request) {
           request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
@@ -128,6 +128,8 @@
               setHistoryItems(hpName);
               window.history.back();
             });
+          }else{
+            $.toast(data.msg || '请求错误~', 'forbidden');
           }
         },
         error:function(){

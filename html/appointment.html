@@ -123,11 +123,21 @@
   $.toast.prototype.defaults.duration = 800;
 
   function searchHospital() {
-    window.location.href = 'searchHospital.html';
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/searchHospital.html'
+      }
+    });
   }
 
   function serviceNotice() {
-    window.location.href = 'instructions.html';
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/instructions.html'
+      }
+    });
   }
 
   function checkName(){
@@ -226,8 +236,8 @@
               }
             }
           });
-        }else {
-          console.log(data);
+        }else{
+          $.toast(data.msg || '请求错误~', 'forbidden');
         }
       },
       error:function(){
@@ -330,7 +340,12 @@
           hideMyloading();
           if(data.code === 0){
             console.log(data);
-            window.location.href = 'orderSuccess.html?pay_code='+pay_code;
+            NativeFunc({
+              ACTION: "OPENURL",
+              PARAM:{
+                URL: nativeObj.htmlPath + '/orderSuccess.html?pay_code='+pay_code
+              }
+            });
           }else{
             $.toast(data.msg || '数据错误~', 'forbidden');
           }
@@ -373,6 +388,8 @@
               idCard = idCard.substring(0, 4) + xing + idCard.substring(idCard.length -4);
             }
             $('.am_ID').val(idCard);
+          }else{
+            $.toast(data.msg || '请求错误~', 'forbidden');
           }
         },
         error: function (err) {

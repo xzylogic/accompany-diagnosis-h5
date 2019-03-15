@@ -16,6 +16,8 @@ img[src=""],img:not([src]){opacity:0;}
 .weui-label,.weui-cell__bd{font-size: 14px;}
 .weui-cell:before{left:0;}
 .mescroll{margin:0 auto;}
+.weui-dialog{border-radius: 0.3rem !important;}
+.weui-dialog__btn{color: #0CB7F5 !important;}
 /*控制选择时间弹出层的大小*/
 .weui-picker-modal{height: 7rem !important;}
 .weui-picker-modal .toolbar .toolbar-inner,.weui-picker-modal .toolbar .toolbar-inner *{height: 1.4rem !important;line-height: 1.4rem !important;font-size: 16px !important;}

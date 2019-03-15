@@ -34,7 +34,7 @@
               <li class="stepPic5">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
             </ul>
             <p class="price-box">
-              服务价格<em class="price1">￥598.00</em><span class="price2">￥<span>398.00</span></span><em class="stxt">/次</em>
+              服务价格<em class="price1">￥598.00</em><span class="price2">￥<span>0.02.00</span></span><em class="stxt">/次</em>
             </p>
           </div>
           <div class="tabContent" style="display:none;" id="content2">
@@ -45,7 +45,7 @@
               <li class="stepPic8">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
             </ul>
             <p class="price-box">
-              服务价格<em class="price1">￥138.00</em><span class="price2">￥<span>98.00</span></span><em class="stxt">/次</em>
+              服务价格<em class="price1">￥138.00</em><span class="price2">￥<span>0.01.00</span></span><em class="stxt">/次</em>
             </p>
           </div>
         </div>
@@ -164,8 +164,10 @@
       if($(this).text() === '全程陪诊服务套餐'){
         status = 1;
         $('#content1').show();
+        $('#content2').hide();
       }else{
         status = 2;
+        $('#content1').hide();
         $('#content2').show();
       }
     });
@@ -187,7 +189,7 @@
       var _radio5 = $('#radio5').prop('checked');
       if(_radio5){
         console.log(status , typeof status)
-        status === '2' ? $('.popup-txt span').text('简易陪诊套餐 ¥98/次') : $('.popup-txt span').text('全程陪诊套餐 ¥398/次');
+        status === '2' ? $('.popup-txt span').text('简易陪诊套餐 ¥'+ $('.price2:eq(1) span').text() + '/次') : $('.popup-txt span').text('全程陪诊套餐 ¥'+ $('.price2:eq(0) span').text() + '/次');
         $('.popup-wrap').css({'display': 'block'});
       }else{
         console.log('请同意服务须知后购买');
@@ -203,9 +205,9 @@
       var totalFee;
       $('.popup-wrap').css({'display': 'none'});
       if($('.mytab li span:eq(0)').hasClass('active')){
-        totalFee = $('.price2:eq(0) span').html();
+        totalFee = $('.price2:eq(0) span').text();
       }else{
-        totalFee = $('.price2:eq(1) span').html();
+        totalFee = $('.price2:eq(1) span').text();
       }
       var service_meal = $('.active').html();
       var uid = localStorage.getItem('uid');

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-	<div class="container">
+	<!--<div class="container">
     <div class="pay-result-box" style="display:none;">
       <div class="con">
         <img src="../custom/images/success.png" style="width:3.293333rem;height: 2.88rem;">
@@ -43,16 +43,145 @@
         <span class="custom-btm-btn">完成</span>
       </div>
     </div>
+  </div>-->
+  <div class="container manageContainer">
+    <div class="no-data-box" style="display:none;" id="success">
+      <div class="custom-nodata">
+        <img src="../custom/images/success.png" style="width:3.293333rem;height: 2.88rem;">
+        <p class="largeTxt">支付成功~</p>
+      </div>
+      <div class="btn-box">
+        <span id="toIndex">返回列表</span><span id="orderDetail">查看订单</span>
+      </div>
+    </div>
+    <div class="no-data-box" style="display:none;" id="fail">
+      <div class="custom-nodata">
+        <img src="../custom/images/fail.png" style="width:3.293333rem;height: 2.706667rem;">
+        <p class="largeTxt">支付失败</p>
+      </div>
+      <div class="btn-box">
+        <span class="repay">重新支付</span>
+      </div>
+    </div>
   </div>
   <script type="text/javascript" src="../lib/js/flexible.js"></script>
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
   <script src="../custom/js/common.js"></script>
+  <script src="../custom/js/native.js"></script>
+  <script src="../custom/js/net.js"></script>
 
   <script>
+    $(function () {
+      //click事件优化
+      FastClick.attach(document.body);
 
+      $.toast.prototype.defaults.duration = 800;
 
+      var netToken = localStorage.getItem('netToken');
+      var requestUrl = localStorage.getItem('requestUrl');
+      var channelCode = localStorage.getItem('channelCode');
+      var lightAppCode = localStorage.getItem('lightAppCode');
+      var appid = localStorage.getItem('appid');
+      var uid = localStorage.getItem('uid');
+      var isNative=localStorage.getItem('isNative') || getParams('isNative');
+
+      // var businessNo = localStorage.getItem("businessNo");
+      var biz_id = localStorage.getItem('biz_id'), business_no = getParams('order_code'), order_code = localStorage.getItem('order_code'), pay_amount = localStorage.getItem('pay_amount');
+
+      showMyloading();
+      try {
+        $.ajax({
+          url: net.adQueryPayStatus,
+          type: "post",
+          contentType: 'application/json',
+          beforeSend: function (request) {
+            request.setRequestHeader("token", netToken);
+            request.setRequestHeader("channelCode", channelCode);
+            request.setRequestHeader("lightAppCode", lightAppCode);
+            request.setRequestHeader("appid", appid);
+            request.setRequestHeader('timestamp', new Date().getTime());
+          },
+          data: JSON.stringify({
+            "biz_id": biz_id,
+            "business_no": business_no,
+            "uid": uid,
+            // "shopUserId":shopUserId
+          }),
+          success: function (firstData) {
+            if (firstData.code === 0) {
+              if (firstData.data.status === 1) {
+                $("#success").show();
+              } else if ( firstData.data.status === 0) {
+                $("#fail").show();
+              }
+              hideMyloading();
+            } else if (firstData.code === 12) {
+              $.toast("账户在其他设备登录,请重新登录", 'forbidden')
+              // $(".mytip").html("账户在其他设备登录,请重新登录");
+              // showMyTip();
+              hideMyloading();
+            } else {
+              $.toast(firstData.msg || "查询支付状态失败", 'forbidden')
+              // $(".mytip").html(firstData.msg || "查询支付状态失败");
+              // showMyTip();
+              hideMyloading();
+            }
+          },
+          error: function (error) {
+            hideMyloading();
+            console.log(error)
+            // showMyTip();
+          }
+        })
+      } catch (e) {
+        hideMyloading();
+        // showMyTip();
+        console.log(e);
+      }
+
+      //跳首页
+      $(document).on('click', '#toIndex', function () {
+        if(isNative === 1){
+          //回到第一个webview
+          NativeFunc({
+            ACTION: 'CLOSEPAGE',
+            PARAM: {
+              INDEX: -1
+            }
+          });
+        }else {
+          var that = this;
+          NativeFunc({
+            ACTION: "OPENURL",
+            PARAM: {
+              URL: localStorage.getItem("indexUrl") + "&noFirst=1"
+            }
+          })
+        }
+      });
+      //查看订单
+      $(document).on('click', '#orderDetail', function () {
+        var that = this;
+        NativeFunc({
+          ACTION: "OPENURL",
+          PARAM: {
+            URL: requestUrl + "/orderDetail.html?order_code=" + order_code
+          }
+        })
+      });
+      //重新支付
+      $(document).on('click', '.repay', function () {
+        var that = this;
+        NativeFunc({
+          ACTION: "OPENURL",
+          PARAM: {
+            URL: requestUrl + "/orderPay.html?forPage=2&order_code=" + order_code + "&pay_amount=" + pay_amount
+          }
+        })
+      });
+    })
   </script>
 </body>
 </html>

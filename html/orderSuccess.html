@@ -32,7 +32,12 @@
   <script>
     function viewAppoint() {
       var payCode = getParams('pay_code');
-      window.location.href = 'orderDetail.html?pay_code='+payCode;
+      NativeFunc({
+        ACTION: "OPENURL",
+        PARAM:{
+          URL: nativeObj.htmlPath + '/orderDetail.html?pay_code='+payCode
+        }
+      });
     }
   </script>
 

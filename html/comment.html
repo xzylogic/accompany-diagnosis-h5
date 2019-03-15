@@ -90,9 +90,14 @@
           success: function(data){
             hideMyloading();
             if(data.code === 0){
-              window.location.href = 'commentDetail.html?reservation_id='+reservation_id;
+              NativeFunc({
+                ACTION: "OPENURL",
+                PARAM:{
+                  URL: nativeObj.htmlPath + '/commentDetail.html?reservation_id='+reservation_id
+                }
+              });
             }else{
-              console.log(data);
+              $.toast(data.msg || '请求错误~', 'forbidden');
             }
           },
           error: function (err) {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>陪诊订单</title>
-  <link rel="stylesheet" type="text/css" href="../lib/css/mescroll.css"/>
+  <!--<link rel="stylesheet" type="text/css" href="../lib/css/mescroll.css"/>-->
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css"/>
   <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css"/>
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css"/>
@@ -157,7 +157,7 @@
 <script type="text/javascript" src="../lib/js/flexible.js"></script>
 <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
 <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
-<script type="text/javascript" src="../lib/js/mescroll.min.js"></script>
+<!--<script type="text/javascript" src="../lib/js/mescroll.min.js"></script>-->
 <script src="../lib/js/jquery-weui.js"></script>
 <script src="../custom/js/native.js"></script>
 <script src="../custom/js/net.js"></script>
@@ -166,23 +166,23 @@
 <!--<script type="text/javascript" src="../custom/js/common.js"></script>-->
 
 <script>
-  setTimeout(function () {
+  // setTimeout(function () {
   //   NativeFunc({
   //     ACTION: "CLOSEPAGE",
   //     PARAM: {
   //       INDEX: 1
   //     }
   //   });
-    nativeObj.RegisterFun(function () {
-      orderList();
-    })
-  }, 100);
+  //   nativeObj.RegisterFun(function () {
+  //     orderList();
+  //   })
+  // }, 100);
 
-  var mescroll = new MeScroll("mescroll", {
-    up: {
-      callback: orderList, //上拉加载的回调
-    }
-  });
+  // var mescroll = new MeScroll("mescroll", {
+  //   up: {
+  //     callback: orderList, //上拉加载的回调
+  //   }
+  // });
 
   //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
   // function upCallback(page) {
@@ -230,11 +230,11 @@
     orderList();
   });
 
-  // orderList();
+  orderList();
 
   // orderList('', '');
-  function orderList(page) {
-    page = {num:1, size:3};
+  function orderList() {
+    // page = {num:1, size:3};
     var html = '', htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
     $('.custom-nodata').css({'display': 'none'});
     console.log(listStatus);
@@ -244,7 +244,7 @@
       data : {
         uid : localStorage.getItem('uid'),
         order_status: listStatus,
-        page: page.num,
+        page: 1,
       },
       beforeSend: function(request) {
         showMyloading();

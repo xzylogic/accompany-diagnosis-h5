@@ -172,6 +172,14 @@
             refundDetail = datas.refundment_detail;
           var html = '', btnHtml = '';
           reservation_id = (datasDetails && datasDetails.id) || '';
+          var refundBtn;
+
+          console.log(data.data.order_status)
+          if(data.data.order_status === "reservation"){
+            refundBtn = '<span class="btn-gray" onclick="$.toast(\'请您先取消陪诊再申请退款~\', \'forbidden\')">申请退款</span> ';
+          }else{
+            refundBtn = '<span class="btn-gray" onclick="refund(\''+ datas.pay_code +'\', \''+ datas.service_price +'\', \''+ datas.service_meal +'\', \''+ datas.order_time +'\')">申请退款</span> ';
+          }
 
           var content1 = '<div class="detail-content"> ' +
             '<div class="user-mes-box state3-user-mes"> ' +
@@ -179,15 +187,15 @@
             '<div class="con1"> <h5><span class="name">' + (datasDetail.emp_name || "") + '</span>' +
             '<span>' + (datasDetail.emp_mobile || "") + '</span></h5> <p class="p1">' + (datasDetail.organization || "") + '</p> ' +
             '<p class="border-top-dashed not-state3"></p> ' +
-            '<p class="p2 not-state3"><label>陪诊时间</label><span>' + (datasDetails.acc_date || "") + '</span></p> ' +
+            '<p class="p2 not-state3"><label>陪诊时间</label><span>' + (datasDetail.acc_time || "") + '</span></p> ' +
             '</div> ' +
             '<div class="con2"> <p class="border-top-dashed"></p> ' +
-            '<p class="p2"><label>陪诊时间</label><span>' + (datasDetails.acc_date || "") + '</span></p> ' +
+            '<p class="p2"><label>陪诊时间</label><span>' + (datasDetail.acc_time || "") + '</span></p> ' +
             '<p class="p2 p3"><label>陪诊记录</label><span>' + (datasDetail.acc_record || "") + '</span></p> ' +
             '</div> </div> <div class="title"> <span>' + datas.service_meal + '</span>' +
             '<span class="price">￥' + datas.service_price + '/次</span> </div> ' +
             '<p class="order-btn-box"> ' +
-            '<span class="btn-gray" onclick="refund(\''+ datas.pay_code +'\', \''+ datas.service_price +'\', \''+ datas.service_meal +'\', \''+ datas.order_time +'\')">申请退款</span> ' +
+            refundBtn +
             '<em class="orange" style="display:none">退款成功</em> </p> <div class="orderDetail"> ' +
             '<p class="lineBg"></p> ' +
             '<ul class="mes-list mes-list-width datasDetails"> ' +
@@ -234,22 +242,24 @@
               btnHtml += '<span class="custom-btm-btn custom-btm-graybtn btn1">取消陪诊</span>';
               $('.scroll-wrap-con').html(html);
               $('.custom-btm-fixed').html(btnHtml);
+              if(datasDetail.emp_url){
+                $('.pic img').attr('src', datasDetail.emp_url);
+              }
               if (datasDetails.reservation_status === 'wait_confirm') {
                 $('.user-mes-box').css({display: 'none'});
               } else if (datasDetails.reservation_status === 'wait_write_off') {
                 $('.user-mes-box').css({display: 'block'}).removeClass('state3-user-mes');
               }
               //取消陪诊弹出框
-              $('.btn1').click(function () {
-                $.toast('请您先取消陪诊再申请退款～', 'forbidden');
-                // e.preventDefault();
-                // e.stopPropagation();
-                //
+              $('.btn1').click(function (e) {
+                e.preventDefault();
+                e.stopPropagation();
+
                 // console.log('取消陪诊弹出框');
-                // $('.cancel-reason').css({'display': 'block'});
-                // $('.gray').click(function () {
-                //   $('.popup-wrap').css({'display': 'none'});
-                // });
+                $('.cancel-reason').css({'display': 'block'});
+                $('.gray').click(function () {
+                  $('.popup-wrap').css({'display': 'none'});
+                });
               });
               break;
             case 'complete':
@@ -263,6 +273,9 @@
               }
               $('.scroll-wrap-con').html(html);
               $('.custom-btm-fixed').html(btnHtml);
+              if(datasDetail.emp_url){
+                $('.pic img').attr('src', datasDetail.emp_url);
+              }
               $('.btn3').click(function () {
                 NativeFunc({
                   ACTION: "OPENURL",

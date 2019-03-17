@@ -28,7 +28,7 @@
         <div class="history-clear" onclick="clearHistory()">清空搜索记录</div>
     </div>
     <!--搜索无数据-->
-    <div class="custom-nodata">
+    <div class="custom-nodata" style="display: none;">
       <img src="../custom/images/nodata.png">
       <p>暂无相关信息</p>
     </div>
@@ -94,49 +94,56 @@
     }
 
     function searchHospitalName(){
-      $('.clear-icon').css({'display': 'block'});
-      $('.custom-nodata').css({'display': 'none'});
-      var kwName = $("#txt-search").val();
-      $('.history-content').css({'display': 'none'});
-      console.log(kwName);
-      $.ajax({
-        url: net.queryAdHospital,
-        type: "get",
-        data:{kw_name: kwName},
-        beforeSend: function(request) {
-          request.setRequestHeader('token', localStorage.getItem('netToken'));
-          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-          request.setRequestHeader('appid', localStorage.getItem('appid'));
-          request.setRequestHeader('timestamp', new Date().getTime());
-        },
-        success:function(data){
-          if(data.code === 0){
-            $('.havedata-hospitals').empty();
-            $('.havedata-hospitals').append('<h4>相关医院</h4>');
-            console.log(data)
-            data.data.map(function (val) {
-              $('.havedata-hospitals').append(
-                '<p class="border-top"></p> <ul>' +
-                '<li class="search-hospital"> <h5>'+ val.hospital_name +'</h5> <p>'+ val.hospital_address +'</p> </li>' +
-                '</ul>'
-              );
-            });
-            $('.search-hospital').click(function () {
-              var hpName = $(this).children('h5').text();
-              localStorage.setItem('hospitalName', hpName);
-              setHistoryItems(hpName);
-              window.history.back();
-            });
-          }else{
-            $.toast(data.msg || '请求错误~', 'forbidden');
+      if($('#txt-search').val().trim() !== ''){
+        $('.clear-icon').css({'display': 'block'});
+        var kwName = $("#txt-search").val().trim();
+        $('.history-content').css({'display': 'none'});
+        console.log(kwName);
+        $.ajax({
+          url: net.queryAdHospital,
+          type: "get",
+          data:{kw_name: kwName},
+          beforeSend: function(request) {
+            request.setRequestHeader('token', localStorage.getItem('netToken'));
+            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+            request.setRequestHeader('appid', localStorage.getItem('appid'));
+            request.setRequestHeader('timestamp', new Date().getTime());
+          },
+          success:function(data){
+            if(data.code === 0){
+              $('.havedata-hospitals').empty();
+              if(data.data.length === 0){
+                $('.custom-nodata').css({'display': 'block'});
+                return;
+              }else{
+                $('.custom-nodata').css({'display': 'none'});
+              }
+              $('.havedata-hospitals').append('<h4>相关医院</h4>');
+              console.log(data)
+              data.data.map(function (val) {
+                $('.havedata-hospitals').append(
+                  '<p class="border-top"></p> <ul>' +
+                  '<li class="search-hospital"> <h5>'+ val.hospital_name +'</h5> <p>'+ val.hospital_address +'</p> </li>' +
+                  '</ul>'
+                );
+              });
+              $('.search-hospital').click(function () {
+                var hpName = $(this).children('h5').text();
+                localStorage.setItem('hospitalName', hpName);
+                setHistoryItems(hpName);
+                window.history.back();
+              });
+            }else{
+              $.toast(data.msg || '请求错误~', 'forbidden');
+            }
+          },
+          error:function(){
+            // $('.havedata-hospitals').empty();
+            console.log('发送失败');
           }
-        },
-        error:function(){
-          // $('.havedata-hospitals').empty();
-          console.log('发送失败');
-        }
-      });
+        });
+      }
     }
 
     initLocalStorage();
@@ -144,7 +151,7 @@
     $("#txt-search").bind('input propertychange', debounce(searchHospitalName, 500));
     $("#txt-search").on('keypress', function (e) {
       // console.log(e.keyCode)
-      if(e.keyCode === 13){
+      if(e.keyCode === 13 && $(this).val() !== ''){
         setHistoryItems($("#txt-search").val());
         console.log(localStorage.getItem('historyItems'));
         initLocalStorage();

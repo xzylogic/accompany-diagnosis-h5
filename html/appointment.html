@@ -7,6 +7,11 @@
    <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
     <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
     <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+  <style>
+    *{
+      touch-action: none;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -247,6 +252,10 @@
     });
   }
 
+  $(".am_time").click(function () {
+    $(".am_name, .am_tel, .am_ID, .am_room, .am_proName").blur(); // 使其失去即可
+  });
+
   function order() {
     if($('#radio5').prop('checked')){
       var _self = $('input[name="ifSelf"]:checked').val(),
@@ -271,7 +280,7 @@
       }else if(!_service){
         $.toast('请选择预约门诊类型', 'forbidden');
         return;
-      }else if(!_room || _room.length > 4){
+      }else if(!_room || _room.length > 20){
         $.toast('请输入预约就诊科室且不超过20中文字符', 'forbidden');
         return;
       }else if(_service === '2' && !_proName){

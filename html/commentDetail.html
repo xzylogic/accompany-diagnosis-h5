@@ -69,10 +69,22 @@
           if(data.code === 0){
             var datas = data.data.accompany_info_dto || '';
             var headHtml = '', contentHtml = '';
-            headHtml += '<h5><span class="name">'+ datas.emp_name || "" +'</span>'+ datas.emp_mobile || "" +'</h5><p class="p1">' + datas.organization || "" +'</p>';
-            contentHtml += '<li><div class="top"><em class="expression1">'+ data.data.satisfied_level || "" +'</em><span class="date">'+ datas.acc_time || "" +'</span></div> <p>'+ data.data.evaluate_content +'</p></li>';
+            $('.pic img').attr('src', datas.emp_url);
+            headHtml += '<h5><span class="name">'+ (datas.emp_name || "") +'</span>'+ (datas.emp_mobile || "") +'</h5><p class="p1">' + (datas.organization || "") +'</p>';
+            contentHtml += '<li><div class="top"><em class="expression1">'+ (data.data.satisfied_level || "") +'</em><span class="date">'+ (datas.acc_time || "") +'</span></div> <p>'+ data.data.evaluate_content +'</p></li>';
+
             $('.con1').html(headHtml);
             $('.comment-list').html(contentHtml);
+            $('.top em').removeClass();
+            if(data.data.satisfied_level === 'very-good'){
+              $('.top em').attr('class', 'expression1');
+            }else if(data.data.satisfied_level === 'satisfied'){
+              $('.top em').attr('class', 'expression2');
+            }else if(data.data.satisfied_level === '"general"'){
+              $('.top em').attr('class', 'expression3');
+            }else{
+              $('.top em').attr('class', 'expression4');
+            }
           }else{
             $.toast(data.msg || '请求错误~', 'forbidden');
           }

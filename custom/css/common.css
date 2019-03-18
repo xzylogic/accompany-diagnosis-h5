@@ -51,7 +51,7 @@ img[src=""],img:not([src]){opacity:0;}
   background-size: contain;
 }
 .scroll-wrap{-webkit-overflow-scrolling: touch;position: absolute;top:0;left:0;bottom: 1.666667rem;width: 100%;overflow: auto;box-sizing: border-box;}
-.scroll-wrap-con{min-height: calc(100% + 1px)}
+/*.scroll-wrap-con{min-height: calc(100% + 1px)}*/
 /*顶部nav*/
 .custom-nav{position: fixed;top: 0;left: 0;font-size: 0;width: 100%;background-color: #FFF;z-index: 99;text-align: center;padding: 0 5px;box-sizing: border-box;height: 1.173333rem;width:10rem;left:50%;margin-left: -5rem;}
 .custom-nav span {display: inline-block;width: 19%;border-bottom: solid 0.08rem #FFF;text-align: center;font-size: 14px;line-height: 1.093333rem;height: 1.093333rem;}

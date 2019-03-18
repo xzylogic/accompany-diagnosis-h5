@@ -7,11 +7,6 @@
    <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
     <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
     <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
-  <style>
-    *{
-      touch-action: none;
-    }
-  </style>
 </head>
 <body>
 <div class="container">
@@ -182,7 +177,7 @@
       $('.am_hospital').val(hospitalName);
     }
     if($('input[name="service"]:checked').val() === '2'){
-      $('.order_proName').css({'display': 'flex'});
+      $('.order_proName').css({'display': 'flex','display':'-webkit-box','display':'-webkit-flex'});
       // $('.order_proName .weui-label').css({'display': 'inline'});
       // $('.order_proName .weui-cell__bd').css({'display': 'inline'});
     }else{
@@ -423,7 +418,7 @@
     });
 
     $('#radio4').click(function () {
-      $('.order_proName').css({'display': 'flex'});
+      $('.order_proName').css({'display': 'flex','display':'-webkit-box','display':'-webkit-flex'});
       // $('.order_proName .weui-label').css({'display': 'inline'});
       // $('.order_proName .weui-cell__bd').css({'display': 'inline'});
     });

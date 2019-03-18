@@ -167,8 +167,8 @@
       $('.am_hospital').val(hospitalName);
     }
     if($('input[name="service"]:checked').val() === '2'){
-      $('.order_proName').css({'display': 'block'});
-      $('.order_proName .weui-label').css({'display': 'inline-block'});
+      $('.order_proName').css({'display': 'flex'});
+      $('.order_proName .weui-label').css({'display': 'inline'});
       $('.order_proName .weui-cell__bd').css({'float': 'right'});
     }else{
       $('.order_proName').css({'display': 'none'});
@@ -392,8 +392,8 @@
     });
 
     $('#radio4').click(function () {
-      $('.order_proName').css({'display': 'block'});
-      $('.order_proName .weui-label').css({'display': 'inline-block'});
+      $('.order_proName').css({'display': 'flex'});
+      $('.order_proName .weui-label').css({'display': 'inline'});
       $('.order_proName .weui-cell__bd').css({'float': 'right'});
     });
 

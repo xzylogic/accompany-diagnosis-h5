@@ -31,7 +31,7 @@ else {
 var net = {
   // getAdServiceGuidelines: 'http://10.1.64.194/accompany-diagnosis-service-api/api/reservation/getServiceGuidelines',  //服务须知
   // getAdServiceGuidelines: net_Root + '/reservation/getServiceGuidelines',  //服务须知
-  getAdServiceGuidelines: ajaxRoot + 'getAdServiceGuidelines',  //服务须知
+  getAdServiceGuidelines: netRoot + 'getAdServiceGuidelines',  //服务须知
   makeOrder: netRoot + 'adMakeOrder',  //生成订单
   userAccountInfo: netRoot + 'userAccountInfo',  //用户信息
   queryAdHospital: netRoot + 'queryAdHospital',  //医院查询

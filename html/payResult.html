@@ -110,16 +110,17 @@
             "uid": uid,
           }),
           success: function (data) {
-            if(data.code == "0"){
-              if(data.data.status == "1"){
+            var firstData = JSON.parse(data);
+            if(firstData.code == 0){
+              if(firstData.data.status == "1"){
                 $("#success").show();
               }else{
                 $("#fail").show();
               }
-            }else if(data.code == "12"){
+            }else if(firstData.code == 12){
               $.toast("账户在其他设备登录,请重新登录", 'forbidden')
             }else{
-              $.toast(data.msg || "查询支付状态失败~", 'forbidden');
+              $.toast(firstData.msg || "查询支付状态失败~", 'forbidden');
             }
             hideMyloading();
           },

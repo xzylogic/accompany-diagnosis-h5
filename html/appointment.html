@@ -256,6 +256,7 @@
     $(".am_name, .am_tel, .am_ID, .am_room, .am_proName").blur(); // 使其失去即可
   });
 
+  var service_meal = decodeURIComponent(getParams('service_meal'));
   function order() {
     if($('#radio5').prop('checked')){
       var _self = $('input[name="ifSelf"]:checked').val(),
@@ -290,8 +291,9 @@
         $.toast('请选择预约陪诊时间', 'forbidden');
         return;
       }
+
       var is_self, patient_name = $('.am_name').val(), patient_mobile = $('.am_tel').val(), patient_personcard = $('.am_ID').val(),
-        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName, service_meal = decodeURIComponent(getParams('service_meal'));
+        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName;
       if(_self === '1'){
         is_self = 'yes';
       }else if(_self === '2'){

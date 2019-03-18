@@ -111,10 +111,11 @@
             // "shopUserId":shopUserId
           }),
           success: function (firstData) {
+            console.log(firstData)
             if (firstData.code === 0) {
-              if (firstData.data.status === 1) {
+              if (firstData.data.status === '1') {
                 $("#success").show();
-              } else if ( firstData.data.status === 0) {
+              } else if ( firstData.data.status === '0') {
                 $("#fail").show();
               }
               hideMyloading();

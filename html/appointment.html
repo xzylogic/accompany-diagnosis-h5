@@ -291,7 +291,7 @@
         return;
       }
       var is_self, patient_name = $('.am_name').val(), patient_mobile = $('.am_tel').val(), patient_personcard = $('.am_ID').val(),
-        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName, service_meal = getParams('service_meal');
+        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName, service_meal = decodeURIComponent(getParams('service_meal'));
       if(_self === '1'){
         is_self = 'yes';
       }else if(_self === '2'){

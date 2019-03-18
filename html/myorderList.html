@@ -166,17 +166,17 @@
 <!--<script type="text/javascript" src="../custom/js/common.js"></script>-->
 
 <script>
-  // setTimeout(function () {
+  setTimeout(function () {
   //   NativeFunc({
   //     ACTION: "CLOSEPAGE",
   //     PARAM: {
   //       INDEX: 1
   //     }
   //   });
-  //   nativeObj.RegisterFun(function () {
-  //     orderList();
-  //   })
-  // }, 100);
+    nativeObj.RegisterFun(function () {
+      orderList();
+    })
+  }, 100);
 
   // var mescroll = new MeScroll("mescroll", {
   //   up: {
@@ -230,7 +230,7 @@
     orderList();
   });
 
-  orderList();
+  // orderList();
 
   // orderList('', '');
   function orderList() {

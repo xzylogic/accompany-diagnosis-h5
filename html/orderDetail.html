@@ -143,8 +143,18 @@
   var pay_code = getParams('pay_code');
   var reservation_id;
 
-
-  GetQueryString();
+  setTimeout(function () {
+    //   NativeFunc({
+    //     ACTION: "CLOSEPAGE",
+    //     PARAM: {
+    //       INDEX: 1
+    //     }
+    //   });
+    nativeObj.RegisterFun(function () {
+      GetQueryString();
+    })
+  }, 100);
+  // GetQueryString();
 
   function GetQueryString() {
     // var type = getParams('type'), status = getParams('status');

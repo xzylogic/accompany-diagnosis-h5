@@ -70,7 +70,8 @@
     var isNative=localStorage.getItem('isNative') || getParams('isNative');
 
     // var businessNo = localStorage.getItem("businessNo");
-    var biz_id = localStorage.getItem('biz_id'), business_no = getParams('order_code'), order_code = localStorage.getItem('order_code'), pay_amount = localStorage.getItem('pay_amount');
+    var biz_id = localStorage.getItem('biz_id'), business_no = localStorage.getItem('order_code'), order_code = localStorage.getItem('order_code'),
+      pay_amount = localStorage.getItem('pay_amount'), service_meal = localStorage.getItem('service_meal'), biz_name = localStorage.getItem('biz_name');
 
     $(".ok").on("click", function () {
       getResult();
@@ -109,7 +110,7 @@
                 NativeFunc({
                   ACTION: "OPENURL",
                   PARAM: {
-                    URL: requestUrl + "/orderPay.html?forPage=2&order_code=" + order_code + "&pay_amount=" + pay_amount
+                    URL: requestUrl + '/orderPay.html?forPage=2&order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
                   }
                 })
               }
@@ -216,7 +217,7 @@
       NativeFunc({
         ACTION: "OPENURL",
         PARAM: {
-          URL: requestUrl + "/orderDetail.html?order_code=" + order_code
+          URL: requestUrl + "/orderDetail.html?pay_code=" + order_code
         }
       })
     });
@@ -225,7 +226,7 @@
       NativeFunc({
         ACTION: "OPENURL",
         PARAM: {
-          URL: requestUrl + "/orderPay.html?forPage=2&order_code=" + order_code + "&pay_amount=" + pay_amount
+          URL: requestUrl + '/orderPay.html?forPage=2&order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
         }
       })
     });

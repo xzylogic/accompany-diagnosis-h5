@@ -220,7 +220,7 @@
               async:false,
               timeout: 6000,
               data:JSON.stringify({
-                "amount": (Number(getParams(pay_amount)).toFixed(2))*100,
+                "amount": (Number(pay_amount).toFixed(2))*100,
                 "business_no": order_code,
                 "biz_name": biz_name,
                 "order_name": service_meal,
@@ -315,7 +315,7 @@
                 if(data.code === 0){
                   // localStorage.setItem("businessNo",firstData.data);
                   localStorage.setItem("businessNo", order_code);
-                  localStorage.setItem("pay_amount", pay_amount);
+                  // localStorage.setItem("pay_amount", pay_amount);
                   if(checkedWay === "alipay"){
                     document.write(data.data);
                   }else{

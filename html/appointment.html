@@ -146,7 +146,7 @@
   }
 
   function checkName(){
-    let _name = $('.am_name').val();
+    var _name = $('.am_name').val();
     if(_name.length > 10 || _name === ''){
       $.toast('请输入姓名且不超过10位', 'forbidden');
       return false;
@@ -155,8 +155,8 @@
   }
 
   function checkTel(){
-    let reg = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
-    if(reg.test($('.am_tel').val()) === false){
+    var reg1 = /^[1][0,1,2,3,4,5,6,7,8,9][0-9]{9}$/;
+    if(reg1.test($('.am_tel').val()) === false){
       $.toast('手机号码有误，请重填', 'forbidden');
       return false;
     }
@@ -164,8 +164,8 @@
   }
 
   function checkID(){
-    let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-    if(reg.test($('.am_ID').val()) === false) {
+    var reg2 = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    if(reg2.test($('.am_ID').val()) === false) {
       $.toast('身份证输入不合法', 'forbidden');
       return false;
     }
@@ -174,7 +174,7 @@
 
   var time1, time2;
   window.onload = function () {
-    let hospitalName = localStorage.getItem('hospitalName') || '';
+    var hospitalName = localStorage.getItem('hospitalName') || '';
     console.log(hospitalName);
     // alert(123)
     // alert(hospitalName)
@@ -291,7 +291,7 @@
         return;
       }
       var is_self, patient_name = $('.am_name').val(), patient_mobile = $('.am_tel').val(), patient_personcard = $('.am_ID').val(),
-        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName;
+        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName, service_meal = getParams('service_meal');
       if(_self === '1'){
         is_self = 'yes';
       }else if(_self === '2'){
@@ -313,6 +313,7 @@
           acc_am_pm: time2,
           pay_amount: pay_amount,
           pay_code: pay_code,
+          service_meal: service_meal,
         })
       }else if (_service === '2'){
         outpatient_type = 'expert';
@@ -329,6 +330,7 @@
           expert_name: expert_name,
           pay_amount: pay_amount,
           pay_code: pay_code,
+          service_meal: service_meal,
         })
       }
 
@@ -387,10 +389,11 @@
         success: function(data){
           console.log(data);
           if(data.code === 0){
-            var xing = '' , idCard = data.data.idcard || '';
+            var xing = '' , idCard = (data.data && data.data.idcard) || '';
+            console.log(idCard)
             $('.am_name').val(data.data.name || '');
             $('.am_tel').val(data.data.mobile || '');
-            if(data.data.is_changed_nick_name){
+            if(data.data && data.data.is_changed_nick_name){
               for(var j = 4; j < idCard.length-4; j++){
                 xing += '*';
               }
@@ -424,7 +427,7 @@
     });
 
     $('#radio5').click(function () {
-      let _order = $('#order');
+      var _order = $('#order');
       if($(this).prop('checked') === true){
         _order.css({'color': 'white', 'background': '#0CB7F5'});
       }else{

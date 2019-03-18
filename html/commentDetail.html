@@ -71,19 +71,19 @@
             var headHtml = '', contentHtml = '';
             $('.pic img').attr('src', datas.emp_url);
             headHtml += '<h5><span class="name">'+ (datas.emp_name || "") +'</span>'+ (datas.emp_mobile || "") +'</h5><p class="p1">' + (datas.organization || "") +'</p>';
-            contentHtml += '<li><div class="top"><em class="expression1">'+ (data.data.satisfied_level || "") +'</em><span class="date">'+ (datas.acc_time || "") +'</span></div> <p>'+ data.data.evaluate_content +'</p></li>';
+            contentHtml += '<li><div class="top"><em class="expression1">'+ (data.data.satisfied_level || "") +'</em><span class="date">'+ (datas.evaluate_date || "") +'</span></div> <p>'+ data.data.evaluate_content +'</p></li>';
 
             $('.con1').html(headHtml);
             $('.comment-list').html(contentHtml);
             $('.top em').removeClass();
             if(data.data.satisfied_level === 'very-good'){
-              $('.top em').attr('class', 'expression1');
+              $('.top em').attr('class', 'expression1').text('非常满意');
             }else if(data.data.satisfied_level === 'satisfied'){
-              $('.top em').attr('class', 'expression2');
+              $('.top em').attr('class', 'expression2').text('满意');
             }else if(data.data.satisfied_level === '"general"'){
-              $('.top em').attr('class', 'expression3');
+              $('.top em').attr('class', 'expression3').text('一般');
             }else{
-              $('.top em').attr('class', 'expression4');
+              $('.top em').attr('class', 'expression4').text('不满意');
             }
           }else{
             $.toast(data.msg || '请求错误~', 'forbidden');

@@ -166,17 +166,17 @@
 <!--<script type="text/javascript" src="../custom/js/common.js"></script>-->
 
 <script>
-  // setTimeout(function () {
+  setTimeout(function () {
   //   NativeFunc({
   //     ACTION: "CLOSEPAGE",
   //     PARAM: {
   //       INDEX: 1
   //     }
   //   });
-  //   nativeObj.RegisterFun(function () {
-  //     orderList();
-  //   })
-  // }, 100);
+    nativeObj.RegisterFun(function () {
+      orderList();
+    })
+  }, 100);
 
   // var mescroll = new MeScroll("mescroll", {
   //   up: {
@@ -237,7 +237,7 @@
     // page = {num:1, size:3};
     var html = '', htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
     $('.custom-nodata').css({'display': 'none'});
-    console.log(listStatus);
+    // console.log(listStatus);
     $.ajax({
       type: "GET",
       url: net.orderList,
@@ -255,7 +255,7 @@
         request.setRequestHeader('timestamp', new Date().getTime());
       },
       success: function(data){
-        // mescroll.endSuccess(data.length, data.data.more);
+        // mescroll.endSuccess(data.data.content.length, data.data.more);
         hideMyloading();
         console.log(data);
         if(data.code === 0){

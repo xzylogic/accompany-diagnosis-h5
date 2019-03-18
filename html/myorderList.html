@@ -503,19 +503,37 @@
 
   //查看详情
   function viewDetail(index, payCode) {
-    console.log(index);
-    window.location.href = 'orderDetail.html?pay_code='+payCode;
+    // console.log(index);
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/orderDetail.html?pay_code='+payCode
+      }
+    });
+    // window.location.href = 'orderDetail.html?pay_code='+payCode;
   }
 
   //查看退款详情
   function viewRefundDetail(payCode) {
-    window.location.href = 'refundDetail.html?pay_code='+payCode;
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/refundDetail.html?pay_code='+payCode
+      }
+    });
+    // window.location.href = 'refundDetail.html?pay_code='+payCode;
   }
 
   //预约陪诊
   function appointOrder(index, payCode, price, meal) {
-    console.log(index);
-    window.location.href = 'appointment.html?pay_amount='+ price +'&pay_code='+ payCode +'&service_meal='+ meal;
+    // console.log(index);
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/appointment.html?pay_amount='+ price +'&pay_code='+ payCode +'&service_meal='+ decodeURIComponent(meal)
+      }
+    });
+    // window.location.href = 'appointment.html?pay_amount='+ price +'&pay_code='+ payCode +'&service_meal='+ decodeURIComponent(meal);
   }
 
   // 退款中的预约陪诊按钮提示功能
@@ -526,20 +544,38 @@
 
   //服务评价
   function servicesEvaluate(index, id, payCode) {
-    console.log(index, id);
-    window.location.href = 'comment.html?reservation_id='+ id +'&pay_code='+ payCode;
+    // console.log(index, id);
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/comment.html?reservation_id='+ id +'&pay_code='+ payCode
+      }
+    });
+    // window.location.href = 'comment.html?reservation_id='+ id +'&pay_code='+ payCode;
   }
 
   //查看评价
   function viewCommentDetail(index, id) {
-    console.log(index);
-    window.location.href = 'commentDetail.html?reservation_id='+id;
+    // console.log(index);
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/commentDetail.html?reservation_id='+id
+      }
+    });
+    // window.location.href = 'commentDetail.html?reservation_id='+id;
   }
 
   //订单详情各页面
   function orderDetail(index, payCode) {
-    window.location.href = 'orderDetail.html?pay_code='+payCode;
-    console.log(index);
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/orderDetail.html?pay_code='+payCode
+      }
+    });
+    // window.location.href = 'orderDetail.html?pay_code='+payCode;
+    // console.log(index);
   }
 </script>
 </body>

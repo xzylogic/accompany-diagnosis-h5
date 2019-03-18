@@ -110,13 +110,13 @@
             "uid": uid,
           }),
           success: function (data) {
-            if(data.code === 0){
-              if(data.data.status === '1'){
+            if(data.code == 0){
+              if(data.data.status == "1"){
                 $("#success").show();
               }else{
                 $("#fail").show();
               }
-            }else if(data.code === 12){
+            }else if(data.code == 12){
               $.toast("账户在其他设备登录,请重新登录", 'forbidden')
             }else{
               $.toast(data.msg || "查询支付状态失败~", 'forbidden');
@@ -137,7 +137,7 @@
 
       //跳首页
       $(document).on('click', '#toIndex', function () {
-        if(isNative === 1){
+        if(isNative == 1){
           //回到第一个webview
           NativeFunc({
             ACTION: 'CLOSEPAGE',

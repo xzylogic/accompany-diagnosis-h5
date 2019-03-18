@@ -7,6 +7,11 @@
    <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
     <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
     <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+  <style>
+    *{
+      touch-action: none;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
@@ -123,15 +128,25 @@
   $.toast.prototype.defaults.duration = 800;
 
   function searchHospital() {
-    window.location.href = 'searchHospital.html';
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/searchHospital.html'
+      }
+    });
   }
 
   function serviceNotice() {
-    window.location.href = 'instructions.html';
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM:{
+        URL: nativeObj.htmlPath + '/instructions.html'
+      }
+    });
   }
 
   function checkName(){
-    let _name = $('.am_name').val();
+    var _name = $('.am_name').val();
     if(_name.length > 10 || _name === ''){
       $.toast('请输入姓名且不超过10位', 'forbidden');
       return false;
@@ -140,8 +155,8 @@
   }
 
   function checkTel(){
-    let reg = /^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
-    if(reg.test($('.am_tel').val()) === false){
+    var reg1 = /^[1][0,1,2,3,4,5,6,7,8,9][0-9]{9}$/;
+    if(reg1.test($('.am_tel').val()) === false){
       $.toast('手机号码有误，请重填', 'forbidden');
       return false;
     }
@@ -149,8 +164,8 @@
   }
 
   function checkID(){
-    let reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-    if(reg.test($('.am_ID').val()) === false) {
+    var reg2 = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+    if(reg2.test($('.am_ID').val()) === false) {
       $.toast('身份证输入不合法', 'forbidden');
       return false;
     }
@@ -159,7 +174,7 @@
 
   var time1, time2;
   window.onload = function () {
-    let hospitalName = localStorage.getItem('hospitalName') || '';
+    var hospitalName = localStorage.getItem('hospitalName') || '';
     console.log(hospitalName);
     // alert(123)
     // alert(hospitalName)
@@ -226,8 +241,8 @@
               }
             }
           });
-        }else {
-          console.log(data);
+        }else{
+          $.toast(data.msg || '请求错误~', 'forbidden');
         }
       },
       error:function(){
@@ -236,6 +251,10 @@
       }
     });
   }
+
+  $(".am_time").click(function () {
+    $(".am_name, .am_tel, .am_ID, .am_room, .am_proName").blur(); // 使其失去即可
+  });
 
   function order() {
     if($('#radio5').prop('checked')){
@@ -261,7 +280,7 @@
       }else if(!_service){
         $.toast('请选择预约门诊类型', 'forbidden');
         return;
-      }else if(!_room || _room.length > 4){
+      }else if(!_room || _room.length > 20){
         $.toast('请输入预约就诊科室且不超过20中文字符', 'forbidden');
         return;
       }else if(_service === '2' && !_proName){
@@ -272,7 +291,7 @@
         return;
       }
       var is_self, patient_name = $('.am_name').val(), patient_mobile = $('.am_tel').val(), patient_personcard = $('.am_ID').val(),
-        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName;
+        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName, service_meal = decodeURIComponent(getParams('service_meal'));
       if(_self === '1'){
         is_self = 'yes';
       }else if(_self === '2'){
@@ -294,6 +313,7 @@
           acc_am_pm: time2,
           pay_amount: pay_amount,
           pay_code: pay_code,
+          service_meal: service_meal,
         })
       }else if (_service === '2'){
         outpatient_type = 'expert';
@@ -310,6 +330,7 @@
           expert_name: expert_name,
           pay_amount: pay_amount,
           pay_code: pay_code,
+          service_meal: service_meal,
         })
       }
 
@@ -330,7 +351,12 @@
           hideMyloading();
           if(data.code === 0){
             console.log(data);
-            window.location.href = 'orderSuccess.html?pay_code='+pay_code;
+            NativeFunc({
+              ACTION: "OPENURL",
+              PARAM:{
+                URL: nativeObj.htmlPath + '/orderSuccess.html?pay_code='+pay_code
+              }
+            });
           }else{
             $.toast(data.msg || '数据错误~', 'forbidden');
           }
@@ -363,16 +389,19 @@
         success: function(data){
           console.log(data);
           if(data.code === 0){
-            var xing = '' , idCard = data.data.idcard || '';
+            var xing = '' , idCard = (data.data && data.data.idcard) || '';
+            console.log(idCard)
             $('.am_name').val(data.data.name || '');
             $('.am_tel').val(data.data.mobile || '');
-            if(data.data.is_changed_nick_name){
+            if(data.data && data.data.is_changed_nick_name){
               for(var j = 4; j < idCard.length-4; j++){
                 xing += '*';
               }
               idCard = idCard.substring(0, 4) + xing + idCard.substring(idCard.length -4);
             }
             $('.am_ID').val(idCard);
+          }else{
+            $.toast(data.msg || '请求错误~', 'forbidden');
           }
         },
         error: function (err) {
@@ -398,7 +427,7 @@
     });
 
     $('#radio5').click(function () {
-      let _order = $('#order');
+      var _order = $('#order');
       if($(this).prop('checked') === true){
         _order.css({'color': 'white', 'background': '#0CB7F5'});
       }else{

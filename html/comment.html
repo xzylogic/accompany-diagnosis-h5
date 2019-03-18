@@ -15,8 +15,8 @@
       <div class="user-mes-box">
         <span class="pic"><img src="../custom/images/head_bg.png"></span>
         <div class="con1">
-          <h5><span class="name">李四</span>1355657656</h5>
-          <p class="p1">上海健康云陪诊服务中心</p>
+          <h5><span class="name"></span><em></em></h5>
+          <p class="p1"></p>
         </div>
       </div>
       <h3>服务评价</h3>
@@ -47,6 +47,46 @@
 
   <script>
     $.toast.prototype.defaults.duration = 800;
+
+    var pay_code = getParams('pay_code');
+    GetQueryString();
+
+    function GetQueryString() {
+      // var type = getParams('type'), status = getParams('status');
+      // console.log(typeof type, type);
+      console.log(typeof pay_code, pay_code);
+
+      $.ajax({
+        type: "GET",
+        url: net.orderDetail,
+        data: {pay_code: pay_code},
+        beforeSend: function (request) {
+          showMyloading();
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
+        success: function (data) {
+          console.log(data.data)
+          hideMyloading();
+          var datas = (data.data.reservation_detail && data.data.reservation_detail.accompany_info_dto) || '';
+          if (data.code === 0) {
+            $('.pic img').attr('src', datas.emp_url || '');
+            $('.name').text(datas.emp_name || '');
+            $('.con1 em:eq(0)').text(datas.emp_mobile || '');
+            $('.p1').text(datas.organization || '');
+          }else{
+            $.toast(data.msg || '请求错误~', 'forbidden');
+          }
+        },
+        error: function (err) {
+          hideMyloading();
+          console.log(err);
+        }
+      });
+    }
 
     var evalueteVal;
 
@@ -90,9 +130,14 @@
           success: function(data){
             hideMyloading();
             if(data.code === 0){
-              window.location.href = 'commentDetail.html?reservation_id='+reservation_id;
+              NativeFunc({
+                ACTION: "OPENURL",
+                PARAM:{
+                  URL: nativeObj.htmlPath + '/commentDetail.html?reservation_id='+reservation_id
+                }
+              });
             }else{
-              console.log(data);
+              $.toast(data.msg || '请求错误~', 'forbidden');
             }
           },
           error: function (err) {

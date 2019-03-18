@@ -30,9 +30,9 @@
             </div>
             <p class="border-top"></p>
             <div class="weui-cell">
-                <label class="weui-label">退款金额<br /><em class="stxt">最多￥398.00</em></label>
+                <label class="weui-label">退款金额<br /><em class="stxt">最多￥<span>398.00</span></em></label>
                 <div class="weui-cell__bd  custom-txt-right">
-                    <span class="total">￥398.00</span>
+                    <span class="total">￥<span>398.00</span></span>
                 </div>
             </div>
           </div>
@@ -71,6 +71,7 @@
         '<p><label>服务价格</label><span>￥'+ price +'/次</span></p> ' +
         '<p><label>下单时间</label><span>'+ time +'</span></p>';
       $('.refund-form-con1').html(refundMes);
+      $('.stxt span, .total span').text(price);
     });
 
     // function wordStatic(input) {
@@ -114,9 +115,8 @@
               // $.toast('退款成功');
               // window.location.href = refundDetail.html;
             }else{
-              console.log('退款失败');
+              $.toast(data.msg || '请求错误~', 'forbidden');
             }
-            console.log(data);
           },
           error: function (err) {
             console.log(err)
@@ -129,7 +129,12 @@
     }
 
     function refundDetail() {
-      window.location.href = 'refundDetail.html?pay_code='+pay_code;
+      NativeFunc({
+        ACTION: "OPENURL",
+        PARAM: {
+          URL: nativeObj.htmlPath + '/refundDetail.html?pay_code=' + pay_code
+        }
+      });
       // $.ajax({
       //   type: "POST",
       //   url: net.orderDetail,

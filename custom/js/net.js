@@ -39,6 +39,7 @@ var net = {
   adOrderRefundment: netRoot + 'adOrderRefundment',  //退款
   adRescindRefundment: netRoot + 'adRescindRefundment',  //撤销申请退款
   adGetSdkPayParams: netRoot + 'adGetSdkPayParams',  //获取SDK支付参数
+  adQueryPayStatus: netRoot + 'adQueryPayStatus',  //查询支付状态
 
   //商城支付接口
   createPay: netRoot + 'createPay',  //获取订单id

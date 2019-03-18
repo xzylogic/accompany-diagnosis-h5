@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>陪诊订单</title>
-  <link rel="stylesheet" type="text/css" href="../lib/css/mescroll.css"/>
+  <!--<link rel="stylesheet" type="text/css" href="../lib/css/mescroll.css"/>-->
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css"/>
   <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css"/>
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css"/>
@@ -157,7 +157,7 @@
 <script type="text/javascript" src="../lib/js/flexible.js"></script>
 <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
 <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
-<script type="text/javascript" src="../lib/js/mescroll.min.js"></script>
+<!--<script type="text/javascript" src="../lib/js/mescroll.min.js"></script>-->
 <script src="../lib/js/jquery-weui.js"></script>
 <script src="../custom/js/native.js"></script>
 <script src="../custom/js/net.js"></script>
@@ -174,15 +174,15 @@
   //     }
   //   });
     nativeObj.RegisterFun(function () {
-      orderList('', '');
+      orderList();
     })
   }, 100);
 
-  var mescroll = new MeScroll("mescroll", {
-    up: {
-      callback: orderList, //上拉加载的回调
-    }
-  });
+  // var mescroll = new MeScroll("mescroll", {
+  //   up: {
+  //     callback: orderList, //上拉加载的回调
+  //   }
+  // });
 
   //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
   // function upCallback(page) {
@@ -233,18 +233,18 @@
   orderList();
 
   // orderList('', '');
-  function orderList(page) {
-    page = {num:1, size:10};
+  function orderList() {
+    // page = {num:1, size:3};
     var html = '', htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
     $('.custom-nodata').css({'display': 'none'});
-    console.log(listStatus);
+    // console.log(listStatus);
     $.ajax({
       type: "GET",
       url: net.orderList,
       data : {
         uid : localStorage.getItem('uid'),
         order_status: listStatus,
-        page: page.num,
+        page: 1,
       },
       beforeSend: function(request) {
         showMyloading();
@@ -255,6 +255,7 @@
         request.setRequestHeader('timestamp', new Date().getTime());
       },
       success: function(data){
+        // mescroll.endSuccess(data.data.content.length, data.data.more);
         hideMyloading();
         console.log(data);
         if(data.code === 0){
@@ -265,7 +266,7 @@
               obj.refund_status = '退款关闭';
               refundContent = '';
               refundStatus = '<em>待预约</em>';
-              refundBtn = '<span class="btn" onclick="appointOrder(\'预约陪诊1\', \''+ obj.pay_code +'\', \''+ obj.service_price +'\')">预约陪诊</span>';
+              refundBtn = '<span class="btn" onclick="appointOrder(\'预约陪诊1\', \''+ obj.pay_code +'\', \''+ obj.service_price +'\', \''+ obj.service_meal +'\')">预约陪诊</span>';
             }else if(obj.refund_status === 'refund_ing'){
               obj.refund_status = '退款中';
               refundContent = '<em class="orange">退款中</em>';
@@ -337,7 +338,7 @@
                         '<em class="orange">'+ obj.refund_status +'</em></li> <li><label>下单时间</label>' +
                         '<span>'+ obj.order_time +'</span></li> </ul> <p class="lineBg"></p> ' +
                         '<p class="order-btn-box">' +
-                        '<span class="btn" onclick="appointOrder(\'预约陪诊1\', \''+ obj.pay_code +'\', \''+ obj.service_price +'\')">预约陪诊</span>' +
+                        '<span class="btn" onclick="appointOrder(\'预约陪诊1\', \''+ obj.pay_code +'\', \''+ obj.service_price +'\', \''+ obj.service_meal +'\')">预约陪诊</span>' +
                         '</p> </div>';
                       break;
                   }
@@ -361,7 +362,7 @@
                       '<li><label>服务类型</label><span>'+ obj.service_meal +'</span><em class="gray">已完成</em></li> ' +
                       '<li><label>服务价格</label><span>￥'+ obj.service_price +'/次</span><em class="orange">'+ obj.refund_status +'</em></li> ' +
                       '<li><label>下单时间</label><span>'+ obj.order_time +'</span></li> </ul> <p class="lineBg"></p> ' +
-                      '<p class="order-btn-box"><span class="btn" onclick="servicesEvaluate(\'2\', \''+ obj.reservation_id +'\')">服务评价</span>' +
+                      '<p class="order-btn-box"><span class="btn" onclick="servicesEvaluate(\'2\', \''+ obj.reservation_id +'\', \''+ obj.pay_code +'\')">服务评价</span>' +
                       '</p> </div>';
                   }else if(obj.estimate_status === '1'){
                     html += '<div class="myorder-item"> <ul class="con" onclick="orderDetail(3, \''+ obj.pay_code +'\')"> ' +
@@ -413,6 +414,8 @@
 
             }
           }) : $('.custom-nodata').css({'display': 'block'});
+        }else{
+          $.toast(data.msg || '请求错误', 'forbidden');
         }
       },
       error: function (err) {
@@ -510,9 +513,9 @@
   }
 
   //预约陪诊
-  function appointOrder(index, payCode, price) {
+  function appointOrder(index, payCode, price, meal) {
     console.log(index);
-    window.location.href = 'appointment.html?pay_amount='+ price +'&pay_code='+ payCode;
+    window.location.href = 'appointment.html?pay_amount='+ price +'&pay_code='+ payCode +'&service_meal='+ meal;
   }
 
   // 退款中的预约陪诊按钮提示功能
@@ -522,9 +525,9 @@
 
 
   //服务评价
-  function servicesEvaluate(index, id) {
+  function servicesEvaluate(index, id, payCode) {
     console.log(index, id);
-    window.location.href = 'comment.html?reservation_id='+id;
+    window.location.href = 'comment.html?reservation_id='+ id +'&pay_code='+ payCode;
   }
 
   //查看评价

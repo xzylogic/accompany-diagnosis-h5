@@ -18,12 +18,12 @@
                   <label class="weui-label">就诊人</label>
                   <div class="weui-cell__bd custom-txt-right">
                     <label class="custom_check_label custom_check_slabel">
-                        <input type="radio" name="ifSelf" id="radio1" value="1" hidden />
+                        <input type="radio" name="ifSelf" id="radio1" value="1" hidden checked/>
                         <label for="radio1" class="icon-check"></label>
                         <span class="name">本人</span>
                     </label>&nbsp;&nbsp;&nbsp;
                     <label class="custom_check_label custom_check_slabel">
-                        <input type="radio" name="ifSelf" id="radio2" value="2" hidden checked/>
+                        <input type="radio" name="ifSelf" id="radio2" value="2" hidden />
                         <label for="radio2" class="icon-check"></label>
                         <span class="name">非本人</span>
                     </label>
@@ -368,8 +368,9 @@
     }
   }
 
-  $(document).ready(function () {
-    $('#radio1').click(function () {
+  handleCheck();
+  function handleCheck(){
+    if($('#radio1').prop('checked')){
       var uid = localStorage.getItem('uid');
       console.log(uid)
       $.ajax({
@@ -387,10 +388,10 @@
           console.log(data);
           if(data.code === 0){
             var xing = '' , idCard = (data.data && data.data.idcard) || '';
-            console.log(idCard)
+            console.log(idCard);
             $('.am_name').val(data.data.name || '');
             $('.am_tel').val(data.data.mobile || '');
-            if(data.data && data.data.is_changed_nick_name){
+            if(idCard){
               for(var j = 4; j < idCard.length-4; j++){
                 xing += '*';
               }
@@ -405,12 +406,15 @@
           console.log(err);
         }
       });
-    });
+    }
+  }
 
+  $(document).ready(function () {
+    $('#radio1').bind('click', function () {
+      handleCheck();
+    });
     $('#radio2').click(function () {
-      $('.am_name').val('');
-      $('.am_tel').val('');
-      $('.am_ID').val('');
+      $('.am_name, .am_tel, .am_ID').val('');
     });
 
     $('#radio3').click(function () {

@@ -1,7 +1,13 @@
 // var net_Root = '/adsa/';
 // var netRoot = '/app/mock/30/';
 var netRoot = '/gw/';
-var ajaxRoot = '/gw/';
+// var ajaxRoot = '/gw/';
+
+if (document.location.host == 'h5.wdjky.com' || document.location.host == 'www.wdjky.com') netRoot = '/gw/';//生产环境
+else {
+  if (/wdjky.com/i.test(location.href)) netRoot = '/gw-te/';
+  else netRoot = '/gw/';// 10.1.64.195
+}
 
 // const net = {
 //   getAdServiceGuidelines: netRoot + 'getAdServiceGuidelines',  //服务须知
@@ -45,6 +51,6 @@ var net = {
   createPay: netRoot + 'createPay',  //获取订单id
   payAgent: netRoot + 'payAgent',  //统一支付
 
-  scanConsume: ajaxRoot + 'payAgent',  //支付
-  userGetTokenByAuthCode: ajaxRoot + 'userGetTokenByAuthCode',//根据code换token
+  scanConsume: netRoot + 'payAgent',  //支付
+  userGetTokenByAuthCode: netRoot + 'userGetTokenByAuthCode',//根据code换token
 };

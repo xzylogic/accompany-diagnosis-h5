@@ -266,7 +266,7 @@
               obj.refund_status = '退款关闭';
               refundContent = '';
               refundStatus = '<em>待预约</em>';
-              refundBtn = '<span class="btn" onclick="appointOrder(\'预约陪诊1\', \''+ obj.pay_code +'\', \''+ obj.service_price +'\')">预约陪诊</span>';
+              refundBtn = '<span class="btn" onclick="appointOrder(\'预约陪诊1\', \''+ obj.pay_code +'\', \''+ obj.service_price +'\', \''+ obj.service_meal +'\')">预约陪诊</span>';
             }else if(obj.refund_status === 'refund_ing'){
               obj.refund_status = '退款中';
               refundContent = '<em class="orange">退款中</em>';
@@ -338,7 +338,7 @@
                         '<em class="orange">'+ obj.refund_status +'</em></li> <li><label>下单时间</label>' +
                         '<span>'+ obj.order_time +'</span></li> </ul> <p class="lineBg"></p> ' +
                         '<p class="order-btn-box">' +
-                        '<span class="btn" onclick="appointOrder(\'预约陪诊1\', \''+ obj.pay_code +'\', \''+ obj.service_price +'\')">预约陪诊</span>' +
+                        '<span class="btn" onclick="appointOrder(\'预约陪诊1\', \''+ obj.pay_code +'\', \''+ obj.service_price +'\', \''+ obj.service_meal +'\')">预约陪诊</span>' +
                         '</p> </div>';
                       break;
                   }
@@ -513,9 +513,9 @@
   }
 
   //预约陪诊
-  function appointOrder(index, payCode, price) {
+  function appointOrder(index, payCode, price, meal) {
     console.log(index);
-    window.location.href = 'appointment.html?pay_amount='+ price +'&pay_code='+ payCode;
+    window.location.href = 'appointment.html?pay_amount='+ price +'&pay_code='+ payCode +'&service_meal='+ meal;
   }
 
   // 退款中的预约陪诊按钮提示功能

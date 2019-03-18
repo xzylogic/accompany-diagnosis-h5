@@ -124,6 +124,7 @@
         lightAppCode: '',
       };
       var code = getParams('code');
+      localStorage.setItem('indexUrl', nativeObj.htmlPath + '/introduce.html');
 
       showMyloading();
 
@@ -252,8 +253,12 @@
                 pay_amount = datas.pay_amount,
                 biz_id = datas.biz_id,
                 biz_name = datas.biz_name;
-            localStorage.setItem('biz_id', biz_id);
             localStorage.setItem('order_code', order_code);
+            localStorage.setItem('service_meal', service_meal);
+            localStorage.setItem('pay_amount', pay_amount);
+            localStorage.setItem('biz_id', biz_id);
+            localStorage.setItem('biz_name', biz_name);
+            localStorage.setItem('biz_name', biz_name);
             NativeFunc({
               ACTION: "OPENURL",
               PARAM:{

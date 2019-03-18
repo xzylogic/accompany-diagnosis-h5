@@ -157,7 +157,7 @@
 <script type="text/javascript" src="../lib/js/flexible.js"></script>
 <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
 <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
-<!--<script type="text/javascript" src="../lib/js/mescroll.min.js"></script>-->
+<script type="text/javascript" src="../lib/js/mescroll.min.js"></script>
 <script src="../lib/js/jquery-weui.js"></script>
 <script src="../custom/js/native.js"></script>
 <script src="../custom/js/net.js"></script>
@@ -178,11 +178,17 @@
     })
   }, 100);
 
-  // var mescroll = new MeScroll("mescroll", {
-  //   up: {
-  //     callback: orderList, //上拉加载的回调
-  //   }
-  // });
+  var mescroll = new MeScroll("mescroll", {
+    down: {
+      auto: false, //是否在初始化完毕之后自动执行下拉回调callback; 默认true
+      callback: function () {
+        return '';
+      } //下拉刷新的回调
+    },
+    up: {
+      callback: orderList, //上拉加载的回调
+    }
+  });
 
   //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
   // function upCallback(page) {
@@ -230,11 +236,17 @@
     orderList();
   });
 
-  orderList();
+  // orderList();
 
   // orderList('', '');
-  function orderList() {
+  function orderList(page) {
     // page = {num:1, size:3};
+    var pageNum;
+    if(page && page.num){
+      pageNum = page.num;
+    }else{
+      pageNum = 1
+    }
     var html = '', htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
     $('.custom-nodata').css({'display': 'none'});
     // console.log(listStatus);
@@ -244,7 +256,7 @@
       data : {
         uid : localStorage.getItem('uid'),
         order_status: listStatus,
-        page: 1,
+        page: pageNum,
       },
       beforeSend: function(request) {
         showMyloading();

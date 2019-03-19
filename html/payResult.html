@@ -93,13 +93,13 @@
       var biz_id = localStorage.getItem('biz_id'), business_no = localStorage.getItem('order_code'), order_code = localStorage.getItem('order_code'),
         pay_amount = localStorage.getItem('pay_amount'), service_meal = localStorage.getItem('service_meal'), biz_name = localStorage.getItem('biz_name');
 
-      showMyloading();
       try {
         $.ajax({
           url: net.adQueryPayStatus,
           type: "post",
           contentType: 'application/json',
           beforeSend: function (request) {
+            showMyloading();
             request.setRequestHeader("token", netToken);
             request.setRequestHeader("channelCode", channelCode);
             request.setRequestHeader("lightAppCode", lightAppCode);

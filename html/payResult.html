@@ -112,42 +112,42 @@
             "uid": uid,
           }),
           success: function (data) {
-            alert(1)
-            alert(typeof data)
-            alert(JSON.stringify(data))
+            // alert(1)
+            // alert(typeof data)
+            // alert(JSON.stringify(data))
             var firstData = JSON.parse(data);
             if(firstData.code == 0){
-              alert('firstData.code==0')
+              // alert('firstData.code==0')
               if(firstData.data.status == "1"){
-                alert('firstData.data.status ==1')
-
+                // alert('firstData.data.status ==1')
+                $("#success").show();
                 $("#success h5").text(data.data.biz_name || '');
                 $("#success .price").text(data.data.amount || '');
-                $("#success").show();
+                hideMyloading();
               }else if(firstData.data.status == "2"){
-                alert('firstData.data.status == 2')
+                // alert('firstData.data.status == 2')
 
                 $("#fail").show();
+                hideMyloading();
               }else{
-                alert(2)
+                // alert(2)
 
                 $("#abnormal").show();
               }
-              hideMyloading();
             }else if(firstData.code == 12){
-              alert('firstData.code == 12')
+              // alert('firstData.code == 12')
 
               $.toast("账户在其他设备登录,请重新登录", 'forbidden');
               hideMyloading();
             }else{
-              alert(3)
+              // alert(3)
 
               $.toast(firstData.msg || "查询支付状态失败~", 'forbidden');
               hideMyloading();
             }
           },
           error: function (error) {
-            alert('error')
+            // alert('error')
 
             hideMyloading();
             console.log(error)
@@ -155,7 +155,7 @@
           }
         })
       } catch (e) {
-        alert(4)
+        // alert(4)
         hideMyloading();
         // showMyTip();
         console.log(e);

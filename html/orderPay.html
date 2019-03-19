@@ -82,9 +82,9 @@
       var hasWx=true;
       var forPage=getParams("forPage");
       //从我的订单直接进入支付页面，不需要连续关闭两个页面
-      if(forPage === '0'){
+      if(forPage == '0'){
         //IOS 直接返回一个Webview 无论有多少页内跳转(等ios发布之后注释放开，不然index:100时 ios闪退)
-        if(nativeObj.frameType === '0'){
+        if(nativeObj.frameType == '0'){
           setTimeout(function () {
             NativeFunc({
               ACTION: "BACKMODE",
@@ -94,7 +94,7 @@
             })
           },100);
         }
-      } else if(forPage === '2'){
+      } else if(forPage == '2'){
         setTimeout(function () {
           NativeFunc({
             ACTION: "BACKMODE",
@@ -122,7 +122,7 @@
         }, function (response) {
           if(response) {
             var objResp = JSON.parse(response);
-            if(objResp.wechat === 0){
+            if(objResp.wechat == 0){
               hasWx=false;
             }
             // {
@@ -140,7 +140,7 @@
       console.log(requestUrl);
 
       var netToken = localStorage.getItem('netToken');
-          requestUrl= localStorage.getItem('requestUrl');
+          // requestUrl= localStorage.getItem('requestUrl');
       var channelCode= localStorage.getItem('channelCode');
       var lightAppCode=localStorage.getItem('lightAppCode');
       var appid=localStorage.getItem('appid');
@@ -190,13 +190,13 @@
           checkedWay="wechat";
           // window.location.href = 'payResult.html';
         }
-        if(checkedWay === ""){
+        if(checkedWay == ""){
           // $(".mytip").html("请选择支付方式");
           $.toast("请选择支付方式", 'forbidden');
           // showMyTip();
           return;
         }
-        if(checkedWay === "wechat" && hasWx === false){
+        if(checkedWay == "wechat" && hasWx == false){
           // $(".mytip").html("微信未安装");
           $.toast("微信未安装", 'forbidden');
           // showMyTip();
@@ -243,7 +243,7 @@
                 console.log(firstData);
                 firstData = JSON.parse(firstData);
                 console.log(firstData);
-                if(firstData.code === 0){
+                if(firstData.code == 0){
                   resolve(firstData);
                   hideMyloading();
                 }else{
@@ -300,9 +300,9 @@
               success:function(data){
                 hideMyloading();
                 // alert(data)
-                // if(data.code === 0){
+                // if(data.code == 0){
                 //   scanConsumeResponse = data;
-                // }else if(data.code === 12){
+                // }else if(data.code == 12){
                 //   $.toast("账户在其他设备登录,请重新登录", 'forbidden');
                 //   // $(".mytip").html("账户在其他设备登录,请重新登录");
                 //   // //showMyTip();
@@ -312,11 +312,11 @@
                 //   // //showMyTip();
                 // }
 
-                if(data.code === 0){
+                if(data.code == 0){
                   // localStorage.setItem("businessNo",firstData.data);
                   localStorage.setItem("businessNo", order_code);
                   // localStorage.setItem("pay_amount", pay_amount);
-                  if(checkedWay === "alipay"){
+                  if(checkedWay == "alipay"){
                     document.write(data.data);
                   }else{
                     localStorage.setItem("payRes",data.data);
@@ -327,7 +327,7 @@
                       }
                     })
                   }
-                }else if(data.code === 12){
+                }else if(data.code == 12){
                   // $(".mytip").html("账户在其他设备登录,请重新登录");
                   $.toast("账户在其他设备登录,请重新登录", 'forbidden');
 
@@ -351,7 +351,7 @@
             console.log(e);
           }
 
-          // if(scanConsumeResponse && scanConsumeResponse.code === 0){
+          // if(scanConsumeResponse && scanConsumeResponse.code == 0){
           //   newTab=window.open();
           //   newTab.document.write(scanConsumeResponse.data);
           // }

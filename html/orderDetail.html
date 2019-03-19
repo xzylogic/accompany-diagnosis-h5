@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>订单详情</title>
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css"/>
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css"/>
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css"/>
 
@@ -153,6 +154,7 @@
       GetQueryString();
     })
   }, 100);
+
   GetQueryString();
 
   function GetQueryString() {
@@ -327,19 +329,13 @@
   //申请退款
   function refund(payCode, price, meal, time) {
     // alert(1)
-    NativeFunc({
-      ACTION: "CLOSEPAGE",
-      PARAM: {
-        INDEX: 0
-      }
-    });
+
     NativeFunc({
       ACTION: "OPENURL",
       PARAM:{
         URL: nativeObj.htmlPath + '/refund.html?pay_code=' + payCode + '&apply_refundment_price=' + price + '&meal=' + meal + '&time=' + time
       }
     });
-
   }
 
   function cancelRes(i) {

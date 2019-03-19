@@ -129,7 +129,7 @@
                   '</ul>'
                 );
               });
-              $('.search-hospital').bind('click', function () {
+              document.querySelector('.search-hospital').addEventListener('click', function () {
                 var hpName = $(this).children('h5').text();
                 localStorage.setItem('hospitalName', hpName);
                 setHistoryItems(hpName);
@@ -140,7 +140,7 @@
                     INDEX: 0
                   }
                 });
-              });
+              }, false);
             }else{
               $.toast(data.msg || '请求错误~', 'forbidden');
             }

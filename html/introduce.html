@@ -166,7 +166,7 @@
       });
     });
     var status;
-    $('.serviceMeal').click(function () {
+    document.querySelector('.serviceMeal').addEventListener('click', function () {
       $('.mytab li span').removeClass('active');
       $(this).addClass('active');
       console.log($(this).text)
@@ -179,7 +179,7 @@
         $('#content1').hide();
         $('#content2').show();
       }
-    });
+    }, false);
 
     function serviceNotice(){
       NativeFunc({
@@ -190,16 +190,7 @@
       });
     }
 
-    // // $('.name span:eq(0)').click(function () {
-    // //   var _radio5 = $('#radio5').prop('checked');
-    // //   if(_radio5){
-    // //     $('.custom-btm-btn').css({'background': '#0CB7F5'});
-    // //   }else{
-    // //     $('.custom-btm-btn').css({'background': 'lightgray'});
-    // //   }
-    // // });
-
-    $('.custom-btm-btn').click(function () {
+    document.querySelector('.custom-btm-btn').addEventListener('click', function () {
       var _radio5 = $('#radio5').prop('checked');
       if(_radio5){
         console.log(status , typeof status)
@@ -209,13 +200,13 @@
         console.log('请同意服务须知后购买');
         $.toast('请同意服务须知后购买', 'forbidden');
       }
-    });
+    }, false);
 
-    $('.gray').click(function () {
+    document.querySelector('.gray').addEventListener('click', function () {
       $('.popup-wrap').css({'display': 'none'});
-    });
+    }, false);
 
-    $('.ok').click(function () {
+    document.querySelector('.ok').addEventListener('click', function () {
       var totalFee;
       $('.popup-wrap').css({'display': 'none'});
       if($('.mytab li span:eq(0)').hasClass('active')){
@@ -249,10 +240,10 @@
             var datas = data.data;
             console.log(data);
             var order_code = datas.order_code,
-                service_meal = datas.service_meal,
-                pay_amount = datas.pay_amount,
-                biz_id = datas.biz_id,
-                biz_name = datas.biz_name;
+              service_meal = datas.service_meal,
+              pay_amount = datas.pay_amount,
+              biz_id = datas.biz_id,
+              biz_name = datas.biz_name;
             localStorage.setItem('order_code', order_code);
             localStorage.setItem('service_meal', service_meal);
             localStorage.setItem('pay_amount', pay_amount);
@@ -276,7 +267,7 @@
           console.log(err)
         }
       });
-    })
+    }, false);
 
     var oTop = $(".active").offset().top;
     //获取切换栏的高度，此高度用于保证内容的平滑过渡

@@ -66,12 +66,12 @@
   <script src="../custom/js/common.js"></script>
 
   <script>
-    $('.clear-icon').click(function () {
+    document.querySelector('.clear-icon').addEventListener('click', function () {
       $('#txt-search').val('');
       historyShow();
       $(this).css({'display': 'none'});
       liClick();
-    });
+    }, false);
 
     historyShow();
     function historyShow() {
@@ -224,15 +224,14 @@
       $('.history-content').css({display: 'none'});
     }
 
-    $('#search-cancel').click(function () {
-      // window.history.back();
+    document.querySelector('#search-cancel').addEventListener('click', function () {
       NativeFunc({
         ACTION: 'CLOSEPAGE',
         PARAM: {
           INDEX: 0
         }
       });
-    })
+    }, false);
   </script>
 
 </body>

@@ -103,7 +103,7 @@
         </div>
       </div>
       <!-- 取消原因弹出层 -->
-      <div class="popup-wrap" style="display:none;">
+      <div class="popup-wrap cancel-reason" style="display:none;">
         <div class="lightbox"></div>
         <div class="popup-con popup-con-middle">
           <h2 class="popup-title">取消原因</h2>
@@ -446,9 +446,9 @@
     });
   }
 
-  $('.gray').click(function () {
+  document.querySelector('.gray').addEventListener('click', function () {
     $('.popup-wrap').css({'display': 'none'});
-  });
+  }, false);
 
   //取消原因
   function cancelRes(i) {
@@ -465,13 +465,13 @@
     }
   }
 
-  var reservation_id;  //预约单id,但我这里给的是预约单号pay_code（祥看取消陪诊413行）
+  var reservation_id;
   //确认取消
-  $('#ok').on('click', function () {
+  document.querySelector('#ok').addEventListener('click', function () {
     var Val = $('input[name="item"]:checked').val();
     var otherVal = $('.weiui-input').val();
-    if(Val && otherVal.length < 50){
-      if(Val === '其他'){
+    if (Val && otherVal.length < 50){
+      if (Val === '其他'){
         Val = Val + '：' + otherVal;
       }
       $('.popup-wrap').css({'display': 'none'});
@@ -499,9 +499,13 @@
             console.log(data);
             $('.cancel-reason').css({'display': 'none'});
             $('.cancelNotice').css({'display': 'block'});
-            $('.know, .close').click(function () {
+
+            document.querySelector('.know').addEventListener('click', function () {
               $('.cancelNotice').css({'display': 'none'});
-            });
+            }, false);
+            document.querySelector('.close').addEventListener('click', function () {
+              $('.cancelNotice').css({'display': 'none'});
+            }, false);
           }
         },
         error:function(err){
@@ -512,7 +516,7 @@
     }else{
       $.toptip('请选择取消原因,若选择其他，请勿输入超过50字', 2000, 'error');
     }
-  });
+  }, false);
 
   //取消陪诊
   function cancelOrder(index) {

@@ -89,35 +89,35 @@
         <p>
           <label class="custom_check_label">
             <span class="name">医生停诊</span>
-            <input type="radio" name="item" id="radio1" value="1" hidden onclick="cancelRes(1)"/>
+            <input type="radio" name="item" id="radio1" value="医生停诊" hidden onclick="cancelRes(1)"/>
             <label for="radio1" class="icon-check"></label>
           </label>
         </p>
         <p>
           <label class="custom_check_label">
             <span class="name">病好了</span>
-            <input type="radio" name="item" id="radio2" value="2" hidden onclick="cancelRes(2)"/>
+            <input type="radio" name="item" id="radio2" value="病好了" hidden onclick="cancelRes(2)"/>
             <label for="radio2" class="icon-check"></label>
           </label>
         </p>
         <p>
           <label class="custom_check_label">
             <span class="name">已提前就诊过</span>
-            <input type="radio" name="item" id="radio3" value="3" hidden onclick="cancelRes(3)"/>
+            <input type="radio" name="item" id="radio3" value="已提前就诊过" hidden onclick="cancelRes(3)"/>
             <label for="radio3" class="icon-check"></label>
           </label>
         </p>
         <p>
           <label class="custom_check_label">
             <span class="name">改时间</span>
-            <input type="radio" name="item" id="radio4" value="4" hidden onclick="cancelRes(4)"/>
+            <input type="radio" name="item" id="radio4" value="改时间" hidden onclick="cancelRes(4)"/>
             <label for="radio4" class="icon-check"></label>
           </label>
         </p>
         <p>
           <label class="custom_check_label">
             <span class="name">其他</span>
-            <input type="radio" name="item" id="radio5" value="5" hidden onclick="cancelRes(5)"/>
+            <input type="radio" name="item" id="radio5" value="其他" hidden onclick="cancelRes(5)"/>
             <label for="radio5" class="icon-check"></label>
           </label>
         </p>
@@ -125,8 +125,7 @@
           <input type="text" name="" class="weiui-input" placeholder="请填写原因" hidden>
         </p>
       </div>
-      <div class="popup-btmbtn"><span class="gray">再考虑一下</span><span class="ok" id="ok"
-                                                                     style="color: lightgray;">确认取消</span>
+      <div class="popup-btmbtn"><span class="gray">再考虑一下</span><span class="ok" id="ok" style="color: lightgray;">确认取消</span>
       </div>
     </div>
   </div>
@@ -245,9 +244,9 @@
               $('.scroll-wrap-con').html(html);
               $('.custom-btm-fixed').html(btnHtml);
               // $('.state1, .btn2').css({'display': 'block'});
-              $('.btn2').click(function () {
+              document.querySelector('.btn2').addEventListener('click', function () {
                 window.location.href = 'appointment.html?pay_amount=' + datas.service_price + '&pay_code=' + datas.pay_code + '&service_meal=' + decodeURIComponent(datas.service_meal);
-              });
+              }, false);
               break;
             case 'reservation':
               html += '<p class="state-txt-box state2"><span>已预约</span></p>' + content1;
@@ -263,16 +262,13 @@
                 $('.user-mes-box').css({display: 'block'}).removeClass('state3-user-mes');
               }
               //取消陪诊弹出框
-              $('.btn1').click(function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-
+              document.querySelector('.btn1').addEventListener('click', function () {
                 // console.log('取消陪诊弹出框');
                 $('.cancel-reason').css({'display': 'block'});
-                $('.gray').click(function () {
-                  $('.popup-wrap').css({'display': 'none'});
-                });
-              });
+              }, false);
+              document.querySelector('.gray').addEventListener('click', function () {
+                $('.popup-wrap').css({'display': 'none'});
+              }, false);
               break;
             case 'complete':
               console.log('complete');
@@ -288,22 +284,22 @@
               if(datasDetail.emp_url){
                 $('.pic img').attr('src', datasDetail.emp_url);
               }
-              $('.btn3').click(function () {
+              document.querySelector('.btn3').addEventListener('click', function () {
                 NativeFunc({
                   ACTION: "OPENURL",
                   PARAM:{
                     URL: nativeObj.htmlPath + '/comment.html?reservation_id=' + datasDetails.id
                   }
                 });
-              });
-              $('.btn4').click(function () {
+              }, false);
+              document.querySelector('.btn4').addEventListener('click', function () {
                 NativeFunc({
                   ACTION: "OPENURL",
                   PARAM:{
                     URL: nativeObj.htmlPath + '/commentDetail.html?reservation_id=' + datasDetails.id
                   }
                 });
-              });
+              }, false);
               break;
             case 'close':
               html += '<p class="state-txt-box state-graytxt-box state4"><span>已关闭</span></p>' + content2;
@@ -358,58 +354,60 @@
     } else {
       _ci.attr('hidden', true);
     }
-
-    _ok.click(function () {
-      $('.popup-wrap').css({'display': 'none'});
-      var Val = $('input[name="item"]:checked').val();
-      var otherVal = $('.weiui-input').val();
-      if (Val && otherVal.length < 50) {
-        if (Val === '其他') {
-          Val = Val + '：' + otherVal;
-        }
-        $('.popup-wrap').css({'display': 'none'});
-        $.ajax({
-          url: net.cancelAdReservation,
-          data: JSON.stringify({cancel_reason: Val, reservation_id: reservation_id}),
-          contentType: 'application/json; charset=utf-8',
-          type: "POST",
-          timeout: 6000,
-          beforeSend: function (request) {
-            showMyloading();
-            request.setRequestHeader('token', localStorage.getItem('netToken'));
-            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-            request.setRequestHeader('appid', localStorage.getItem('appid'));
-            request.setRequestHeader('timestamp', new Date().getTime());
-          },
-          success: function (data) {
-            hideMyloading();
-            // console.log('data', data)
-            if (data.code === 0) {
-              NativeFunc({
-                ACTION: "OPENURL",
-                PARAM:{
-                  URL: nativeObj.htmlPath + '/myorderList.html'
-                }
-              });
-            } else {
-              $('.cancel-reason').css({'display': 'none'});
-              $('.cancelNotice').css({'display': 'block'});
-              $('.know, .close').click(function () {
-                $('.cancelNotice').css({'display': 'none'});
-              });
-            }
-          },
-          error: function () {
-            hideMyloading();
-            console.log('发送失败');
-          }
-        });
-      } else {
-        $.toptip('请选择取消原因,若选择其他，请勿输入超过50字', 2000, 'error');
-      }
-    });
   }
+
+  document.querySelector('#ok').addEventListener('click', function () {
+    var Val = $('input[name="item"]:checked').val();
+    var otherVal = $('.weiui-input').val();
+    if (Val && otherVal.length < 50) {
+      if (Val === '其他') {
+        Val = Val + '：' + otherVal;
+      }
+      $('.popup-wrap').css({'display': 'none'});
+      $.ajax({
+        url: net.cancelAdReservation,
+        data: JSON.stringify({cancel_reason: Val, reservation_id: reservation_id}),
+        contentType: 'application/json; charset=utf-8',
+        type: "POST",
+        timeout: 6000,
+        beforeSend: function (request) {
+          showMyloading();
+          request.setRequestHeader('token', localStorage.getItem('netToken'));
+          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          request.setRequestHeader('timestamp', new Date().getTime());
+        },
+        success: function (data) {
+          hideMyloading();
+          // console.log('data', data)
+          if (data.code === 0) {
+            NativeFunc({
+              ACTION: "OPENURL",
+              PARAM:{
+                URL: nativeObj.htmlPath + '/myorderList.html'
+              }
+            });
+          } else {
+            $('.cancel-reason').css({'display': 'none'});
+            $('.cancelNotice').css({'display': 'block'});
+            document.querySelector('.know').addEventListener('click', function () {
+              $('.cancelNotice').css({'display': 'none'});
+            }, false);
+            document.querySelector('.close').addEventListener('click', function () {
+              $('.cancelNotice').css({'display': 'none'});
+            }, false);
+          }
+        },
+        error: function () {
+          hideMyloading();
+          console.log('发送失败');
+        }
+      });
+    } else {
+      $.toptip('请选择取消原因,若选择其他，请勿输入超过50字', 2000, 'error');
+    }
+  }, false);
 </script>
 
 </body>

@@ -25,7 +25,7 @@
         <div class="pay-way">
           <h5>支付方式</h5>
           <ul class="pay-way-list">
-            <li>
+            <li class="payOne">
               <img src="../custom/images/apliy.png">
               <span>支付宝支付</span>
               <label class="custom_check_label">
@@ -33,7 +33,7 @@
                   <label for="radio1" class="icon-check"></label>
               </label>
             </li>
-            <li>
+            <li class="payTwo">
               <img src="../custom/images/wx.png">
               <span>微信支付</span>
               <label class="custom_check_label">
@@ -71,12 +71,12 @@
 
     $.toast.prototype.defaults.duration = 800;
 
-    $('.pay-way-list li:eq(0)').click(function () {
+    document.querySelector('.payOne').addEventListener('click', function () {
       $('#radio1').prop('checked', true);
-    });
-    $('.pay-way-list li:eq(1)').click(function () {
+    }, false);
+    document.querySelector('.payTwo').addEventListener('click', function () {
       $('#radio2').prop('checked', true);
-    });
+    }, false);
 
     $(function () {
       var hasWx=true;

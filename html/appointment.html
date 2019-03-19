@@ -183,14 +183,16 @@
           data && data.data.map(function (val,i) {
             // console.log(val,i);
             time.push(val.time);
-            // if(val.am === 0 && val.pm === 1){
+            // if(val.am === '1' && val.pm === '1'){
             //   timeDetail = ['上午', '下午'];
-            // }else if(val.am === 0){
+            //   time.push(val.time+'-'+timeDetail[0]);
+            //   time.push(val.time+'-'+timeDetail[1]);
+            // }else if(val.am === '1'){
             //   timeDetail = ['上午'];
-            // }else if(val.pm === 1){
+            //   time.push(val.time+'-'+timeDetail[0]);
+            // }else if(val.pm === '1'){
             //   timeDetail = ['下午'];
-            // }else{
-            //   timeDetail = [];
+            //   time.push(val.time+'-'+timeDetail[0]);
             // }
           });
           $(".am_time").picker({
@@ -304,118 +306,117 @@
 
   function order() {
     var service_meal = decodeURIComponent(getParams('service_meal')), pay_amount = getParams('pay_amount'), pay_code = getParams('pay_code');
-    if($('#radio5').prop('checked')){
-      var _self = $('input[name="ifSelf"]:checked').val(),
-        _service = $('input[name="service"]:checked').val(),
-        _hospitalName = $('.am_hospital').val(),
-        _room = $('.am_room').val(),
-        _proName = $('.am_proName').val(),
-        _time = $('.am_time').val();
-      // console.log(_self);
-      if(!_self){
-        $.toast('请选择就诊人', 'forbidden');
-        return;
-      }else if(!checkName()){
-        return;
-      }else if(!checkTel()){
-        return;
-      }else if(!checkID()){
-        return;
-      }else if(!_hospitalName){
-        $.toast('请选择预约陪诊医院', 'forbidden');
-        return;
-      }else if(!_service){
-        $.toast('请选择预约门诊类型', 'forbidden');
-        return;
-      }else if(!_room || _room.length > 20){
-        $.toast('请输入预约就诊科室且不超过20中文字符', 'forbidden');
-        return;
-      }else if(_service === '2' && !_proName){
-        $.toast('请输入预约专家姓名', 'forbidden');
-        return;
-      }else if(!_time){
-        $.toast('请选择预约陪诊时间', 'forbidden');
-        return;
-      }
-
-      var is_self, patient_name = $('.am_name').val(), patient_mobile = $('.am_tel').val(),
-        hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName;
-      if(_self === '1'){
-        is_self = 'yes';
-      }else if(_self === '2'){
-        is_self = 'no';
-      }
-      var data;
-      if(_service === '1'){
-        outpatient_type = 'common';
-        data = JSON.stringify({
-          is_self : is_self,
-          patient_name: patient_name,
-          patient_mobile: patient_mobile,
-          patient_personcard: patient_personcard,
-          hospital_name: hospital_name,
-          outpatient_type: outpatient_type,
-          department: department,
-          acc_date: time1,
-          acc_am_pm: time2,
-          pay_amount: pay_amount,
-          pay_code: pay_code,
-          service_meal: service_meal,
-        })
-      }else if (_service === '2'){
-        outpatient_type = 'expert';
-        data = JSON.stringify({
-          is_self : is_self,
-          patient_name: patient_name,
-          patient_mobile: patient_mobile,
-          patient_personcard: patient_personcard,
-          hospital_name: hospital_name,
-          outpatient_type: outpatient_type,
-          department: department,
-          acc_date: time1,
-          acc_am_pm: time2,
-          expert_name: expert_name,
-          pay_amount: pay_amount,
-          pay_code: pay_code,
-          service_meal: service_meal,
-        })
-      }
-
-      $.ajax({
-        type: "POST",
-        url: net.saveAdReservation,
-        data : data,
-        contentType: 'application/json; charset=utf-8',
-        beforeSend: function(request) {
-          showMyloading();
-          request.setRequestHeader('token', localStorage.getItem('netToken'));
-          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-          request.setRequestHeader('appid', localStorage.getItem('appid'));
-          request.setRequestHeader('timestamp', new Date().getTime());
-        },
-        success: function(data){
-          hideMyloading();
-          if(data.code === 0){
-            console.log(data);
-            NativeFunc({
-              ACTION: "OPENURL",
-              PARAM:{
-                URL: nativeObj.htmlPath + '/orderSuccess.html?pay_code='+pay_code
-              }
-            });
-          }else{
-            $.toast(data.msg || '数据错误~', 'forbidden');
-          }
-        },
-        error: function (err) {
-          hideMyloading();
-          console.log(err)
-        }
-      });
-    }else{
+    var _self = $('input[name="ifSelf"]:checked').val(),
+      _service = $('input[name="service"]:checked').val(),
+      _hospitalName = $('.am_hospital').val(),
+      _room = $('.am_room').val(),
+      _proName = $('.am_proName').val(),
+      _time = $('.am_time').val();
+    // console.log(_self);
+    if(!_self){
+      $.toast('请选择就诊人', 'forbidden');
+      return;
+    }else if(!checkName()){
+      return;
+    }else if(!checkTel()){
+      return;
+    }else if(!checkID()){
+      return;
+    }else if(!_hospitalName){
+      $.toast('请选择预约陪诊医院', 'forbidden');
+      return;
+    }else if(!_service){
+      $.toast('请选择预约门诊类型', 'forbidden');
+      return;
+    }else if(!_room || _room.length > 20){
+      $.toast('请输入预约就诊科室且不超过20中文字符', 'forbidden');
+      return;
+    }else if(_service === '2' && !_proName){
+      $.toast('请输入预约专家姓名', 'forbidden');
+      return;
+    }else if(!_time){
+      $.toast('请选择预约陪诊时间', 'forbidden');
+      return;
+    }else if(!$('#radio5').prop('checked')){
       $.toast('请同意服务须知后预约', 'forbidden');
+      return;
     }
+
+    var is_self, patient_name = $('.am_name').val(), patient_mobile = $('.am_tel').val(),
+      hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName;
+    if(_self === '1'){
+      is_self = 'yes';
+    }else if(_self === '2'){
+      is_self = 'no';
+    }
+    var data;
+    if(_service === '1'){
+      outpatient_type = 'common';
+      data = JSON.stringify({
+        is_self : is_self,
+        patient_name: patient_name,
+        patient_mobile: patient_mobile,
+        patient_personcard: patient_personcard,
+        hospital_name: hospital_name,
+        outpatient_type: outpatient_type,
+        department: department,
+        acc_date: time1,
+        acc_am_pm: time2,
+        pay_amount: pay_amount,
+        pay_code: pay_code,
+        service_meal: service_meal,
+      })
+    }else if (_service === '2'){
+      outpatient_type = 'expert';
+      data = JSON.stringify({
+        is_self : is_self,
+        patient_name: patient_name,
+        patient_mobile: patient_mobile,
+        patient_personcard: patient_personcard,
+        hospital_name: hospital_name,
+        outpatient_type: outpatient_type,
+        department: department,
+        acc_date: time1,
+        acc_am_pm: time2,
+        expert_name: expert_name,
+        pay_amount: pay_amount,
+        pay_code: pay_code,
+        service_meal: service_meal,
+      })
+    }
+
+    $.ajax({
+      type: "POST",
+      url: net.saveAdReservation,
+      data : data,
+      contentType: 'application/json; charset=utf-8',
+      beforeSend: function(request) {
+        showMyloading();
+        request.setRequestHeader('token', localStorage.getItem('netToken'));
+        request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+        request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+        request.setRequestHeader('appid', localStorage.getItem('appid'));
+        request.setRequestHeader('timestamp', new Date().getTime());
+      },
+      success: function(data){
+        hideMyloading();
+        if(data.code === 0){
+          console.log(data);
+          NativeFunc({
+            ACTION: "OPENURL",
+            PARAM:{
+              URL: nativeObj.htmlPath + '/orderSuccess.html?pay_code='+pay_code
+            }
+          });
+        }else{
+          $.toast(data.msg || '数据错误~', 'forbidden');
+        }
+      },
+      error: function (err) {
+        hideMyloading();
+        console.log(err)
+      }
+    });
   }
 
   $(document).ready(function () {

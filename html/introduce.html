@@ -166,7 +166,7 @@
       });
     });
     var status;
-    document.querySelector('.serviceMeal').addEventListener('click', function () {
+    $('.serviceMeal').bind('click', function () {
       $('.mytab li span').removeClass('active');
       $(this).addClass('active');
       console.log($(this).text)
@@ -179,7 +179,7 @@
         $('#content1').hide();
         $('#content2').show();
       }
-    }, false);
+    });
 
     function serviceNotice(){
       NativeFunc({

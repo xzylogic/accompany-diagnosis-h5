@@ -98,42 +98,59 @@
             // "shopUserId":shopUserId
           }),
           success: function (data) {
+            alert(1)
+            alert(typeof data)
             var firstData = JSON.parse(data);
             if (firstData.code == 0) {
-              if (firstData.data.status == 1) {
-                $(".mytip").html("您已支付成功,请勿重复支付");
+              alert('firstData.code==0')
+
+              if (firstData.data.status == '1') {
+                alert('firstData.data.status ==1')
+
+                // $(".mytip").html("您已支付成功,请勿重复支付");
+                $.toast('您已支付成功,请勿重复支付', 'forbidden');
                 // showMyTip();
                 setTimeout(function () {
                   $(".popup-wrap").hide();
                   $("#ask").hide();
                   $("#success").show();
                 },1500)
-              } else if ( firstData.data.status == 0) {
+                hideMyloading();
+              } else if ( firstData.data.status == '0') {
+                alert('firstData.data.status ==0')
+
                 NativeFunc({
                   ACTION: "OPENURL",
                   PARAM: {
                     URL: requestUrl + '/orderPay.html?forPage=2&order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
                   }
-                })
+                });
+                hideMyloading();
               }
-              hideMyloading();
+
             } else if (firstData.code == 12) {
-              $(".mytip").html("账户在其他设备登录,请重新登录");
+              alert('firstData.code == 12')
+              $.toast('账户在其他设备登录,请重新登录', 'forbidden');
+              // $(".mytip").html("账户在其他设备登录,请重新登录");
               // showMyTip();
               hideMyloading();
             } else {
-              $(".mytip").html(firstData.msg || "查询支付状态失败");
+              alert(2)
+              $.toast(firstData.msg || "查询支付状态失败", 'forbidden');
+              // $(".mytip").html(firstData.msg || "查询支付状态失败");
               // showMyTip();
               hideMyloading();
             }
           },
           error: function (error) {
+            alert(3)
             hideMyloading();
             console.log(error)
             // showMyTip();
           }
         })
       } catch (e) {
+        alert(4)
         hideMyloading();
         // showMyTip();
         console.log(e);
@@ -160,35 +177,48 @@
             // "shopUserId":shopUserId
           }),
           success: function (data) {
+            alert(1)
+            alert(typeof data)
+            alert(JSON.stringify(data))
             var secondData = JSON.parse(data);
             if (secondData.code == 0) {
-              if (secondData.data.status == 1) {
+              alert('secondData.code == 0')
+              if (secondData.data.status == '1') {
+                alert('secondData.data.status == 1')
                 $(".popup-wrap").hide();
                 $("#ask").hide();
                 $("#success").show();
-              } else if ( secondData.data.status == 0) {
+              } else if ( secondData.data.status == '0') {
+                alert('secondData.data.status == 0')
                 $(".popup-wrap").hide();
                 $("#ask").hide();
                 $("#fail").show();
               }
+              hideMyloading();
             } else if (secondData.code == 12) {
+              alert('secondData.code == 12')
+              hideMyloading();
               // $(".mytip").html("账户在其他设备登录,请重新登录");
               $.toast('账户在其他设备登录,请重新登录', 'forbidden');
               // showMyTip();
             } else {
+              alert(2)
+              hideMyloading();
               $.toast(secondData.msg || "查询支付状态失败", 'forbidden');
               // $(".mytip").html(secondData.msg || "查询支付状态失败");
               // showMyTip();
             }
-            hideMyloading();
           },
           error: function (error) {
+            alert(3)
+
             hideMyloading();
             console.log(error)
             // showMyTip();
           }
         })
       } catch (e) {
+        alert(4)
         hideMyloading();
         // showMyTip();
         console.log(e);

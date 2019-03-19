@@ -97,7 +97,8 @@
             "uid": uid,
             // "shopUserId":shopUserId
           }),
-          success: function (firstData) {
+          success: function (data) {
+            var firstData = JSON.parse(data);
             if (firstData.code == 0) {
               if (firstData.data.status == 1) {
                 $(".mytip").html("您已支付成功,请勿重复支付");
@@ -160,24 +161,24 @@
             // "shopUserId":shopUserId
           }),
           success: function (data) {
-            var firstData = JSON.parse(data);
-            if (firstData.code == 0) {
-              if (firstData.data.status == 1) {
+            var secondData = JSON.parse(data);
+            if (secondData.code == 0) {
+              if (secondData.data.status == 1) {
                 $(".popup-wrap").hide();
                 $("#ask").hide();
                 $("#success").show();
-              } else if ( firstData.data.status == 0) {
+              } else if ( secondData.data.status == 0) {
                 $(".popup-wrap").hide();
                 $("#ask").hide();
                 $("#fail").show();
               }
-            } else if (firstData.code == 12) {
+            } else if (secondData.code == 12) {
               // $(".mytip").html("账户在其他设备登录,请重新登录");
               $.toast('账户在其他设备登录,请重新登录', 'forbidden');
               // showMyTip();
             } else {
-              $.toast(firstData.msg || "查询支付状态失败", 'forbidden');
-              // $(".mytip").html(firstData.msg || "查询支付状态失败");
+              $.toast(secondData.msg || "查询支付状态失败", 'forbidden');
+              // $(".mytip").html(secondData.msg || "查询支付状态失败");
               // showMyTip();
             }
             hideMyloading();

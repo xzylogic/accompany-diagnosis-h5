@@ -154,6 +154,7 @@
       GetQueryString();
     })
   }, 100);
+
   GetQueryString();
 
   function GetQueryString() {
@@ -328,19 +329,13 @@
   //申请退款
   function refund(payCode, price, meal, time) {
     // alert(1)
-    NativeFunc({
-      ACTION: "CLOSEPAGE",
-      PARAM: {
-        INDEX: 0
-      }
-    });
+
     NativeFunc({
       ACTION: "OPENURL",
       PARAM:{
         URL: nativeObj.htmlPath + '/refund.html?pay_code=' + payCode + '&apply_refundment_price=' + price + '&meal=' + meal + '&time=' + time
       }
     });
-
   }
 
   function cancelRes(i) {

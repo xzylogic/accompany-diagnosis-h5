@@ -182,18 +182,18 @@
           var time = [], timeDetail = [];
           data && data.data.map(function (val,i) {
             // console.log(val,i);
-            time.push(val.time);
-            // if(val.am === '1' && val.pm === '1'){
-            //   timeDetail = ['上午', '下午'];
-            //   time.push(val.time+'-'+timeDetail[0]);
-            //   time.push(val.time+'-'+timeDetail[1]);
-            // }else if(val.am === '1'){
-            //   timeDetail = ['上午'];
-            //   time.push(val.time+'-'+timeDetail[0]);
-            // }else if(val.pm === '1'){
-            //   timeDetail = ['下午'];
-            //   time.push(val.time+'-'+timeDetail[0]);
-            // }
+            // time.push(val.time);
+            if(val.am === '1' && val.pm === '1'){
+              timeDetail = ['上午', '下午'];
+              time.push(val.time+'-'+timeDetail[0]);
+              time.push(val.time+'-'+timeDetail[1]);
+            }else if(val.am === '1'){
+              timeDetail = ['上午'];
+              time.push(val.time+'-'+timeDetail[0]);
+            }else if(val.pm === '1'){
+              timeDetail = ['下午'];
+              time.push(val.time+'-'+timeDetail[0]);
+            }
           });
           $(".am_time").picker({
             title: "请选择",
@@ -201,20 +201,23 @@
               textAlign: 'center',
               values: time,
               //如果你希望显示文案和实际值不同，可以在这里加一个displayValues: [.....]
-            },{
-              textAlign: 'center',
-              values: ['上午', '下午'],
             }
+            // ,{
+            //   textAlign: 'center',
+            //   values: ['上午', '下午'],
+            // }
             ],
             // value: '2017-08-09 全天',
             onChange: function (picker, values, displayValues) {
+              values = values.toString().split('-');
               console.log(values);
-              time1 = values[0];
-              if(values[1] === '上午'){
+              time1 = values[0]+'-'+values[1]+'-'+values[2];
+              if(values[3] === '上午'){
                 time2 = 'am';
-              }else if(values[1] === '下午'){
+              }else if(values[3] === '下午'){
                 time2 = 'pm';
               }
+              // console.log(time1, time2)
             }
           });
         }else{
@@ -425,6 +428,7 @@
     }, false);
     document.querySelector('#radio2').addEventListener('click', function () {
       $('.am_name, .am_tel, .am_ID').val('');
+      patient_personcard = '';
       $('.am_ID').removeAttr('disabled');
     }, false);
     document.querySelector('#radio3').addEventListener('click', function () {

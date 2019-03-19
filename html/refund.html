@@ -66,6 +66,15 @@
   <script>
     var pay_code = getParams('pay_code'), price = getParams('apply_refundment_price'), meal = decodeURIComponent(getParams('meal')), time = decodeURIComponent(getParams('time'));
 
+    setTimeout(function () {
+      NativeFunc({
+        ACTION: "BACKMODE",
+        PARAM: {
+          INDEX: 1
+        }
+      });
+    }, 100);
+
     $(function () {
       var refundMes = '<p><label>服务类型</label><span>'+ meal +'</span></p> ' +
         '<p><label>服务价格</label><span>￥'+ price +'/次</span></p> ' +

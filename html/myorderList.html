@@ -337,9 +337,13 @@
                     // case '退款成功':
                     //   html += htmlRefundDetail;
                     //   break;
-                    case '退款关闭':
+                    // case '退款关闭':
                       // html += htmlRefundDetail;
-                      obj.refund_status = '';
+                      // break;
+                    default:
+                      if(obj.refund_status === '退款关闭'){
+                        obj.refund_status = '';
+                      }
                       html += '<div class="myorder-item"> <ul class="con" onclick="orderDetail(0, \''+ obj.pay_code +'\')"> <li>' +
                         '<label>服务类型</label><span>'+ obj.service_meal +'</span><em>待预约</em></li> ' +
                         '<li><label>服务价格</label><span>￥'+ obj.service_price +'/次</span>' +
@@ -348,8 +352,6 @@
                         '<p class="order-btn-box">' +
                         '<span class="btn" onclick="appointOrder(\'预约陪诊1\', \''+ obj.pay_code +'\', \''+ obj.service_price +'\', \''+ obj.service_meal +'\')">预约陪诊</span>' +
                         '</p> </div>';
-                      break;
-                    default:
                       break;
                   }
                   _hdb.html(html);

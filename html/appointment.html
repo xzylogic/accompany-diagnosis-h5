@@ -226,9 +226,9 @@
     });
   }
 
-  $(".am_time").click(function () {
+  document.querySelector('.am_time').addEventListener('click', function () {
     $(".am_name, .am_tel, .am_ID, .am_room, .am_proName").blur(); // 使其失去即可
-  });
+  }, false);
 
   var idCard, patient_personcard;
   handleCheck();
@@ -260,8 +260,8 @@
                 xing += '*';
               }
               idCard = idCard.substring(0, 4) + xing + idCard.substring(idCard.length -4);
+              $('.am_ID').val(idCard).attr({'disabled': 'true'});
             }
-            $('.am_ID').val(idCard);
           }else{
             $.toast(data.msg || '请求错误~', 'forbidden');
           }
@@ -293,9 +293,11 @@
 
   function checkID(){
     var reg2 = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-    if(reg2.test(patient_personcard) === false) {
-      $.toast('身份证输入不合法', 'forbidden');
-      return false;
+    if(patient_personcard === ''){
+      if(reg2.test($('.am_ID').val()) === false) {
+        $.toast('身份证输入不合法', 'forbidden');
+        return false;
+      }
     }
     return true;
   }
@@ -417,31 +419,27 @@
   }
 
   $(document).ready(function () {
-    $('#radio1').bind('click', function () {
+    document.querySelector('#radio1').addEventListener('click', function () {
       handleCheck();
-    });
-    $('#radio2').click(function () {
+    }, false);
+    document.querySelector('#radio2').addEventListener('click', function () {
       $('.am_name, .am_tel, .am_ID').val('');
-    });
-
-    $('#radio3').click(function () {
+      $('.am_ID').removeAttr('disabled');
+    }, false);
+    document.querySelector('#radio3').addEventListener('click', function () {
       $('.order_proName').css({'display': 'none'});
-    });
-
-    $('#radio4').click(function () {
+    }, false);
+    document.querySelector('#radio4').addEventListener('click', function () {
       $('.order_proName').css({'display': 'flex','display':'-webkit-box','display':'-webkit-flex'});
-      // $('.order_proName .weui-label').css({'display': 'inline'});
-      // $('.order_proName .weui-cell__bd').css({'display': 'inline'});
-    });
-
-    $('#radio5').click(function () {
+    }, false);
+    document.querySelector('#radio5').addEventListener('click', function () {
       var _order = $('#order');
       if($(this).prop('checked') === true){
         _order.css({'color': 'white', 'background': '#0CB7F5'});
       }else{
         _order.css({'color': 'white', 'background': 'lightgray'});
       }
-    });
+    }, false);
 
     $('.am_name').change(function () {
       checkName();

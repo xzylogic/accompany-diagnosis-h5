@@ -70,9 +70,9 @@
   <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
   <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
   <script src="../lib/js/jquery-weui.js"></script>
-  <script src="../custom/js/common.js"></script>
   <script src="../custom/js/native.js"></script>
   <script src="../custom/js/net.js"></script>
+  <script src="../custom/js/common.js"></script>
 
   <script>
     $(function () {
@@ -92,7 +92,6 @@
       // var businessNo = localStorage.getItem("businessNo");
       var biz_id = localStorage.getItem('biz_id'), business_no = localStorage.getItem('order_code'), order_code = localStorage.getItem('order_code'),
         pay_amount = localStorage.getItem('pay_amount'), service_meal = localStorage.getItem('service_meal'), biz_name = localStorage.getItem('biz_name');
-      showMyloading();
 
       try {
         $.ajax({
@@ -100,6 +99,7 @@
           type: "post",
           contentType: 'application/json',
           beforeSend: function (request) {
+            showMyloading();
             request.setRequestHeader("token", netToken);
             request.setRequestHeader("channelCode", channelCode);
             request.setRequestHeader("lightAppCode", lightAppCode);
@@ -112,26 +112,26 @@
             "uid": uid,
           }),
           success: function (data) {
-            // alert(1)
             // alert(typeof data)
             // alert(JSON.stringify(data))
             var firstData = JSON.parse(data);
             if(firstData.code == 0){
               // alert('firstData.code==0')
               if(firstData.data.status == "1"){
+                hideMyloading();
                 // alert('firstData.data.status ==1')
                 $("#success").show();
                 $("#success h5").text(data.data.biz_name || '');
                 $("#success .price").text(data.data.amount || '');
-                hideMyloading();
+
               }else if(firstData.data.status == "2"){
                 // alert('firstData.data.status == 2')
 
-                $("#fail").show();
                 hideMyloading();
+                $("#fail").show();
               }else{
                 // alert(2)
-
+                hideMyloading();
                 $("#abnormal").show();
               }
             }else if(firstData.code == 12){

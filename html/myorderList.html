@@ -12,23 +12,31 @@
   <style>
     .mescroll{
       position: fixed;
-      top: 0px;
+      top: 52px;
       bottom: 0;
       height: auto; /*如设置bottom:50px,则需height:auto才能生效*/
-      left:0;
-      right:0;
-      margin:0 auto;
+      /*left:0;*/
+      /*right:0;*/
+      /*margin:0 auto;*/
     }
   </style>
 </head>
 
 <body>
+<!--滑动区域-->
 <div id="mescroll" class="mescroll">
-  <div class="container manageContainer">
-    <div class="favlist-wrap" id="goodsList">
-
-    </div>
+  <div class="scroll-wrap" style="position: relative;">
+    <div class="have-data-box" style="display:block;"></div>
   </div>
+  <!--展示上拉加载的数据列表-->
+  <!--<ul id="dataList" class="data-list">-->
+    <!--<li>
+      <img class="pd-img" src="../res/img/pd1.jpg"/>
+      <p class="pd-name">商品标题商品标题商品标题商品标题商品标题商品</p>
+      <p class="pd-price">200.00 元</p>
+      <p class="pd-sold">已售50件</p>
+    </li>-->
+  <!--</ul>-->
 </div>
 <div class="container">
   <div class="myorder-wrap">
@@ -39,7 +47,7 @@
       <span data-type="3" class="orderListData">已完成</span>
       <span data-type="4" class="orderListData" style="width:24%;">退款/售后</span>
     </p>
-    <div class="scroll-wrap">
+    <div class="scroll-wrap" style="position: relative;">
       <div class="scroll-wrap-con">
         <div class="custom-nodata" style="display:none;">
           <img src="../custom/images/nodata.png">
@@ -49,7 +57,7 @@
           <i class="weui-loading"></i>
           <span class="weui-loadmore__tips">正在加载</span>
         </div>
-        <div class="have-data-box" style="display:block;">
+        <!--<div class="have-data-box" style="display:block;">-->
           <!--<div class="myorder-item">-->
           <!--<ul class="con" onclick="orderDetail(0)">-->
           <!--<li><label>服务类型</label><span>全程陪诊服务套餐</span><em>待预约</em></li>-->
@@ -97,7 +105,7 @@
           <!--<p class="lineBg"></p>-->
           <!--<p class="order-btn-box"><span class="btn" onclick="viewDetail('4')">查看详情</span></p>-->
           <!--</div>-->
-        </div>
+        <!--</div>-->
       </div>
     </div>
   </div>
@@ -163,11 +171,11 @@
 <script type="text/javascript" src="../lib/js/flexible.js"></script>
 <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
 <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
-<script type="text/javascript" src="../lib/js/mescroll.min.js"></script>
 <script src="../lib/js/jquery-weui.js"></script>
 <script src="../custom/js/native.js"></script>
 <script src="../custom/js/net.js"></script>
 <script src="../custom/js/common.js"></script>
+<script type="text/javascript" src="../lib/js/mescroll.min.js"></script>
 
 <!--<script type="text/javascript" src="../custom/js/common.js"></script>-->
 
@@ -185,35 +193,18 @@
   }, 100);
 
   var mescroll = new MeScroll("mescroll", {
-  //   down: {
-  //     auto: false, //是否在初始化完毕之后自动执行下拉回调callback; 默认true
-  //     callback: function () {
-  //       return '';
-  //     } //下拉刷新的回调
-  //   },
     up: {
       callback: orderList, //上拉加载的回调
+      isBounce: false, //此处禁止ios回弹,解析(务必认真阅读,特别是最后一点): http://www.mescroll.com/qa.html#q10
+      noMoreSize: 4, //如果列表已无数据,可设置列表的总数量要大于半页才显示无更多数据;避免列表数据过少(比如只有一条数据),显示无更多数据会不好看; 默认5
+      page: {
+        num: 0, //当前页 默认0 回调之前会加1 即callback(page)会从1开始 若想从0开始 可声明 var pageIndex = page.num-1;
+        size: 20 //每页数据条数 默认10
+      },
     },
-    // isBounce: false, // 此处禁止ios回弹 这里会导致列表无法滚动
-    noMoreSize: 4, // 如果列表已无数据 可设置列表的总数量要大于半页才显示无更多数据 避免列表数据过少(比如只有一条数据) 显示无更多数据会不好看 默认5
   });
 
-  //上拉加载的回调 page = {num:1, size:10}; num:当前页 默认从1开始, size:每页数据条数,默认10
-  // function upCallback(page) {
-  //   var pageIndex = page.num-1;
-  //   $.ajax({
-  //     url: net.orderList+'?num=' + pageIndex + "&size=" + page.size, //如何修改page.num从0开始 ?
-  //     success: function (curPageData) {
-  //       mescroll.endSuccess(curPageData.length, hasNext);
-  //     },
-  //     error: function(e) {
-  //       //联网失败的回调,隐藏下拉刷新和上拉加载的状态
-  //       mescroll.endErr();
-  //     }
-  //   })
-  // }
-
-  var listStatus = '', _hdb = $('.have-data-box');
+  var listStatus = '', _hdb = $('.have-data-box'), html = '', pageIndex = 0;
   $('.orderListData').on('click', function () {
     switch ($(this).text()) {
       case '全部':
@@ -241,24 +232,22 @@
     $('.custom-nav span').removeClass('active');
     $(this).addClass('active');
     _hdb.empty();
+    html = '';
+    pageIndex = 0;
     orderList();
   });
 
   // orderList();
 
-  // orderList('', '');
-  function orderList(page) {
+  function orderList() {
     // page = {num:1, size:3};
-    var pageNum;
-    console.log('page=',page);
-    if(page && page.num){
-      pageNum = page.num;
-    }else{
-      pageNum = 1
-    }
-    console.log('pageNum=',pageNum);
-
-    var html = '', htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
+    // alert(page.num)
+    // console.log(page)
+    // alert(pageNum)
+    // console.log('pageNum2=',pageNum);
+    pageIndex++;
+    console.log('pageIndex=',pageIndex)
+    var htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
     $('.custom-nodata').css({'display': 'none'});
     // console.log(listStatus);
     $.ajax({
@@ -267,7 +256,7 @@
       data : {
         uid : localStorage.getItem('uid'),
         order_status: listStatus,
-        page: pageNum,
+        page: pageIndex,
       },
       beforeSend: function(request) {
         showMyloading();

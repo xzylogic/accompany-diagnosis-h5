@@ -171,10 +171,14 @@
       $(this).addClass('active');
       console.log($(this).text)
       if($(this).text() === '全程陪诊服务套餐'){
+        $('.price-box .price1').text('￥598.00');
+        $('.price-box .price2 span').text('0.02');
         status = 1;
         $('#content1').show();
         $('#content2').hide();
       }else{
+        $('.price-box .price1').text('￥138.00');
+        $('.price-box .price2 span').text('0.01');
         status = 2;
         $('#content1').hide();
         $('#content2').show();
@@ -194,7 +198,7 @@
       var _radio5 = $('#radio5').prop('checked');
       if(_radio5){
         console.log(status , typeof status)
-        status === '2' ? $('.popup-txt span').text('简易陪诊套餐 ¥'+ $('.price2:eq(1) span').text() + '/次') : $('.popup-txt span').text('全程陪诊套餐 ¥'+ $('.price2:eq(0) span').text() + '/次');
+        status === '2' ? $('.popup-txt span').text('简易陪诊套餐 ¥'+ $('.price-box .price2 span').text() + '/次') : $('.popup-txt span').text('全程陪诊套餐 ¥'+ $('.price-box .price2 span').text() + '/次');
         $('.popup-wrap').css({'display': 'block'});
       }else{
         console.log('请同意服务须知后购买');
@@ -209,11 +213,12 @@
     document.querySelector('.ok').addEventListener('click', function () {
       var totalFee;
       $('.popup-wrap').css({'display': 'none'});
-      if($('.mytab li span:eq(0)').hasClass('active')){
-        totalFee = $('.price2:eq(0) span').text();
-      }else{
-        totalFee = $('.price2:eq(1) span').text();
-      }
+      // if($('.mytab li span:eq(0)').hasClass('active')){
+      // }else{
+      //   totalFee = $('.price-box .price2 span').text();
+      // }
+      totalFee = $('.price-box .price2 span').text();
+
       var service_meal = $('.active').html();
       var uid = localStorage.getItem('uid');
       var order_id;

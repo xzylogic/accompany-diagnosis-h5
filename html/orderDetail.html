@@ -144,12 +144,6 @@
   var reservation_id;
 
   setTimeout(function () {
-    //   NativeFunc({
-    //     ACTION: "CLOSEPAGE",
-    //     PARAM: {
-    //       INDEX: 1
-    //     }
-    //   });
     nativeObj.RegisterFun(function () {
       GetQueryString();
     })
@@ -158,10 +152,7 @@
   GetQueryString();
 
   function GetQueryString() {
-    // var type = getParams('type'), status = getParams('status');
-    // console.log(typeof type, type);
-    console.log(typeof pay_code, pay_code);
-
+    // console.log(typeof pay_code, pay_code);
     $.ajax({
       type: "GET",
       url: net.orderDetail,
@@ -177,15 +168,14 @@
       success: function (data) {
         if (data.code === 0) {
           hideMyloading();
-          console.log(data);
+          // console.log(data);
           var datas = data.data, datasDetails = datas.reservation_detail || '',
             datasDetail = (datasDetails && datasDetails.accompany_info_dto) || '',
             refundDetail = datas.refundment_detail;
-          var html = '', btnHtml = '';
+          var html = '', btnHtml = '', refundBtn;
           reservation_id = (datasDetails && datasDetails.id) || '';
-          var refundBtn;
 
-          console.log(data.data.order_status)
+          // console.log(data.data.order_status)
           if(data.data.order_status === "reservation"){
             refundBtn = '<span class="btn-gray" onclick="$.toast(\'请您先取消陪诊再申请退款~\', \'forbidden\')">申请退款</span> ';
           }else if(data.data.order_status === "complete"){
@@ -273,7 +263,7 @@
               }, false);
               break;
             case 'complete':
-              console.log('complete');
+              // console.log('complete');
               html += '<p class="state-txt-box state3"><span>已完成</span></p>' + content1;
               $('.order-btn-box').css({'display': 'none'});
               if (datasDetails.reservation_status === 'done_no_evaluate') {
@@ -328,8 +318,6 @@
 
   //申请退款
   function refund(payCode, price, meal, time) {
-    // alert(1)
-
     NativeFunc({
       ACTION: "OPENURL",
       PARAM:{
@@ -341,7 +329,7 @@
   function cancelRes(i) {
     var _ci = $('.weiui-input'), _ok = $('#ok');
     var val = $('input[name="item"]:checked').val();
-    console.log(typeof val, val, '_ci =', _ci.val());
+    // console.log(typeof val, val, '_ci =', _ci.val());
 
     _ok.css({'color': 'rgb(33, 173, 244)'});
 

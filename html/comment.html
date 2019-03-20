@@ -52,10 +52,6 @@
     GetQueryString();
 
     function GetQueryString() {
-      // var type = getParams('type'), status = getParams('status');
-      // console.log(typeof type, type);
-      console.log(typeof pay_code, pay_code);
-
       $.ajax({
         type: "GET",
         url: net.orderDetail,
@@ -69,7 +65,7 @@
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function (data) {
-          console.log(data.data)
+          // console.log(data.data)
           hideMyloading();
           var datas = (data.data.reservation_detail && data.data.reservation_detail.accompany_info_dto) || '';
           if (data.code === 0) {

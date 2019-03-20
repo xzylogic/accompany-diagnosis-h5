@@ -301,18 +301,6 @@
               contentType: 'application/json; charset=utf-8',
               success:function(data){
                 hideMyloading();
-                // alert(data)
-                // if(data.code == 0){
-                //   scanConsumeResponse = data;
-                // }else if(data.code == 12){
-                //   $.toast("账户在其他设备登录,请重新登录", 'forbidden');
-                //   // $(".mytip").html("账户在其他设备登录,请重新登录");
-                //   // //showMyTip();
-                // }else{
-                //   $.toast(data.msg||"跳转支付失败", 'forbidden');
-                //   // $(".mytip").html(data.msg||"跳转支付失败");
-                //   // //showMyTip();
-                // }
 
                 if(data.code == 0){
                   // localStorage.setItem("businessNo",firstData.data);

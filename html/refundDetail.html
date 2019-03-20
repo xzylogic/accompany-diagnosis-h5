@@ -69,12 +69,9 @@
         request.setRequestHeader('timestamp', new Date().getTime());
       },
       success: function(data){
-        console.log(data);
+        // console.log(data);
         if(data.code === 0){
-          var datas = data.data.refundment_detail;
-          console.log(datas.prompt);
-          var refundStatus = datas.refund_status;
-          var html = '';
+          var datas = data.data.refundment_detail, refundStatus = datas.refund_status, html = '';
 
           var content = '<h2>退款信息</h2><div class="refund-detail-con2">' +
             '<div class="title"><span>'+ datas.service_meal +'</span>' +
@@ -142,7 +139,7 @@
             request.setRequestHeader('timestamp', new Date().getTime());
           },
           success: function(data){
-            console.log(data);
+            // console.log(data);
             if(data.code === 0){
               window.location.reload();
             }else{

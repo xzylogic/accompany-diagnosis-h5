@@ -300,7 +300,7 @@
     var reg2 = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
     if(patient_personcard === ''){
       if(reg2.test($('.am_ID').val()) === false) {
-        $.toast('身份证输入不合法', 'forbidden');
+        $.toast('请输入正确的身份证号码', 'forbidden');
         return false;
       }
     }

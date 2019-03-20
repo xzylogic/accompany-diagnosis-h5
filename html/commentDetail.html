@@ -80,9 +80,9 @@
               $('.top em').attr('class', 'expression1').text('非常满意');
             }else if(data.data.satisfied_level === 'satisfied'){
               $('.top em').attr('class', 'expression2').text('满意');
-            }else if(data.data.satisfied_level === '"general"'){
+            }else if(data.data.satisfied_level === 'general'){
               $('.top em').attr('class', 'expression3').text('一般');
-            }else{
+            }else if(data.data.satisfied_level === 'yawp'){
               $('.top em').attr('class', 'expression4').text('不满意');
             }
           }else{

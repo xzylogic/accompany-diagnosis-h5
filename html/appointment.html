@@ -255,9 +255,10 @@
         success: function(data){
           console.log(data);
           if(data.code === 0){
-            var xing = ''; idCard = (data.data && data.data.idcard) || '';
+            var xing = '';
+            idCard = (data.data && data.data.idcard) || '';
             patient_personcard = idCard;
-            console.log(idCard);
+            // console.log(idCard);
             $('.am_name').val(data.data.name || '');
             $('.am_tel').val(data.data.mobile || '');
             if(idCard){
@@ -300,7 +301,7 @@
     var reg2 = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
     if(patient_personcard === ''){
       if(reg2.test($('.am_ID').val()) === false) {
-        $.toast('身份证输入不合法', 'forbidden');
+        $.toast('请输入正确的身份证号码', 'forbidden');
         return false;
       }
     }
@@ -308,6 +309,7 @@
   }
 
   function order() {
+    console.log('patient_personcard=',patient_personcard)
     var service_meal = decodeURIComponent(getParams('service_meal')), pay_amount = getParams('pay_amount'), pay_code = getParams('pay_code');
     var _self = $('input[name="ifSelf"]:checked').val(),
       _service = $('input[name="service"]:checked').val(),
@@ -359,7 +361,7 @@
         is_self : is_self,
         patient_name: patient_name,
         patient_mobile: patient_mobile,
-        patient_personcard: patient_personcard,
+        patient_personcard: patient_personcard || $('.am_ID').val(),
         hospital_name: hospital_name,
         outpatient_type: outpatient_type,
         department: department,
@@ -375,7 +377,7 @@
         is_self : is_self,
         patient_name: patient_name,
         patient_mobile: patient_mobile,
-        patient_personcard: patient_personcard,
+        patient_personcard: patient_personcard || $('.am_ID').val(),
         hospital_name: hospital_name,
         outpatient_type: outpatient_type,
         department: department,

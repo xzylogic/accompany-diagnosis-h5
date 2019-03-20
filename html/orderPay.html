@@ -179,15 +179,17 @@
       //   $("#alipay label")[0].removeClass("checkRadio");
       // })
       //支付
-      var checkedWay = '';
+      var checkedWay = '', checkedWaySDK = '';
       $(".custom-btm-btn").on("click",function (){
         if($('#radio1').is(':checked')){
           console.log(1);
+          checkedWaySDK="alipay";
           checkedWay="alipay";
           // window.location.href = 'payResult.html';
         }else if($('#radio2').is(':checked')){
           console.log(2);
-          checkedWay="wepay";
+          checkedWaySDK="wepay";
+          checkedWay="wechat";
           // window.location.href = 'payResult.html';
         }
         if(checkedWay == ""){
@@ -227,7 +229,7 @@
                 "os": os,
                 "uid": uid,
                 "biz_id": biz_id,
-                "pay_channel": checkedWay,
+                "pay_channel": checkedWaySDK,
               }),
               contentType: 'application/json; charset=utf-8',
               beforeSend: function(request) {

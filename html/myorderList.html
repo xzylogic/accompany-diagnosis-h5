@@ -180,6 +180,7 @@
 <!--<script type="text/javascript" src="../custom/js/common.js"></script>-->
 
 <script>
+  var pageIndex = 0, html = '';
   setTimeout(function () {
   //   NativeFunc({
   //     ACTION: "CLOSEPAGE",
@@ -188,6 +189,8 @@
   //     }
   //   });
     nativeObj.RegisterFun(function () {
+      pageIndex = 0;
+      html = '';
       orderList();
     })
   }, 100);
@@ -204,7 +207,7 @@
     },
   });
 
-  var listStatus = '', _hdb = $('.have-data-box'), html = '', pageIndex = 0;
+  var listStatus = '', _hdb = $('.have-data-box');
   $('.orderListData').on('click', function () {
     switch ($(this).text()) {
       case '全部':

@@ -96,27 +96,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', function () {
-      //订单详情页：myorderList.
-
-      // setTimeout(function () {
-      //   NativeFunc({
-      //     ACTION: "RIGHTBTN",
-      //     PARAM:{
-      //       BTNS:[
-      //         {
-      //           ICON:"1.png",
-      //           ICONS:"1.png",
-      //           EVENT:"SEARCH"
-      //         },
-      //         {
-      //           ICON:"2.png",
-      //           EVENT:"DADAD",
-      //         }
-      //       ]
-      //     }
-      //   });
-      // }, 200);
-
       var pageData = {
         netToken: '',
         uid: '',
@@ -169,7 +148,7 @@
     $('.serviceMeal').bind('click', function () {
       $('.mytab li span').removeClass('active');
       $(this).addClass('active');
-      console.log($(this).text)
+      // console.log($(this).text)
       if($(this).text() === '全程陪诊服务套餐'){
         $('.price-box .price1').text('￥598.00');
         $('.price-box .price2 span').text('0.02');
@@ -213,10 +192,6 @@
     document.querySelector('.ok').addEventListener('click', function () {
       var totalFee;
       $('.popup-wrap').css({'display': 'none'});
-      // if($('.mytab li span:eq(0)').hasClass('active')){
-      // }else{
-      //   totalFee = $('.price-box .price2 span').text();
-      // }
       totalFee = $('.price-box .price2 span').text();
 
       var service_meal = $('.active').html();
@@ -243,7 +218,7 @@
         success: function(data){
           if(data.code === 0){
             var datas = data.data;
-            console.log(data);
+            // console.log(data);
             var order_code = datas.order_code,
               service_meal = datas.service_meal,
               pay_amount = datas.pay_amount,
@@ -262,7 +237,7 @@
               }
             });
           }else{
-            console.log(data);
+            // console.log(data);
             $.toast(data.msg || '请求错误~', 'forbidden');
           }
           hideMyloading();

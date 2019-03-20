@@ -25,7 +25,7 @@
   <div class="container manageContainer">
     <div class="pay-result-box" style="display:none;" id="abnormal">
       <div class="con">
-        <img src="../custom/images/success.png" style="width:3.293333rem;height: 2.88rem;">
+        <img src="../custom/images/fail.png" style="width:3.293333rem;height: 2.88rem;">
         <h4>无法获取支付结果</h4>
         <p class="txt">暂时无法获取支付结果，稍后请到“我的-支付记录”中查询相关支付记录。</p>
         <p class="txt">如实际已支付但未查询到支付记录，可联系客服<strong>4009-216-519</strong></p>
@@ -110,6 +110,7 @@
     $(".ok").on("click", function () {
       getResult();
     });
+
     $(".preRepay").on("click", function () {
       showMyloading();
       try {
@@ -131,27 +132,18 @@
             // "shopUserId":shopUserId
           }),
           success: function (data) {
-            // alert(typeof data)
             var firstData = JSON.parse(data);
             if (firstData.code == 0) {
-              // alert('firstData.code==0')
-
               if (firstData.data.status == '1') {
-                // alert('firstData.data.status ==1')
                 hideMyloading();
-                // $(".mytip").html("您已支付成功,请勿重复支付");
                 $.toast('您已支付成功,请勿重复支付', 'forbidden');
-                // showMyTip();
                 setTimeout(function () {
                   hideMyloading();
                   $(".popup-wrap").hide();
                   $("#success").show();
-                  $("#success h5").text(firstData.data.biz_name || '');
                   $("#success .price").text(firstData.data.amount || '');
                 },1500)
               } else if ( firstData.data.status == '0') {
-                // alert('firstData.data.status ==0')
-
                 NativeFunc({
                   ACTION: "OPENURL",
                   PARAM: {
@@ -164,40 +156,29 @@
                 $(".popup-wrap").hide();
                 $("#fail").show();
               }else{
-                // alert(2)
                 hideMyloading();
                 $(".popup-wrap").hide();
                 $("#abnormal").show();
               }
-
             } else if (firstData.code == 12) {
-              // alert('firstData.code == 12')
               $.toast('账户在其他设备登录,请重新登录', 'forbidden');
-              // $(".mytip").html("账户在其他设备登录,请重新登录");
-              // showMyTip();
               hideMyloading();
             } else {
-              // alert(2)
               $.toast(firstData.msg || "查询支付状态失败", 'forbidden');
-              // $(".mytip").html(firstData.msg || "查询支付状态失败");
-              // showMyTip();
               hideMyloading();
             }
           },
           error: function (error) {
-            // alert(3)
             hideMyloading();
             console.log(error)
-            // showMyTip();
           }
         })
       } catch (e) {
-        // alert(4)
         hideMyloading();
-        // showMyTip();
         console.log(e);
       }
-    })
+    });
+
     function getResult() {
       showMyloading();
       try {
@@ -219,61 +200,42 @@
             // "shopUserId":shopUserId
           }),
           success: function (data) {
-            // alert(typeof data)
-            // alert(JSON.stringify(data))
             var secondData = JSON.parse(data);
             if (secondData.code == 0) {
-              // alert('secondData.code == 0')
               if (secondData.data.status == '1') {
-                // alert('secondData.data.status == 1')
                 hideMyloading();
                 $(".popup-wrap").hide();
                 $("#success").show();
                 $("#success h5").text(secondData.data.biz_name || '');
                 $("#success .price").text(secondData.data.amount || '');
               } else if ( secondData.data.status == '2') {
-                // alert('secondData.data.status == 0')
                 hideMyloading();
                 $(".popup-wrap").hide();
                 $("#fail").show();
               }else if ( secondData.data.status == '0') {
-                // alert('secondData.data.status == 0')
                 hideMyloading();
                 $(".popup-wrap").hide();
                 $("#fail").show();
               }else{
-                // alert(2)
                 hideMyloading();
                 $(".popup-wrap").hide();
                 $("#abnormal").show();
               }
-
             } else if (secondData.code == 12) {
-              // alert('secondData.code == 12')
               hideMyloading();
-              // $(".mytip").html("账户在其他设备登录,请重新登录");
               $.toast('账户在其他设备登录,请重新登录', 'forbidden');
-              // showMyTip();
             } else {
-              // alert(2)
               hideMyloading();
               $.toast(secondData.msg || "查询支付状态失败", 'forbidden');
-              // $(".mytip").html(secondData.msg || "查询支付状态失败");
-              // showMyTip();
             }
           },
           error: function (error) {
-            // alert(3)
-
             hideMyloading();
             console.log(error)
-            // showMyTip();
           }
         })
       } catch (e) {
-        // alert(4)
         hideMyloading();
-        // showMyTip();
         console.log(e);
       }
     }

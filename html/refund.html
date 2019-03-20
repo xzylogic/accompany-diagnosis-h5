@@ -102,7 +102,7 @@
 
     function refundSubmit() {
       var refundCause = $('.weui-textarea').val().trim();
-      console.log(pay_code, 'refundCause', refundCause);
+      // console.log(pay_code, 'refundCause', refundCause);
 
       if(refundCause){
         $('.refund-form-wrap').empty();
@@ -135,7 +135,6 @@
       }else{
         $.toptip('请您填写退款原因～', 800, 'error');
       }
-
     }
 
     function refundDetail() {
@@ -145,18 +144,6 @@
           URL: nativeObj.htmlPath + '/refundDetail.html?pay_code=' + pay_code
         }
       });
-      // $.ajax({
-      //   type: "POST",
-      //   url: net.orderDetail,
-      //   data : {'pay_code' : pay_code},
-      //   success: function(data){
-      //     console.log(data);
-      //     window.location.href = 'refundDetail.html?pay_code='+pay_code;
-      //   },
-      //   error: function (err) {
-      //     console.log(err)
-      //   }
-      // });
     }
   </script>
 

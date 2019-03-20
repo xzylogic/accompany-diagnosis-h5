@@ -99,7 +99,7 @@
         $('.clear-icon').css({'display': 'block'});
         var kwName = $("#txt-search").val().trim();
         $('.history-content').css({'display': 'none'});
-        console.log(kwName);
+        // console.log(kwName);
         $.ajax({
           url: net.queryAdHospital,
           type: "get",
@@ -121,7 +121,7 @@
                 $('.custom-nodata').css({'display': 'none'});
               }
               $('.havedata-hospitals').append('<h4>相关医院</h4>');
-              console.log(data)
+              // console.log(data)
               data.data.map(function (val) {
                 $('.havedata-hospitals').append(
                   '<p class="border-top"></p> <ul>' +
@@ -160,7 +160,7 @@
       // console.log(e.keyCode)
       if(e.keyCode === 13 && $(this).val() !== ''){
         setHistoryItems($("#txt-search").val());
-        console.log(localStorage.getItem('historyItems'));
+        // console.log(localStorage.getItem('historyItems'));
         initLocalStorage();
         liClick();
         searchHospitalName();
@@ -171,7 +171,7 @@
       var _localStorage = localStorage,
         historyItems = _localStorage.historyItems;
 
-      console.log(historyItems + '--historyItems--');
+      // console.log(historyItems + '--historyItems--');
       if (historyItems !== undefined) {
         var onlyItem = historyItems.split('|');
         if (onlyItem.length > 0) {
@@ -179,7 +179,7 @@
           for (var i = 0; i < onlyItem.length; i++) {
             key = key + '<li>' + onlyItem[i] + '</li>';
           }
-          console.log('历史记录:'+key);
+          // console.log('历史记录:'+key);
           $('#history-div ul').html(key);
         }
       }
@@ -190,7 +190,7 @@
       $('#history-div ul li').on('click', function () {
         var text = $(this).text().trim();
         setHistoryItems(text);
-        console.log($(this).text());
+        // console.log($(this).text());
         initLocalStorage();
         $("#txt-search").val(text);
         searchHospitalName();

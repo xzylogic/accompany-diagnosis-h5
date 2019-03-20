@@ -182,12 +182,6 @@
 <script>
   var pageIndex = 0, html = '';
   setTimeout(function () {
-  //   NativeFunc({
-  //     ACTION: "CLOSEPAGE",
-  //     PARAM: {
-  //       INDEX: 1
-  //     }
-  //   });
     nativeObj.RegisterFun(function () {
       pageIndex = 0;
       html = '';
@@ -243,13 +237,8 @@
   // orderList();
 
   function orderList() {
-    // page = {num:1, size:3};
-    // alert(page.num)
-    // console.log(page)
-    // alert(pageNum)
-    // console.log('pageNum2=',pageNum);
     pageIndex++;
-    console.log('pageIndex=',pageIndex)
+    // console.log('pageIndex=',pageIndex)
     var htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
     $('.custom-nodata').css({'display': 'none'});
     // console.log(listStatus);
@@ -275,8 +264,6 @@
         if(data.code === 0){
           mescroll.endSuccess(data.data.content.length, data.data.more);
           data.data.content.length !== 0 ? data.data.content.map(function (obj) {
-            // console.log(obj.order_status);
-            // console.log(obj.refund_status);
             if(obj.refund_status === 'refund_close'){
               obj.refund_status = '退款关闭';
               refundContent = '';
@@ -500,10 +487,10 @@
           hideMyloading();
           if(data.code === 0){
             // $.toptip('取消成功', 500, 'success');
-            console.log(data);
+            // console.log(data);
             window.location.reload();
           }else{
-            console.log(data);
+            // console.log(data);
             $('.cancel-reason').css({'display': 'none'});
             $('.cancelNotice').css({'display': 'block'});
 
@@ -532,7 +519,7 @@
     $('.popup-wrap').bind("touchmove",function(e){
       e.preventDefault();
     });
-    console.log(index);
+    // console.log(index);
   }
 
   //查看详情
@@ -544,7 +531,6 @@
         URL: nativeObj.htmlPath + '/orderDetail.html?pay_code='+payCode
       }
     });
-    // window.location.href = 'orderDetail.html?pay_code='+payCode;
   }
 
   //查看退款详情
@@ -555,7 +541,6 @@
         URL: nativeObj.htmlPath + '/refundDetail.html?pay_code='+payCode
       }
     });
-    // window.location.href = 'refundDetail.html?pay_code='+payCode;
   }
 
   //预约陪诊
@@ -567,7 +552,6 @@
         URL: nativeObj.htmlPath + '/appointment.html?pay_amount='+ price +'&pay_code='+ payCode +'&service_meal='+ decodeURIComponent(meal)
       }
     });
-    // window.location.href = 'appointment.html?pay_amount='+ price +'&pay_code='+ payCode +'&service_meal='+ decodeURIComponent(meal);
   }
 
   // 退款中的预约陪诊按钮提示功能
@@ -585,7 +569,6 @@
         URL: nativeObj.htmlPath + '/comment.html?reservation_id='+ id +'&pay_code='+ payCode
       }
     });
-    // window.location.href = 'comment.html?reservation_id='+ id +'&pay_code='+ payCode;
   }
 
   //查看评价
@@ -597,7 +580,6 @@
         URL: nativeObj.htmlPath + '/commentDetail.html?reservation_id='+id
       }
     });
-    // window.location.href = 'commentDetail.html?reservation_id='+id;
   }
 
   //订单详情各页面
@@ -608,8 +590,6 @@
         URL: nativeObj.htmlPath + '/orderDetail.html?pay_code='+payCode
       }
     });
-    // window.location.href = 'orderDetail.html?pay_code='+payCode;
-    // console.log(index);
   }
 </script>
 </body>

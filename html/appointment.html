@@ -229,6 +229,20 @@
     });
   }
 
+  var winHeight = $(window).height(); //获取当前页面高度
+  $(window).resize(function() {
+    var thisHeight = $(this).height();
+    if (winHeight - thisHeight > 50) {
+      //当软键盘弹出，在这里面操作
+      $('.weui-cells').css({'margin-top': '-4.2rem'})
+      // $('body').css('height', winHeight + 'px');
+    } else {
+      //当软键盘收起，在此处操作
+      $('.weui-cells').css({'margin-top': '0'})
+      // $('body').css('height', '100%');
+    }
+  });
+
   document.querySelector('.am_time').addEventListener('click', function () {
     $(".am_name, .am_tel, .am_ID, .am_room, .am_proName").blur(); // 使其失去即可
   }, false);

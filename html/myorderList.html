@@ -198,6 +198,14 @@
         num: 0, //当前页 默认0 回调之前会加1 即callback(page)会从1开始 若想从0开始 可声明 var pageIndex = page.num-1;
         size: 20 //每页数据条数 默认10
       },
+      empty: {
+        icon: "../custom/images/nodata.png", // 图标 默认null
+        tip: "暂无相关数据", // 提示
+        // 							btntext: "去逛逛 >", //按钮,默认""
+        // 							btnClick: function(){//点击按钮的回调,默认null
+        // 								alert("点击了按钮,具体逻辑自行实现");
+        // 							}
+      },
     },
   });
 
@@ -263,6 +271,9 @@
         console.log(data);
         if(data.code === 0){
           mescroll.endSuccess(data.data.content.length, data.data.more);
+          if(!data.data.more){
+            $('.mescroll-upwarp').css({display:'block'});
+          }
           data.data.content.length !== 0 ? data.data.content.map(function (obj) {
             if(obj.refund_status === 'refund_close'){
               obj.refund_status = '退款关闭';

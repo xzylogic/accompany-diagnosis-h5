@@ -271,9 +271,9 @@
         console.log(data);
         if(data.code === 0){
           mescroll.endSuccess(data.data.content.length, data.data.more);
-          if(!data.data.more){
-            $('.mescroll-upwarp').css({display:'block'});
-          }
+          // if(!data.data.more){
+          //   $('.mescroll-upwarp').css({display:'block'});
+          // }
           data.data.content.length !== 0 ? data.data.content.map(function (obj) {
             if(obj.refund_status === 'refund_close'){
               obj.refund_status = '退款关闭';

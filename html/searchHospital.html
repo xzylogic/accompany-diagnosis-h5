@@ -88,8 +88,8 @@
       return function () {
         // 取消之前的延时调用
         clearTimeout(handle);
-        handle = setTimeout(() => {
-          fn();
+        handle = setTimeout(function () {
+          fn()
         }, delay);
       }
     }

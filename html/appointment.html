@@ -229,12 +229,22 @@
     });
   }
 
-  var winHeight = $(window).height(); //获取当前页面高度
+
+  // var winHeight = $(window).height(); //获取当前页面高度
+  var currentInputHeight;
+  $('.am_name, .am_tel, .am_proName').focus(function () {
+    currentInputHeight = $(this).offset().top;
+  })
+  $('.am_room').focus(function () {
+    currentInputHeight = 300;
+  })
   $(window).resize(function() {
-    var thisHeight = $(this).height();
-    if (winHeight - thisHeight > 50) {
+    // var thisHeight = $(this).height();
+    // alert(currentInputHeight)
+    if (currentInputHeight > 200) {
       //当软键盘弹出，在这里面操作
-      $('.weui-cells').css({'margin-top': '-4.2rem'})
+      $('.weui-cells').css({'margin-top': '-4.2rem'});
+      currentInputHeight = 0;
       // $('body').css('height', winHeight + 'px');
     } else {
       //当软键盘收起，在此处操作

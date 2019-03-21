@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>服务评价</title>
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
 
@@ -28,7 +29,7 @@
           <span class="expression4" onclick="show(this, 'yawp');return false;">不满意</span>
         </p>
         <div class="textarea-wrap">
-            <textarea class="weui-textarea" placeholder="请输入您的评价" rows="3"  onkeyup="wordStatic(this);" maxlength="100"></textarea>
+            <textarea class="weui-textarea" placeholder="请输入您的评价" rows="3" maxlength="100"></textarea>
             <div class="weui-textarea-counter"><span id="num">0</span>/100</div>
         </div>
       </div>
@@ -79,6 +80,7 @@
         },
         error: function (err) {
           hideMyloading();
+          $.toast('网络出错~' , 'forbidden');
           console.log(err);
         }
       });
@@ -93,14 +95,18 @@
       evalueteVal = val;
     }
 
-    function wordStatic(input) {
-        var content = document.getElementById('num');
-        if (content && input) {
-            var value = input.value;
-            value = value.replace(/\n|\r/gi,"");
-            content .innerText = value.length;
-        }
-    }
+    // function wordStatic(input) {
+    //     var content = document.getElementById('num');
+    //     if (content && input) {
+    //         var value = input.value;
+    //         value = value.replace(/\n|\r/gi,"");
+    //         content .innerText = value.length;
+    //     }
+    // }
+    $('.weui-textarea').bind('input', function () {
+      var resonLen = $('.weui-textarea').val().length;
+      $('#num').text(resonLen);
+    });
 
     function evaluateSubmit() {
       var textVal = $('.weui-textarea').val();
@@ -142,7 +148,7 @@
           }
         });
       }else{
-        $.toast('请选择并进行评价后提交~', 'forbidden');
+        $.toptip('请选择并进行评价后提交~', 800, 'error');
       }
     }
   </script>

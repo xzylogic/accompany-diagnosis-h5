@@ -28,6 +28,7 @@
   <div class="scroll-wrap" style="position: relative;">
     <div class="have-data-box" style="display:block;"></div>
   </div>
+  <div id="noData"></div>
   <!--展示上拉加载的数据列表-->
   <!--<ul id="dataList" class="data-list">-->
     <!--<li>
@@ -200,10 +201,6 @@
       empty: {
         icon: "../custom/images/nodata.png", // 图标 默认null
         tip: "暂无相关数据", // 提示
-        // 							btntext: "去逛逛 >", //按钮,默认""
-        // 							btnClick: function(){//点击按钮的回调,默认null
-        // 								alert("点击了按钮,具体逻辑自行实现");
-        // 							}
       },
     },
   });
@@ -437,7 +434,10 @@
               }
 
             }
-          }) : $('.custom-nodata').css({'display': 'block'});
+          }) : $('#noData').html('<div class="custom-nodata">\n' +
+            '          <img src="../custom/images/nodata.png">\n' +
+            '          <p>暂无数据</p>\n' +
+            '        </div>');
         }else{
           $.toast(data.msg || '请求错误', 'forbidden');
           mescroll.endErr();

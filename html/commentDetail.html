@@ -50,6 +50,15 @@
   <script src="../custom/js/common.js"></script>
 
   <script>
+    setTimeout(function () {
+      NativeFunc({
+        ACTION: "BACKMODE",
+        PARAM: {
+          INDEX: 1
+        }
+      });
+    }, 100);
+
     window.onload = function () {
       var reservation_id = getParams('reservation_id') || getParams('pay_code');
       $.ajax({
@@ -69,7 +78,7 @@
           if(data.code === 0){
             var datas = data.data.accompany_info_dto || '';
             var headHtml = '', contentHtml = '';
-            $('.pic img').attr('src', datas.emp_url);
+            $('.pic img').attr('src', datas.emp_url || '../custom/images/head_bg.png');
             headHtml += '<h5><span class="name">'+ (datas.emp_name || "") +'</span>'+ (datas.emp_mobile || "") +'</h5><p class="p1">' + (datas.organization || "") +'</p>';
             contentHtml += '<li><div class="top"><em>'+ (data.data.satisfied_level || "") +'</em><span class="date">'+ (data.data.evaluate_date || "") +'</span></div> <p>'+ data.data.evaluate_content +'</p></li>';
 

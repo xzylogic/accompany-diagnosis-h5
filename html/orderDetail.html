@@ -276,22 +276,22 @@
               if(datasDetail.emp_url){
                 $('.pic img').attr('src', datasDetail.emp_url);
               }
-              document.querySelector('.btn3').addEventListener('click', function () {
+              $('.btn3').bind('click', function () {
                 NativeFunc({
                   ACTION: "OPENURL",
                   PARAM:{
                     URL: nativeObj.htmlPath + '/comment.html?reservation_id=' + datasDetails.id
                   }
                 });
-              }, false);
-              document.querySelector('.btn4').addEventListener('click', function () {
+              });
+              $('.btn4').bind('click', function () {
                 NativeFunc({
                   ACTION: "OPENURL",
                   PARAM:{
                     URL: nativeObj.htmlPath + '/commentDetail.html?reservation_id=' + datasDetails.id
                   }
                 });
-              }, false);
+              });
               break;
             case 'close':
               html += '<p class="state-txt-box state-graytxt-box state4"><span>已关闭</span></p>' + content2;

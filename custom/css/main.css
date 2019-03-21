@@ -107,6 +107,10 @@ border: 1px solid #0CB7F5;border-radius: 0.6rem;height: 1.173333rem;line-height:
 .appointment-wrap .weui-label,.appointment-wrap .weui-cell__bd{font-size: 16px;}
 .appointment-wrap .weui-label{width: 115px;}
 .custom-btm-fixed .stxt{text-align: left;color:#666;font-size: 14px;padding-left: .4rem;}
+.custom-btm-fixed .stxt a{
+  position: relative;
+  top: 0.045rem;
+}
 .appointment-wrap .scroll-wrap{bottom: 2.766667rem;}
 /*服务评价*/
 .comment-wrap .user-mes-box{background: #fff;height: 1.573333rem;overflow: hidden;}
@@ -163,4 +167,4 @@ border: 1px solid #0CB7F5;border-radius: 0.6rem;height: 1.173333rem;line-height:
 .introduce-wrap .price-box .price2{font-size: 16px;color: #EC9429;}
 .introduce-wrap .price-box .stxt{font-size: 13px;color: #999;padding-left: 0;}
 
-.gotoList{position: fixed;z-index: 11;width: 1.173333rem;height: 1.173333rem;bottom: 28%;right: 5%;background: url(../images/list.png) no-repeat;background-size: contain;display: block;}
+.gotoList{position: fixed;z-index: 11;width: 1.173333rem;height: 1.173333rem;bottom: 25%;right: 5%;background: url(../images/list.png) no-repeat;background-size: contain;display: block;}

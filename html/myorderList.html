@@ -180,10 +180,9 @@
 <!--<script type="text/javascript" src="../custom/js/common.js"></script>-->
 
 <script>
-  var pageIndex = 0, html = '';
+  var html = '';
   setTimeout(function () {
     nativeObj.RegisterFun(function () {
-      pageIndex = 0;
       html = '';
       orderList();
     })
@@ -238,15 +237,16 @@
     $(this).addClass('active');
     _hdb.empty();
     html = '';
-    pageIndex = 0;
     orderList();
   });
 
   // orderList();
 
-  function orderList() {
-    pageIndex++;
-    // console.log('pageIndex=',pageIndex)
+  function orderList(page) {
+    // console.log('page=',page)
+    if(page && page.num === 1){
+      html = '';
+    }
     var htmlRefundDetail = '', refundContent = '', refundStatus = '', refundBtn = '';
     $('.custom-nodata').css({'display': 'none'});
     // console.log(listStatus);
@@ -256,7 +256,7 @@
       data : {
         uid : localStorage.getItem('uid'),
         order_status: listStatus,
-        page: pageIndex,
+        page: (page && page.num) || 1,
       },
       beforeSend: function(request) {
         showMyloading();

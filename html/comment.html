@@ -110,7 +110,7 @@
 
     function evaluateSubmit() {
       var textVal = $('.weui-textarea').val();
-      if(evalueteVal && textVal){
+      if(evalueteVal){
         var reservation_id = getParams('reservation_id') || getParams('pay_code');
         $.ajax({
           type: "POST",
@@ -148,7 +148,7 @@
           }
         });
       }else{
-        $.toptip('请选择并进行评价后提交~', 800, 'error');
+        $.toptip('请您对服务进行满意度评分～', 800, 'error');
       }
     }
   </script>

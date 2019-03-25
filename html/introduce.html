@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>陪诊服务</title>
-  <!--<link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />-->
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
 
 </head>
 
@@ -180,8 +180,9 @@
         status === '2' ? $('.popup-txt span').text('简易陪诊套餐 ¥'+ $('.price-box .price2 span').text() + '/次') : $('.popup-txt span').text('全程陪诊套餐 ¥'+ $('.price-box .price2 span').text() + '/次');
         $('.popup-wrap').css({'display': 'block'});
       }else{
-        console.log('请同意服务须知后购买');
-        $.toast('请同意服务须知后购买', 'forbidden');
+        // console.log('请同意服务须知后购买');
+        // $.toptip('请同意服务须知后购买～', 1000, 'error');
+        $.toast('请同意服务须知后购买～', 'text');
       }
     }, false);
 

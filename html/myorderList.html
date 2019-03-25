@@ -12,12 +12,15 @@
   <style>
     .mescroll{
       position: fixed;
-      top: 52px;
+      top: 0;
       bottom: 0;
       height: auto; /*如设置bottom:50px,则需height:auto才能生效*/
       /*left:0;*/
       /*right:0;*/
       /*margin:0 auto;*/
+    }
+    .mescroll-upwarp{
+      margin-top: 50px;
     }
   </style>
 </head>
@@ -25,8 +28,12 @@
 <body>
 <!--滑动区域-->
 <div id="mescroll" class="mescroll">
-  <div class="scroll-wrap" style="position: relative;">
-    <div class="have-data-box" style="display:block;"></div>
+  <div class="myorder-wrap">
+    <div class="scroll-wrap" style="position: relative;">
+      <div class="scroll-wrap-con">
+        <div class="have-data-box" style="display:block;"></div>
+      </div>
+    </div>
   </div>
   <div id="noData"></div>
   <!--展示上拉加载的数据列表-->
@@ -265,12 +272,14 @@
       },
       success: function(data){
         hideMyloading();
-        console.log(data);
+        // console.log(data);
         if(data.code === 0){
           mescroll.endSuccess(data.data.content.length, data.data.more);
-          // if(!data.data.more){
-          //   $('.mescroll-upwarp').css({display:'block'});
-          // }
+          if(!data.data.more && data.data.content.length > 4){
+            $('.mescroll-upwarp').css({display:'block'});
+          }else{
+            $('.mescroll-upwarp').css({display:'none'});
+          }
           data.data.content.length !== 0 ? data.data.content.map(function (obj) {
             if(obj.refund_status === 'refund_close'){
               obj.refund_status = '退款关闭';

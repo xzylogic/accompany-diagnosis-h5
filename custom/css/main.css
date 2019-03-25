@@ -14,8 +14,8 @@
 /*支付结果*/
 .pay-result-box{text-align: center;background: #fff;min-height: 100vh;padding: 2.133333rem .4rem 0;position: relative;box-sizing: border-box;}
 .pay-result-box h4{font-size: 18px;padding-top: 0.4rem;}
-.pay-result-box h5{font-size: 16px;padding-top: 0.8rem;}
-.pay-result-box .price{font-size: 24px;padding: 0.4rem 0 0.666667rem;}
+.pay-result-box h5{font-size: 16px;padding-top: 0.666667rem;}
+.pay-result-box .price{font-size: 24px;padding: 0.33333rem 0 0.666667rem;}
 .pay-result-box .txt{font-size: 15px;padding: 0.666667rem .4rem 0;color: #666;text-align: left;text-align: justify;}
 .pay-result-box .btn-box{padding-top: 0.8rem;}
 .pay-result-box .btn-box span{width: 40%;display: inline-block;background: #FFFFFF;
@@ -103,10 +103,12 @@ border: 1px solid #0CB7F5;border-radius: 0.6rem;height: 1.173333rem;line-height:
 .state2-con .mes-list, .state2-con .mes-list li{padding: 0;}
 /*预约陪诊*/
 .appointment-wrap .tip-box{padding:0.266667rem 0.533333rem;font-size: 14px;}
-.appointment-wrap .tip-box p{text-align: justify;color: #3F3F3F;}
+.appointment-wrap .tip-box p{text-align: justify;color: #999;}
 .appointment-wrap .weui-label,.appointment-wrap .weui-cell__bd{font-size: 16px;}
-.appointment-wrap .weui-label{width: 115px;}
-.custom-btm-fixed .stxt{text-align: left;color:#666;font-size: 14px;padding-left: .4rem;}
+.appointment-wrap .weui-label{width: 115px;color: #666;}
+.appointment-wrap .custom-txt-right .weui-input,.appointment-wrap .custom_check_label .name{font-size: 16px;}
+.appointment-wrap .custom_check_label:last-child{margin-left: 0.26667rem;}
+.custom-btm-fixed .stxt{text-align: left;color:#666;font-size: 14px;padding-left: .4rem;padding-top: .2rem;}
 .custom-btm-fixed .stxt a{
   position: relative;
   top: 0.045rem;
@@ -140,7 +142,7 @@ border: 1px solid #0CB7F5;border-radius: 0.6rem;height: 1.173333rem;line-height:
 .introduce-wrap .topPic{height: 4rem;display: block;overflow: hidden;}
 .introduce-wrap .topPic img{width: 100%;height: 4.0rem;display: inline-block;}
 .introduce-wrap h2{font-size: 16px;text-align: center;padding:0.266667rem 0;}
-.introduce-wrap h2:before,.introduce-wrap h2:after{content: '';display: inline-block;width: 0.8rem;height: 2px;background: #0CB7F5;vertical-align: middle;margin:0 0.266667rem;}
+.introduce-wrap h2:before,.introduce-wrap h2:after{content: '';display: inline-block;width: 0.8rem;height: 1px;background: #0CB7F5;vertical-align: middle;margin:0 0.266667rem;}
 .introduce-wrap .scroll-wrap{bottom:3.3rem;}
 .introduce-wrap .custom-btm-fixed-white{border-top:0;overflow: hidden;}
 .introduce-wrap .box{background-color: #fff;margin-bottom: 0.266667rem;}

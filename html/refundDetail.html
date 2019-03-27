@@ -4,9 +4,14 @@
   <meta charset="UTF-8">
   <title>退款详情</title>
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
-
+  <style>
+    .weui-toast--text {
+      width: 5.5rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -114,7 +119,7 @@
               break;
           }
         }else{
-          $.toast(data.msg || '请求错误~', 'forbidden');
+          $.toast(data.msg || '请求错误~', 'text');
         }
       },
       error: function (err) {
@@ -143,7 +148,7 @@
             if(data.code === 0){
               window.location.reload();
             }else{
-              $.toast(data.msg || '请求错误~', 'forbidden');
+              $.toast(data.msg || '请求错误~', 'text');
             }
           },
           error: function (err) {

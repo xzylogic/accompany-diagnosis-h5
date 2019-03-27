@@ -4,9 +4,14 @@
   <meta charset="UTF-8">
   <title>服务评价</title>
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css"/>
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
-
+  <style>
+    .weui-toast--text {
+      width: 5.5rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -95,13 +100,13 @@
               $('.top em').attr('class', 'expression4').text('不满意');
             }
           }else{
-            $.toast(data.msg || '请求错误~', 'forbidden');
+            $.toast(data.msg || '请求错误~', 'text');
           }
         },
         error: function (err) {
           hideMyloading();
           console.log(err);
-          $.toast('请求错误', 'forbidden');
+          $.toast('请求错误', 'text');
         }
       });
     }

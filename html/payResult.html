@@ -4,9 +4,14 @@
   <meta charset="UTF-8">
   <title>支付结果</title>
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css"/>
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
-
+  <style>
+    .weui-toast--text {
+      width: 5.5rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -126,10 +131,10 @@
                 $("#abnormal").show();
               }
             }else if(firstData.code == 12){
-              $.toast("账户在其他设备登录,请重新登录", 'forbidden');
+              $.toast("账户在其他设备登录,请重新登录", 'text');
               hideMyloading();
             }else{
-              $.toast(firstData.msg || "查询支付状态失败~", 'forbidden');
+              $.toast(firstData.msg || "查询支付状态失败~", 'text');
               hideMyloading();
             }
           },

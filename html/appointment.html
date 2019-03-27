@@ -1,105 +1,110 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>预约陪诊</title>
-   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
-   <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
-    <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
-    <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+  <meta charset="UTF-8">
+  <title>预约陪诊</title>
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css"/>
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css"/>
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css"/>
+  <style>
+    .weui-toast--text {
+      width: 5.5rem;
+    }
+  </style>
 </head>
 <body>
 <div class="container">
   <div class="appointment-wrap">
     <div class="scroll-wrap">
       <div class="scroll-wrap-con">
-          <div class="weui-cells weui-cells_form" style="margin-top:0">
-              <div class="weui-cell">
-                  <label class="weui-label">就诊人</label>
-                  <div class="weui-cell__bd custom-txt-right">
-                    <label class="custom_check_label custom_check_slabel">
-                        <input type="radio" name="ifSelf" id="radio1" value="1" hidden checked/>
-                        <label for="radio1" class="icon-check"></label>
-                        <span class="name">本人</span>
-                    </label>
-                    <label class="custom_check_label custom_check_slabel">
-                        <input type="radio" name="ifSelf" id="radio2" value="2" hidden />
-                        <label for="radio2" class="icon-check"></label>
-                        <span class="name">非本人</span>
-                    </label>
-                  </div>
-              </div>
-              <div class="weui-cell">
-                  <label class="weui-label">就诊人姓名</label>
-                  <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input am_name" placeholder="请输入" type="text"  />
-                  </div>
-              </div>
-              <div class="weui-cell">
-                  <label class="weui-label">就诊人手机号</label>
-                  <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input am_tel" placeholder="请输入" type="text"  />
-                  </div>
-              </div>
-              <div class="weui-cell">
-                  <label class="weui-label">就诊人身份证号</label>
-                  <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input am_ID" placeholder="请输入" type="text"  />
-                  </div>
-              </div>
-              <div class="weui-cell" onclick="searchHospital()">
-                  <label class="weui-label">预约陪诊医院</label>
-                  <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input am_hospital max-hei" disabled="disabled" placeholder="请选择" type="text" />
-                  </div>
-                  <span class="arrow-r"></span>
-              </div>
-              <div class="weui-cell">
-                  <label class="weui-label">预约门诊类型</label>
-                  <div class="weui-cell__bd custom-txt-right">
-                    <label class="custom_check_label custom_check_slabel">
-                        <input type="radio" name="service" id="radio3" value="1" hidden checked />
-                        <label for="radio3" class="icon-check"></label>
-                        <span class="name">普通门诊</span>
-                    </label>
-                    <label class="custom_check_label custom_check_slabel">
-                        <input type="radio" name="service" id="radio4" value="2" hidden />
-                        <label for="radio4" class="icon-check"></label>
-                        <span class="name">专家门诊</span>
-                    </label>
-                  </div>
-              </div>
-              <div class="weui-cell">
-                  <label class="weui-label">预约就诊科室</label>
-                  <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input am_room" placeholder="请输入" value="" type="text" />
-                  </div>
-              </div>
-              <div class="weui-cell order_proName" style="display: none;">
-                  <label class="weui-label">预约专家姓名</label>
-                  <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input am_proName" placeholder="请输入" value="" type="text" />
-                  </div>
-              </div>
-              <div class="weui-cell">
-                  <label class="weui-label">预约陪诊时间</label>
-                  <div class="weui-cell__bd custom-txt-right">
-                      <input class="weui-input am_time" placeholder="请选择" type="text"/>
-                  </div>
-                  <span class="arrow-r"></span>
-              </div>
+        <div class="weui-cells weui-cells_form" style="margin-top:0">
+          <div class="weui-cell">
+            <label class="weui-label">就诊人</label>
+            <div class="weui-cell__bd custom-txt-right">
+              <label class="custom_check_label custom_check_slabel">
+                <input type="radio" name="ifSelf" id="radio1" value="1" hidden checked/>
+                <label for="radio1" class="icon-check"></label>
+                <span class="name">本人</span>
+              </label>
+              <label class="custom_check_label custom_check_slabel">
+                <input type="radio" name="ifSelf" id="radio2" value="2" hidden/>
+                <label for="radio2" class="icon-check"></label>
+                <span class="name">非本人</span>
+              </label>
+            </div>
           </div>
-          <div class="tip-box">
-              <h5>温馨提示</h5>
-              <p>为提高您本次服务体验，请在预约陪诊服务前，详细阅读《服务须知》内容。<br>陪诊当天请带好您的身份证，社保卡，准备少许现金。</p>
+          <div class="weui-cell">
+            <label class="weui-label">就诊人姓名</label>
+            <div class="weui-cell__bd custom-txt-right">
+              <input class="weui-input am_name" placeholder="请输入" type="text"/>
+            </div>
           </div>
+          <div class="weui-cell">
+            <label class="weui-label">就诊人手机号</label>
+            <div class="weui-cell__bd custom-txt-right">
+              <input class="weui-input am_tel" placeholder="请输入" type="text"/>
+            </div>
+          </div>
+          <div class="weui-cell">
+            <label class="weui-label">就诊人身份证号</label>
+            <div class="weui-cell__bd custom-txt-right">
+              <input class="weui-input am_ID" placeholder="请输入" type="text"/>
+            </div>
+          </div>
+          <div class="weui-cell" onclick="searchHospital()">
+            <label class="weui-label">预约陪诊医院</label>
+            <div class="weui-cell__bd custom-txt-right">
+              <input class="weui-input am_hospital max-hei" disabled="disabled" placeholder="请选择" type="text"/>
+            </div>
+            <span class="arrow-r"></span>
+          </div>
+          <div class="weui-cell">
+            <label class="weui-label">预约门诊类型</label>
+            <div class="weui-cell__bd custom-txt-right">
+              <label class="custom_check_label custom_check_slabel">
+                <input type="radio" name="service" id="radio3" value="1" hidden checked/>
+                <label for="radio3" class="icon-check"></label>
+                <span class="name">普通门诊</span>
+              </label>
+              <label class="custom_check_label custom_check_slabel">
+                <input type="radio" name="service" id="radio4" value="2" hidden/>
+                <label for="radio4" class="icon-check"></label>
+                <span class="name">专家门诊</span>
+              </label>
+            </div>
+          </div>
+          <div class="weui-cell">
+            <label class="weui-label">预约就诊科室</label>
+            <div class="weui-cell__bd custom-txt-right">
+              <input class="weui-input am_room" placeholder="请输入" value="" type="text"/>
+            </div>
+          </div>
+          <div class="weui-cell order_proName" style="display: none;">
+            <label class="weui-label">预约专家姓名</label>
+            <div class="weui-cell__bd custom-txt-right">
+              <input class="weui-input am_proName" placeholder="请输入" value="" type="text"/>
+            </div>
+          </div>
+          <div class="weui-cell">
+            <label class="weui-label">预约陪诊时间</label>
+            <div class="weui-cell__bd custom-txt-right">
+              <input class="weui-input am_time" placeholder="请选择" type="text"/>
+            </div>
+            <span class="arrow-r"></span>
+          </div>
+        </div>
+        <div class="tip-box">
+          <h5>温馨提示</h5>
+          <p>为提高您本次服务体验，请在预约陪诊服务前，详细阅读《服务须知》内容。<br>陪诊当天请带好您的身份证，社保卡，准备少许现金。</p>
+        </div>
       </div>
     </div>
   </div>
   <div class="custom-btm-fixed custom-btm-fixed-white">
     <p class="stxt">
       <label class="custom_check_label custom_check_slabel">
-        <input type="checkbox" name="" id="radio5" value="1" hidden />
+        <input type="checkbox" name="" id="radio5" value="1" hidden/>
         <label for="radio5" class="icon-check"></label>
         <span class="name">我已阅读并同意</span>
       </label>
@@ -131,7 +136,7 @@
   function searchHospital() {
     NativeFunc({
       ACTION: "OPENURL",
-      PARAM:{
+      PARAM: {
         URL: nativeObj.htmlPath + '/searchHospital.html'
       }
     });
@@ -140,7 +145,7 @@
   function serviceNotice() {
     NativeFunc({
       ACTION: "OPENURL",
-      PARAM:{
+      PARAM: {
         URL: nativeObj.htmlPath + '/instructions.html'
       }
     });
@@ -150,14 +155,14 @@
   window.onload = function () {
     var hospitalName = localStorage.getItem('hospitalName') || '';
     // console.log(hospitalName);
-    if(hospitalName){
+    if (hospitalName) {
       $('.am_hospital').val(hospitalName);
     }
-    if($('input[name="service"]:checked').val() === '2'){
-      $('.order_proName').css({'display': 'flex','display':'-webkit-box','display':'-webkit-flex'});
+    if ($('input[name="service"]:checked').val() === '2') {
+      $('.order_proName').css({'display': 'flex', 'display': '-webkit-box', 'display': '-webkit-flex'});
       // $('.order_proName .weui-label').css({'display': 'inline'});
       // $('.order_proName .weui-cell__bd').css({'display': 'inline'});
-    }else{
+    } else {
       $('.order_proName').css({'display': 'none'});
     }
 
@@ -165,7 +170,7 @@
       url: net.scheduleTime,
       type: "get",
       timeout: 6000,
-      beforeSend: function(request) {
+      beforeSend: function (request) {
         showMyloading();
         request.setRequestHeader('token', localStorage.getItem('netToken'));
         request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
@@ -173,24 +178,23 @@
         request.setRequestHeader('appid', localStorage.getItem('appid'));
         request.setRequestHeader('timestamp', new Date().getTime());
       },
-      success:function(data)
-      {
+      success: function (data) {
         hideMyloading();
-        if(data.code === 0){
+        if (data.code === 0) {
           var time = [], timeDetail = [];
-          data && data.data.map(function (val,i) {
+          data && data.data.map(function (val, i) {
             // console.log(val,i);
             // time.push(val.time);
-            if(val.am === '1' && val.pm === '1'){
+            if (val.am === '1' && val.pm === '1') {
               timeDetail = ['上午', '下午'];
-              time.push(val.time+'-'+timeDetail[0]);
-              time.push(val.time+'-'+timeDetail[1]);
-            }else if(val.am === '1'){
+              time.push(val.time + '-' + timeDetail[0]);
+              time.push(val.time + '-' + timeDetail[1]);
+            } else if (val.am === '1') {
               timeDetail = ['上午'];
-              time.push(val.time+'-'+timeDetail[0]);
-            }else if(val.pm === '1'){
+              time.push(val.time + '-' + timeDetail[0]);
+            } else if (val.pm === '1') {
               timeDetail = ['下午'];
-              time.push(val.time+'-'+timeDetail[0]);
+              time.push(val.time + '-' + timeDetail[0]);
             }
           });
           $(".am_time").picker({
@@ -200,29 +204,29 @@
               values: time,
               //如果你希望显示文案和实际值不同，可以在这里加一个displayValues: [.....]
             }
-            // ,{
-            //   textAlign: 'center',
-            //   values: ['上午', '下午'],
-            // }
+              // ,{
+              //   textAlign: 'center',
+              //   values: ['上午', '下午'],
+              // }
             ],
             // value: '2017-08-09 全天',
             onChange: function (picker, values, displayValues) {
               values = values.toString().split('-');
               console.log(values);
-              time1 = values[0]+'-'+values[1]+'-'+values[2];
-              if(values[3] === '上午'){
+              time1 = values[0] + '-' + values[1] + '-' + values[2];
+              if (values[3] === '上午') {
                 time2 = 'am';
-              }else if(values[3] === '下午'){
+              } else if (values[3] === '下午') {
                 time2 = 'pm';
               }
               // console.log(time1, time2)
             }
           });
-        }else{
-          $.toast(data.msg || '请求错误~', 'forbidden');
+        } else {
+          $.toast(data.msg || '请求错误~', 'text');
         }
       },
-      error:function(){
+      error: function () {
         hideMyloading();
         console.log('发送失败');
       }
@@ -259,39 +263,40 @@
 
   var idCard, patient_personcard;
   handleCheck();
-  function handleCheck(){
-    if($('#radio1').prop('checked')){
+
+  function handleCheck() {
+    if ($('#radio1').prop('checked')) {
       var uid = localStorage.getItem('uid');
       console.log(uid)
       $.ajax({
         type: "GET",
         url: net.userAccountInfo,
-        data : {'uid' : uid},
-        beforeSend: function(request) {
+        data: {'uid': uid},
+        beforeSend: function (request) {
           request.setRequestHeader('token', localStorage.getItem('netToken'));
           request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
           request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
           request.setRequestHeader('appid', localStorage.getItem('appid'));
           request.setRequestHeader('timestamp', new Date().getTime());
         },
-        success: function(data){
+        success: function (data) {
           console.log(data);
-          if(data.code === 0){
+          if (data.code === 0) {
             var xing = '';
             idCard = (data.data && data.data.idcard) || '';
             patient_personcard = idCard;
             // console.log(idCard);
             $('.am_name').val(data.data.name || '');
             $('.am_tel').val(data.data.mobile || '');
-            if(idCard){
-              for(var j = 4; j < idCard.length-4; j++){
+            if (idCard) {
+              for (var j = 4; j < idCard.length - 4; j++) {
                 xing += '*';
               }
-              idCard = idCard.substring(0, 4) + xing + idCard.substring(idCard.length -4);
+              idCard = idCard.substring(0, 4) + xing + idCard.substring(idCard.length - 4);
               $('.am_ID').val(idCard).attr({'disabled': 'true'});
             }
-          }else{
-            $.toast(data.msg || '请求错误~', 'forbidden');
+          } else {
+            $.toast(data.msg || '请求错误~', 'text');
           }
         },
         error: function (err) {
@@ -301,29 +306,29 @@
     }
   }
 
-  function checkName(){
+  function checkName() {
     var _name = $('.am_name').val();
-    if(_name.length > 10 || _name === ''){
-      $.toast('请输入姓名且不超过10位', 'forbidden');
+    if (_name.length > 10 || _name === '') {
+      $.toast('请输入姓名且不超过10位', 'text');
       return false;
     }
     return true;
   }
 
-  function checkTel(){
+  function checkTel() {
     var reg1 = /^[1][0,1,2,3,4,5,6,7,8,9][0-9]{9}$/;
-    if(reg1.test($('.am_tel').val()) === false){
-      $.toast('手机号码有误，请重填', 'forbidden');
+    if (reg1.test($('.am_tel').val()) === false) {
+      $.toast('手机号码有误，请重填', 'text');
       return false;
     }
     return true;
   }
 
-  function checkID(){
+  function checkID() {
     var reg2 = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
-    if(patient_personcard === ''){
-      if(reg2.test($('.am_ID').val()) === false) {
-        $.toast('请输入正确的身份证号码', 'forbidden');
+    if (patient_personcard === '') {
+      if (reg2.test($('.am_ID').val()) === false) {
+        $.toast('请输入正确的身份证号码', 'text');
         return false;
       }
     }
@@ -331,8 +336,9 @@
   }
 
   function order() {
-    console.log('patient_personcard=',patient_personcard)
-    var service_meal = decodeURIComponent(getParams('service_meal')), pay_amount = getParams('pay_amount'), pay_code = getParams('pay_code');
+    console.log('patient_personcard=', patient_personcard)
+    var service_meal = decodeURIComponent(getParams('service_meal')), pay_amount = getParams('pay_amount'),
+      pay_code = getParams('pay_code');
     var _self = $('input[name="ifSelf"]:checked').val(),
       _service = $('input[name="service"]:checked').val(),
       _hospitalName = $('.am_hospital').val(),
@@ -340,47 +346,47 @@
       _proName = $('.am_proName').val(),
       _time = $('.am_time').val();
     // console.log(_self);
-    if(!_self){
-      $.toast('请选择就诊人', 'forbidden');
+    if (!_self) {
+      $.toast('请选择就诊人', 'text');
       return;
-    }else if(!checkName()){
+    } else if (!checkName()) {
       return;
-    }else if(!checkTel()){
+    } else if (!checkTel()) {
       return;
-    }else if(!checkID()){
+    } else if (!checkID()) {
       return;
-    }else if(!_hospitalName){
-      $.toast('请选择预约陪诊医院', 'forbidden');
+    } else if (!_hospitalName) {
+      $.toast('请选择预约陪诊医院', 'text');
       return;
-    }else if(!_service){
-      $.toast('请选择预约门诊类型', 'forbidden');
+    } else if (!_service) {
+      $.toast('请选择预约门诊类型', 'text');
       return;
-    }else if(!_room || _room.length > 20){
-      $.toast('请输入预约就诊科室且不超过20中文字符', 'forbidden');
+    } else if (!_room || _room.length > 20) {
+      $.toast('请输入预约就诊科室且不超过20中文字符', 'text');
       return;
-    }else if(_service === '2' && !_proName){
-      $.toast('请输入预约专家姓名', 'forbidden');
+    } else if (_service === '2' && !_proName) {
+      $.toast('请输入预约专家姓名', 'text');
       return;
-    }else if(!_time){
-      $.toast('请选择预约陪诊时间', 'forbidden');
+    } else if (!_time) {
+      $.toast('请选择预约陪诊时间', 'text');
       return;
-    }else if(!$('#radio5').prop('checked')){
-      $.toast('请同意服务须知后预约', 'forbidden');
+    } else if (!$('#radio5').prop('checked')) {
+      $.toast('请同意服务须知后预约', 'text');
       return;
     }
 
     var is_self, patient_name = $('.am_name').val(), patient_mobile = $('.am_tel').val(),
       hospital_name = localStorage.getItem('hospitalName'), outpatient_type, department = _room, expert_name = _proName;
-    if(_self === '1'){
+    if (_self === '1') {
       is_self = 'yes';
-    }else if(_self === '2'){
+    } else if (_self === '2') {
       is_self = 'no';
     }
     var data;
-    if(_service === '1'){
+    if (_service === '1') {
       outpatient_type = 'common';
       data = JSON.stringify({
-        is_self : is_self,
+        is_self: is_self,
         patient_name: patient_name,
         patient_mobile: patient_mobile,
         patient_personcard: patient_personcard || $('.am_ID').val(),
@@ -393,10 +399,10 @@
         pay_code: pay_code,
         service_meal: service_meal,
       })
-    }else if (_service === '2'){
+    } else if (_service === '2') {
       outpatient_type = 'expert';
       data = JSON.stringify({
-        is_self : is_self,
+        is_self: is_self,
         patient_name: patient_name,
         patient_mobile: patient_mobile,
         patient_personcard: patient_personcard || $('.am_ID').val(),
@@ -415,9 +421,9 @@
     $.ajax({
       type: "POST",
       url: net.saveAdReservation,
-      data : data,
+      data: data,
       contentType: 'application/json; charset=utf-8',
-      beforeSend: function(request) {
+      beforeSend: function (request) {
         showMyloading();
         request.setRequestHeader('token', localStorage.getItem('netToken'));
         request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
@@ -425,18 +431,18 @@
         request.setRequestHeader('appid', localStorage.getItem('appid'));
         request.setRequestHeader('timestamp', new Date().getTime());
       },
-      success: function(data){
+      success: function (data) {
         hideMyloading();
-        if(data.code === 0){
+        if (data.code === 0) {
           console.log(data);
           NativeFunc({
             ACTION: "OPENURL",
-            PARAM:{
-              URL: nativeObj.htmlPath + '/orderSuccess.html?pay_code='+pay_code
+            PARAM: {
+              URL: nativeObj.htmlPath + '/orderSuccess.html?pay_code=' + pay_code
             }
           });
-        }else{
-          $.toast(data.msg || '数据错误~', 'forbidden');
+        } else {
+          $.toast(data.msg || '数据错误~', 'text');
         }
       },
       error: function (err) {
@@ -459,13 +465,13 @@
       $('.order_proName').css({'display': 'none'});
     }, false);
     document.querySelector('#radio4').addEventListener('click', function () {
-      $('.order_proName').css({'display': 'flex','display':'-webkit-box','display':'-webkit-flex'});
+      $('.order_proName').css({'display': 'flex', 'display': '-webkit-box', 'display': '-webkit-flex'});
     }, false);
     document.querySelector('#radio5').addEventListener('click', function () {
       var _order = $('#order');
-      if($(this).prop('checked') === true){
+      if ($(this).prop('checked') === true) {
         _order.css({'color': 'white', 'background': '#0CB7F5'});
-      }else{
+      } else {
         _order.css({'color': 'white', 'background': 'lightgray'});
       }
     }, false);

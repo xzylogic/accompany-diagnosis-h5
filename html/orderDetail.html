@@ -7,7 +7,11 @@
   <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css"/>
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css"/>
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css"/>
-
+  <style>
+    .weui-toast--text {
+      width: 5.5rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -177,7 +181,7 @@
 
           // console.log(data.data.order_status)
           if(data.data.order_status === "reservation"){
-            refundBtn = '<span class="btn-gray" onclick="$.toast(\'请您先取消陪诊再申请退款~\', \'forbidden\')">申请退款</span> ';
+            refundBtn = '<span class="btn-gray" onclick="$.toast(\'请您先取消陪诊再申请退款~\', \'text\')">申请退款</span> ';
           }else if(data.data.order_status === "complete"){
             refundBtn = '';
           }else{
@@ -305,7 +309,7 @@
               return '';
           }
         }else{
-          $.toast(data.msg || '请求错误~', 'forbidden');
+          $.toast(data.msg || '请求错误~', 'text');
         }
       },
       error: function (err) {

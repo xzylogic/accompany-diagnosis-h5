@@ -5,9 +5,14 @@
   <meta name="format-detection" content="telephone=no">
   <title>订单支付</title>
   <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css"/>
   <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
   <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
-
+  <style>
+    .weui-toast--text {
+      width: 5.5rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -194,13 +199,13 @@
         }
         if(checkedWay == ""){
           // $(".mytip").html("请选择支付方式");
-          $.toast("请选择支付方式", 'forbidden');
+          $.toast("请选择支付方式", 'text');
           // showMyTip();
           return;
         }
         if(checkedWay == "wechat" && hasWx == false){
           // $(".mytip").html("微信未安装");
-          $.toast("微信未安装", 'forbidden');
+          $.toast("微信未安装", 'text');
           // showMyTip();
           return;
         }
@@ -252,7 +257,7 @@
                   //showMyTip();
                   hideMyloading();
                   // $(".mytip").html(data.msg||"创建支付信息接口出错");
-                  $.toast(firstData.msg || "创建支付信息接口出错", 'forbidden');
+                  $.toast(firstData.msg || "创建支付信息接口出错", 'text');
                 }
                 // hideMyloading();
               },
@@ -319,12 +324,12 @@
                   }
                 }else if(data.code == 12){
                   // $(".mytip").html("账户在其他设备登录,请重新登录");
-                  $.toast("账户在其他设备登录,请重新登录", 'forbidden');
+                  $.toast("账户在其他设备登录,请重新登录", 'text');
 
                   //showMyTip();
                 }else{
                   // $(".mytip").html(data.msg||"跳转支付失败");
-                  $.toast(data.msg || "跳转支付失败", 'forbidden');
+                  $.toast(data.msg || "跳转支付失败", 'text');
                   //showMyTip();
                 }
                 hideMyloading();

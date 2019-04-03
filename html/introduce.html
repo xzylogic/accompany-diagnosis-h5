@@ -211,7 +211,7 @@
     document.querySelector('.custom-btm-btn').addEventListener('click', function () {
       var _radio5 = $('#radio5').prop('checked');
       if(_radio5){
-        console.log(status , typeof status)
+        // console.log(status , typeof status)
         status === '2' ? $('.popup-txt span').text('简易陪诊套餐 ¥'+ $('.price-box .price2 span').text() + '/次') : $('.popup-txt span').text('全程陪诊套餐 ¥'+ $('.price-box .price2 span').text() + '/次');
         $('.popup-wrap').css({'display': 'block'});
       }else{
@@ -233,57 +233,104 @@
       var service_meal = $('.active').html();
       var uid = localStorage.getItem('uid');
       var order_id;
-      console.log(service_meal, 'uid', uid);
+      // console.log(service_meal, 'uid', uid);
       showMyloading();
-      $.ajax({
-        type: "POST",
-        url: net.makeOrder,
-        data : JSON.stringify({
-          'uid' : uid,
-          'service_meal': service_meal,
-          'pay_amount': totalFee
-        }),
-        contentType: 'application/json; charset=utf-8',
-        beforeSend: function(request) {
-          request.setRequestHeader('token', localStorage.getItem('netToken'));
-          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-          request.setRequestHeader('appid', localStorage.getItem('appid'));
-          request.setRequestHeader('timestamp', new Date().getTime());
-        },
-        success: function(data){
-          if(data.code === 0){
-            var datas = data.data;
-            // console.log(data);
-            var order_code = datas.order_code,
-              service_meal = datas.service_meal,
-              pay_amount = datas.pay_amount,
-              biz_id = datas.biz_id,
-              biz_name = datas.biz_name;
-            localStorage.setItem('order_code', order_code);
-            localStorage.setItem('service_meal', service_meal);
-            localStorage.setItem('pay_amount', pay_amount);
-            localStorage.setItem('biz_id', biz_id);
-            localStorage.setItem('biz_name', biz_name);
-            localStorage.setItem('biz_name', biz_name);
-            NativeFunc({
-              ACTION: "OPENURL",
-              PARAM:{
-                URL: paymentRequestUrl +"/orderPay.html?orderId="+order_code+"&totalFee="+pay_amount
-                // URL: nativeObj.htmlPath + '/orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
+      var pro = function () {
+        return new Promise(function (resolve, reject) {
+          $.ajax({
+            type: "POST",
+            url: net.makeOrder,
+            data : JSON.stringify({
+              'uid' : uid,
+              'service_meal': service_meal,
+              'pay_amount': totalFee
+            }),
+            contentType: 'application/json; charset=utf-8',
+            beforeSend: function(request) {
+              request.setRequestHeader('token', localStorage.getItem('netToken'));
+              request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+              request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+              request.setRequestHeader('appid', localStorage.getItem('appid'));
+              request.setRequestHeader('timestamp', new Date().getTime());
+            },
+            success: function(data){
+              if(data.code === 0){
+                var datas = data.data;
+                // console.log(data);
+                var order_code = datas.pay_code,
+                  service_meal = datas.service_meal,
+                  pay_amount = datas.pay_amount,
+                  paymentNo = datas.paymentNo,
+                  biz_id = datas.biz_id,
+                  biz_name = datas.biz_name;
+                // localStorage.setItem('order_code', order_code);
+                localStorage.setItem('pay_code', order_code);
+                localStorage.setItem('service_meal', service_meal);
+                localStorage.setItem('pay_amount', pay_amount);
+                localStorage.setItem('biz_id', biz_id);
+                localStorage.setItem('biz_name', biz_name);
+                resolve();
+              }else{
+                // console.log(data);
+                $.toast(data.msg || '请求错误~', 'forbidden');
+                reject('请求错误');
               }
-            });
-          }else{
-            // console.log(data);
-            $.toast(data.msg || '请求错误~', 'forbidden');
+              hideMyloading();
+            },
+            error: function (err) {
+              hideMyloading();
+              console.log(err)
+            }
+          });
+        })
+      }
+
+      pro().then(function () {
+        $.ajax({
+          url:net.adGetSdkPayParams,
+          type:"post",
+          async:false,
+          timeout: 6000,
+          data:JSON.stringify({
+            "pay_code": localStorage.getItem('pay_code'),
+          }),
+          contentType: 'application/json; charset=utf-8',
+          beforeSend: function(request) {
+            showMyloading();
+            request.setRequestHeader("token",netToken);
+            request.setRequestHeader("channelCode",channelCode);
+            request.setRequestHeader("lightAppCode",lightAppCode);
+            request.setRequestHeader("appid",appid);
+            request.setRequestHeader('timestamp', new Date().getTime());
+          },
+          success:function(firstData){
+            console.log(firstData);
+            firstData = JSON.parse(firstData) || firstData;
+            console.log(firstData);
+            if(firstData.code == 0){
+              var paymentNo = firstData.data.payment_no;
+              hideMyloading();
+              NativeFunc({
+                ACTION: "OPENURL",
+                PARAM:{
+                  URL: paymentRequestUrl +"/orderPay.html?paymentNo="+paymentNo
+                  // URL: paymentRequestUrl +"/orderPay.html?orderId="+order_code+"&totalFee="+pay_amount
+                  // URL: nativeObj.htmlPath + '/orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
+                }
+              });
+            }else{
+              //showMyTip();
+              hideMyloading();
+              // $(".mytip").html(data.msg||"创建支付信息接口出错");
+              $.toast(firstData.msg || "创建支付信息接口出错", 'text');
+            }
+          },
+          error:function(error){
+            //showMyTip();
+            hideMyloading();
           }
-          hideMyloading();
-        },
-        error: function (err) {
-          hideMyloading();
-          console.log(err)
-        }
-      });
+        });
+      })
     }, false);
 
     var oTop = $(".active").offset().top;

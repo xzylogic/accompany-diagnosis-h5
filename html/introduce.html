@@ -310,7 +310,7 @@
               NativeFunc({
                 ACTION: "OPENURL",
                 PARAM:{
-                  URL: paymentRequestUrl +"/orderPay.html?paymentNo="+paymentNo
+                  URL: paymentRequestUrl +"/orderPay.html?paymentNo="+paymentNo+'totalFee='+localStorage.getItem('pay_amount')
                   // URL: paymentRequestUrl +"/orderPay.html?orderId="+order_code+"&totalFee="+pay_amount
                   // URL: nativeObj.htmlPath + '/orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
                 }

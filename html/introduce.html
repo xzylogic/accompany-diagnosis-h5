@@ -88,7 +88,7 @@
   <script src="../custom/js/common.js"></script>
 
   <script>
-    $.toast.prototype.defaults.duration = 800;
+    $.toast.prototype.defaults.duration = 2000;
 
     function turnList(){
       NativeFunc({
@@ -271,11 +271,11 @@
                 localStorage.setItem('biz_name', biz_name);
                 resolve();
               }else{
+                hideMyloading();
                 // console.log(data);
                 $.toast(data.msg || '请求错误~', 'forbidden');
                 reject('请求错误');
               }
-              hideMyloading();
             },
             error: function (err) {
               hideMyloading();
@@ -296,17 +296,14 @@
           }),
           contentType: 'application/json; charset=utf-8',
           beforeSend: function(request) {
-            showMyloading();
-            request.setRequestHeader("token",netToken);
-            request.setRequestHeader("channelCode",channelCode);
-            request.setRequestHeader("lightAppCode",lightAppCode);
-            request.setRequestHeader("appid",appid);
+            request.setRequestHeader('token', localStorage.getItem('netToken'));
+            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+            request.setRequestHeader('appid', localStorage.getItem('appid'));
             request.setRequestHeader('timestamp', new Date().getTime());
           },
           success:function(firstData){
-            console.log(firstData);
-            firstData = JSON.parse(firstData) || firstData;
-            console.log(firstData);
+            // firstData = JSON.parse(firstData) || firstData;
             if(firstData.code == 0){
               var paymentNo = firstData.data.payment_no;
               hideMyloading();

@@ -89,7 +89,7 @@
 
   <script>
     $.toast.prototype.defaults.duration = 2000;
-
+    FastClick.attach(document.body);
     function turnList(){
       NativeFunc({
         ACTION: "OPENURL",

@@ -126,7 +126,7 @@
 <script>
 
   $.toast.prototype.defaults.duration = 800;
-
+  FastClick.attach(document.body);
   setTimeout(function () {
     nativeObj.RegisterFun(function () {
       $('.am_hospital').val(localStorage.getItem('hospitalName') || '');

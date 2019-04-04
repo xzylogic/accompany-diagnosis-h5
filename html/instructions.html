@@ -46,6 +46,7 @@
 
   <script>
     window.onload = function() {
+      FastClick.attach(document.body);
       $.ajax({
         url: net.getAdServiceGuidelines,
         type: "get",

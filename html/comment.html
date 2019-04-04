@@ -52,7 +52,7 @@
 
   <script>
     $.toast.prototype.defaults.duration = 800;
-
+    FastClick.attach(document.body);
     var pay_code = getParams('pay_code');
     GetQueryString();
 

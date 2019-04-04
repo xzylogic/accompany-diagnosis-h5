@@ -11,6 +11,14 @@
     .weui-toast--text {
       width: 5.5rem;
     }
+
+    .weui-dialog__ft .weui-dialog__btn:nth-child(1){
+      color: #999 !important;
+    }
+
+    .popup-txt span em{
+      color: #EC9429;
+    }
   </style>
 </head>
 
@@ -72,7 +80,7 @@
       <div class="popup-con popup-con-middle">
         <h2 class="popup-title">确认购买</h2>
         <div class="popup-txt" style="padding-top: 0;color: #666;">
-          您是否确认购买服务<br><span>全程陪诊套餐 ¥398/次</span>
+          您是否确认购买服务<br><span>全程陪诊套餐 <em>¥398</em>/次</span>
         </div>
         <div class="popup-btmbtn"><span class="gray">取消</span><span class="ok">确认</span></div>
       </div>
@@ -119,15 +127,15 @@
 
       $.modal({
         title: "服务提示",
-        text: "本服务不包含预约挂号服务，适用于已预约挂号就医过程中需要陪护的用户，可在健康云预约挂号。",
+        text: "本服务不包含预约挂号服务，适用于已预约挂号、就医过程中需要陪护的用户。",
         buttons: [
-          { text: "已预约挂号", onClick: function(){ return null;} },
           { text: "去预约挂号", onClick: function(){NativeFunc({
               ACTION: "OPENURL",
               PARAM:{
                 URL: _guaHao
               }
             });} },
+          { text: "已预约挂号", onClick: function(){ return null;} }
         ]
       });
       var pageData = {
@@ -210,9 +218,10 @@
 
     document.querySelector('.custom-btm-btn').addEventListener('click', function () {
       var _radio5 = $('#radio5').prop('checked');
+      var mealPrice = '<em>' + $('.price-box .price2 span').text() + '</em>'  + '/次';
       if(_radio5){
         // console.log(status , typeof status)
-        status === '2' ? $('.popup-txt span').text('简易陪诊套餐 ¥'+ $('.price-box .price2 span').text() + '/次') : $('.popup-txt span').text('全程陪诊套餐 ¥'+ $('.price-box .price2 span').text() + '/次');
+        status === '2' ? $('.popup-txt span').html('简易陪诊套餐 ¥' + mealPrice) : $('.popup-txt span').html('全程陪诊套餐 ¥' + mealPrice);
         $('.popup-wrap').css({'display': 'block'});
       }else{
         // console.log('请同意服务须知后购买');

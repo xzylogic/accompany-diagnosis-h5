@@ -116,6 +116,7 @@
       requestUrl=nativeObj.htmlPath;
       localStorage.setItem("paymentRequestUrl",paymentRequestUrl);
       localStorage.setItem("requestUrl",requestUrl);
+      localStorage.setItem("isNative",getParams('isNative'));
 
       if(_host.indexOf('h5.wdjky.com')>-1){
         _guaHao = 'https://open.wdjky.com/lightapp/index?channelCode=10001&lightAppCode=10001&isToken=1&isNew=1&appid=D960FC8D-0713-4C95-8C31-BCCFAD56EF7E&from=user'

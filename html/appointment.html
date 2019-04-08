@@ -219,6 +219,8 @@
               } else if (values[3] === '下午') {
                 time2 = 'pm';
               }
+              localStorage.setItem('time1', time1);
+              localStorage.setItem('time2', time2);
               // console.log(time1, time2)
             }
           });
@@ -267,7 +269,7 @@
   function handleCheck() {
     if ($('#radio1').prop('checked')) {
       var uid = localStorage.getItem('uid');
-      console.log(uid)
+      // console.log(uid)
       $.ajax({
         type: "GET",
         url: net.userAccountInfo,
@@ -393,8 +395,8 @@
         hospital_name: hospital_name,
         outpatient_type: outpatient_type,
         department: department,
-        acc_date: time1,
-        acc_am_pm: time2,
+        acc_date: localStorage.getItem('time1'),
+        acc_am_pm: localStorage.getItem('time2'),
         pay_amount: pay_amount,
         pay_code: pay_code,
         service_meal: service_meal,
@@ -409,8 +411,8 @@
         hospital_name: hospital_name,
         outpatient_type: outpatient_type,
         department: department,
-        acc_date: time1,
-        acc_am_pm: time2,
+        acc_date: localStorage.getItem('time1'),
+        acc_am_pm: localStorage.getItem('time2'),
         expert_name: expert_name,
         pay_amount: pay_amount,
         pay_code: pay_code,

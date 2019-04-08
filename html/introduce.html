@@ -127,7 +127,7 @@
       }
 
       $.modal({
-        title: "服务提示",
+        title: "温馨提示",
         text: "本服务不包含预约挂号服务，适用于已预约挂号、就医过程中需要陪护的用户。",
         buttons: [
           { text: "去预约挂号", onClick: function(){NativeFunc({
@@ -146,7 +146,7 @@
         lightAppCode: '',
       };
       var code = getParams('code');
-      localStorage.setItem('indexUrl', nativeObj.htmlPath + '/introduce.html');
+      localStorage.setItem('indexUrl', nativeObj.htmlPath + '/introduce.html?index=1');
 
       showMyloading();
 

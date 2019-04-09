@@ -138,6 +138,7 @@
               $('.search-hospital').on('click', function () {
                 var hpName = $(this).children('h5').text();
                 localStorage.setItem('hospitalName', hpName);
+                setHistoryItems($('#txt-search').val());//此行代码是点击医院名的时候存储搜索框内容至搜索记录
                 // setHistoryItems(hpName);//此行代码是点击医院名的时候存储至搜索记录
                 // window.history.back();
                 NativeFunc({

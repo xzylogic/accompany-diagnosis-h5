@@ -162,10 +162,10 @@
         url: net.userGetTokenByAuthCode,
         data : {'authCode' : code},
         beforeSend: function(request) {
-          request.setRequestHeader('token', localStorage.getItem('netToken'));
-          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-          request.setRequestHeader('appid', localStorage.getItem('appid'));
+          // request.setRequestHeader('token', localStorage.getItem('netToken'));
+          request.setRequestHeader('channelCode', getParams('channelCode') || localStorage.getItem('channelCode'));
+          request.setRequestHeader('lightAppCode', getParams('lightAppCode') || localStorage.getItem('lightAppCode'));
+          request.setRequestHeader('appid', getParams('appid') || localStorage.getItem('appid'));
           request.setRequestHeader('timestamp', new Date().getTime());
         },
         success: function(data){

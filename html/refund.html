@@ -104,7 +104,9 @@
       var resonLen = $('.weui-textarea').val().length;
       $('#num').text(resonLen);
     });
-
+    $('.weui-textarea').bind('blur', function () {
+      window.scroll(0,0);
+    });
     function refundSubmit() {
       var refundCause = $('.weui-textarea').val().trim();
       // console.log(pay_code, 'refundCause', refundCause);

@@ -154,6 +154,18 @@
     })
   }, 100);
 
+  /* wx返回刷新专用 */
+  window.addEventListener('pageshow', function () {
+    // 刷新标记 返回页面存
+    var needReload = localStorage.getItem('GETDATAREFRESH') || '';
+
+    if (needReload === '1' && nativeObj.isNative !== '1') {
+      localStorage.removeItem('GETDATAREFRESH');
+      // 刷新回调
+      GetQueryString();
+    }
+  });
+
   GetQueryString();
 
   function GetQueryString() {

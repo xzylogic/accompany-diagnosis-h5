@@ -154,17 +154,19 @@
     })
   }, 100);
 
-  /* wx返回刷新专用 */
-  window.addEventListener('pageshow', function () {
-    // 刷新标记 返回页面存
-    var needReload = localStorage.getItem('GETDATAREFRESH') || '';
-
-    if (needReload === '1' && nativeObj.isNative !== '1') {
-      localStorage.removeItem('GETDATAREFRESH');
-      // 刷新回调
-      GetQueryString();
-    }
-  });
+  if (nativeObj.isNative !== '1') {
+    // 微信返回此页面 刷新
+    var isPageHide = false;
+    window.addEventListener('pageshow', function () {
+      if (isPageHide) {
+        // 刷新回调
+        GetQueryString();
+      }
+    });
+    window.addEventListener('pagehide', function () {
+      isPageHide = true;
+    });
+  }
 
   GetQueryString();
 
@@ -205,7 +207,7 @@
             '<div class="user-mes-box state3-user-mes"> ' +
             '<span class="pic"><img src="../custom/images/head_bg.png"></span> ' +
             '<div class="con1"> <h5><span class="name">' + (datasDetail.emp_name || "") + '</span>' +
-            '<span>' + (datasDetail.emp_mobile || "") + '</span></h5> <p class="p1">' + (datasDetail.organization || "") + '</p> ' +
+            '<a href="tel:'+ (datasDetail.emp_mobile || "") +'">'+ (datasDetail.emp_mobile || "") +'</a></h5> <p class="p1">' + (datasDetail.organization || "") + '</p> ' +
             '<p class="border-top-dashed not-state3"></p> ' +
             '<p class="p2 not-state3"><label>陪诊时间</label><span>' + (datasDetail.acc_time || "") + '</span></p> ' +
             '</div> ' +
@@ -222,7 +224,7 @@
             '<li><label>预约单号</label><span>' + (datasDetails.reservation_code || "") + '</span></li> ' +
             '<li><label>就诊人</label><span>' + (datasDetails.consult_person || "") + '</span></li> ' +
             '<li><label>就诊人姓名</label><span>' + (datasDetails.patient_name || "") + '</span></li> ' +
-            '<li><label>就诊人手机号</label><span>' + (datasDetails.patient_mobile || "") + '</span></li> ' +
+            '<li><label>就诊人手机号</label><span><a href="tel:'+ (datasDetails.patient_mobile || "") +'">'+ (datasDetails.patient_mobile || "") +'</a></span></li> ' +
             '<li><label>预约陪诊医院</label><span>' + (datasDetails.hospital_name || "") + '</span></li> ' +
             '<li><label>预约门诊类型</label><span>' + (datasDetails.outpatient_type || "") + '</span></li> ' +
             '<li><label>预约就诊科室</label><span>' + (datasDetails.department || "") + '</span></li> ' +

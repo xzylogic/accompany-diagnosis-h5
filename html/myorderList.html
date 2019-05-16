@@ -199,18 +199,20 @@
     })
   }, 100);
 
-  /* wx返回刷新专用 */
-  window.addEventListener('pageshow', function () {
-    // 刷新标记 返回页面存
-    var needReload = localStorage.getItem('GETDATAREFRESH') || '';
-
-    if (needReload === '1' && nativeObj.isNative !== '1') {
-      localStorage.removeItem('GETDATAREFRESH');
-      // 刷新回调
+  if (nativeObj.isNative !== '1') {
+   // 微信返回此页面 刷新
+   var isPageHide = false;
+   window.addEventListener('pageshow', function () {
+    if (isPageHide) {
+     // 刷新回调
       html = '';
       orderList();
     }
-  });
+   });
+   window.addEventListener('pagehide', function () {
+    isPageHide = true;
+   });
+  }
 
   var mescroll = new MeScroll("mescroll", {
     up: {

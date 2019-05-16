@@ -133,6 +133,17 @@
     })
   }, 100);
 
+  /* wx返回刷新专用 */
+  window.addEventListener('pageshow', function () {
+    // 刷新标记 返回页面存
+    var needReload = localStorage.getItem('GETDATAREFRESH') || '';
+
+    if (needReload === '1' && nativeObj.isNative !== '1') {
+      localStorage.removeItem('GETDATAREFRESH');
+      $('.am_hospital').val(localStorage.getItem('hospitalName') || '');
+    }
+  });
+
   function searchHospital() {
     NativeFunc({
       ACTION: "OPENURL",
@@ -338,7 +349,7 @@
   }
 
   function order() {
-    console.log('patient_personcard=', patient_personcard)
+    // console.log('patient_personcard=', patient_personcard);
     var service_meal = decodeURIComponent(getParams('service_meal')), pay_amount = getParams('pay_amount'),
       pay_code = getParams('pay_code');
     var _self = $('input[name="ifSelf"]:checked').val(),

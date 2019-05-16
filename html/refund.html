@@ -128,6 +128,7 @@
           success: function(data){
             if(data.code === 0){
               $('.pay-result-box').css({'display': 'block'});
+              localStorage.setItem('GETDATAREFRESH', '1');
               // $.toast('退款成功');
               // window.location.href = refundDetail.html;
             }else{

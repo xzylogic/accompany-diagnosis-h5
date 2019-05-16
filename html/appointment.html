@@ -133,16 +133,19 @@
     })
   }, 100);
 
-  /* wx返回刷新专用 */
-  window.addEventListener('pageshow', function () {
-    // 刷新标记 返回页面存
-    var needReload = localStorage.getItem('GETDATAREFRESH') || '';
-
-    if (needReload === '1' && nativeObj.isNative !== '1') {
-      localStorage.removeItem('GETDATAREFRESH');
-      $('.am_hospital').val(localStorage.getItem('hospitalName') || '');
-    }
-  });
+  if (nativeObj.isNative !== '1') {
+    // 微信返回此页面 刷新
+    var isPageHide = false;
+    window.addEventListener('pageshow', function () {
+      if (isPageHide) {
+        // 刷新回调
+        $('.am_hospital').val(localStorage.getItem('hospitalName') || '');
+      }
+    });
+    window.addEventListener('pagehide', function () {
+      isPageHide = true;
+    });
+  }
 
   function searchHospital() {
     NativeFunc({

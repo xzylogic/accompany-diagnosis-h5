@@ -47,31 +47,42 @@
   <script>
     window.onload = function() {
       FastClick.attach(document.body);
-      $.ajax({
-        url: net.getAdServiceGuidelines,
-        type: "get",
-        beforeSend: function(request) {
-          showMyloading();
-          request.setRequestHeader('token', localStorage.getItem('netToken'));
-          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-          request.setRequestHeader('appid', localStorage.getItem('appid'));
-          request.setRequestHeader('timestamp', new Date().getTime());
-        },
-        success:function(data){
-          hideMyloading();
-          if(data.code === 0){
-            $('.instructions-wrap').html(data.data);
-          }else{
-            $.toast(data.msg || '请求错误~', 'text');
-          }
-        },
-        error:function(err){
-          hideMyloading();
-          $('.instructions-wrap').html(err.msg);
-          console.log('发送失败');
+      var ajax_url = net.getAdServiceGuidelines;
+      var ajax_fun =function(data){
+        if(data.code === 0){
+          $('.instructions-wrap').html(data.data);
+        }else{
+          $.toast(data.msg || '请求错误~', 'text');
         }
-      });
+        hideMyloading();
+      };
+      custom.ajaxRequest({url: ajax_url}, ajax_fun, false);
+
+      // $.ajax({
+      //   url: net.getAdServiceGuidelines,
+      //   type: "get",
+      //   beforeSend: function(request) {
+      //     showMyloading();
+      //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+      //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+      //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+      //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+      //     request.setRequestHeader('timestamp', new Date().getTime());
+      //   },
+      //   success:function(data){
+      //     hideMyloading();
+      //     if(data.code === 0){
+      //       $('.instructions-wrap').html(data.data);
+      //     }else{
+      //       $.toast(data.msg || '请求错误~', 'text');
+      //     }
+      //   },
+      //   error:function(err){
+      //     hideMyloading();
+      //     $('.instructions-wrap').html(err.msg);
+      //     console.log('发送失败');
+      //   }
+      // });
     }
   </script>
 </body>

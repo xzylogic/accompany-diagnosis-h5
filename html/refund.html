@@ -113,32 +113,43 @@
 
       if(refundCause){
         $('.refund-form-wrap').empty();
-        $.ajax({
-          type: "POST",
-          url: net.adOrderRefundment,
-          data : JSON.stringify({pay_code : pay_code, apply_refundment_cause: refundCause, apply_refundment_price: price}),
-          contentType: 'application/json; charset=utf-8',
-          beforeSend: function(request) {
-            request.setRequestHeader('token', localStorage.getItem('netToken'));
-            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-            request.setRequestHeader('appid', localStorage.getItem('appid'));
-            request.setRequestHeader('timestamp', new Date().getTime());
-          },
-          success: function(data){
-            if(data.code === 0){
-              $('.pay-result-box').css({'display': 'block'});
-              // $.toast('退款成功');
-              // window.location.href = refundDetail.html;
-            }else{
-              $.toast(data.msg || '请求错误~', 'text');
-            }
-
-          },
-          error: function (err) {
-            console.log(err)
+        var ajax_url = net.adOrderRefundment;
+        var ajax_fun = function(data){
+          if(data.code === 0){
+            $('.pay-result-box').css({'display': 'block'});
+          }else{
+            $.toast(data.msg || '请求错误~', 'text');
           }
-        });
+          hideMyloading();
+        };
+        custom.ajaxRequest({type: 'POST', url: ajax_url, data: JSON.stringify({pay_code : pay_code, apply_refundment_cause: refundCause, apply_refundment_price: price})}, ajax_fun, false);
+
+        // $.ajax({
+        //   type: "POST",
+        //   url: net.adOrderRefundment,
+        //   data : JSON.stringify({pay_code : pay_code, apply_refundment_cause: refundCause, apply_refundment_price: price}),
+        //   contentType: 'application/json; charset=utf-8',
+        //   beforeSend: function(request) {
+        //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+        //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+        //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+        //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+        //     request.setRequestHeader('timestamp', new Date().getTime());
+        //   },
+        //   success: function(data){
+        //     if(data.code === 0){
+        //       $('.pay-result-box').css({'display': 'block'});
+        //       // $.toast('退款成功');
+        //       // window.location.href = refundDetail.html;
+        //     }else{
+        //       $.toast(data.msg || '请求错误~', 'text');
+        //     }
+        //
+        //   },
+        //   error: function (err) {
+        //     console.log(err)
+        //   }
+        // });
       }else{
         $.toptip('请您填写退款原因～', 800, 'error');
       }

@@ -116,7 +116,7 @@ var custom = {
 		}
 
 		return birthday;
-	}
+	},
 	
 // 	// 示例
 // 	custom.beAnalysis('click', 'page_zzjd_dzxx', 'button_syb', uid, false, {token : token, channelCode : channelCode, lightAppCode : lightAppCode, timestamp : new Date().getTime()});
@@ -193,7 +193,54 @@ var custom = {
 // 			console.log(e);
 // 		}
 // 	}
-	
+
+  /*
+      opts：参数对象，可对AJAX所有参数、函数重写
+      success：成功回调函数
+      onloading：请求接口之前显示loading，默认显示loading
+  */
+  ajaxRequest: function (opts, successFun, noloading) {
+    var pageData = {
+      // userInfo: 1,
+      token: localStorage.getItem('netToken') || '',
+      appid: localStorage.getItem('appid') || '',
+      channelCode: getParams('channelCode') || localStorage.getItem('channelCode') || '',
+      lightAppCode: getParams('lightAppCode') || localStorage.getItem('lightAppCode') || '',
+    };
+    // var tk;
+    // pageData.userInfo && (tk = pageData.userInfo.token);
+    var param = {
+      type: "GET",//默认GET请求
+      beforeSend: function (request) {
+        request.setRequestHeader("token", pageData.token);
+        request.setRequestHeader("channelCode", pageData.channelCode);
+        request.setRequestHeader("lightAppCode", pageData.lightAppCode);
+        request.setRequestHeader('appid', pageData.appid);
+        // request.setRequestHeader('request-id', randomWord(true));
+        request.setRequestHeader('timestamp', new Date().getTime());
+      },
+      success: function (data) {
+        /*将来对 data 进行解密*/
+        successFun(data);
+      },
+      error: function (error) {
+        hideMyloading();
+        $.toptip('网络出了点异常，请重试', 'error');
+      }
+    };
+    (opts.type == 'POST') && (param.contentType = "application/json; charset=utf-8");
+    //参数/函数 赋值/重写
+    if (opts) {
+      for (key in opts) {
+        if (key == 'url' || key == 'data') {
+          /*将来对 url、data 进行加密*/
+        }
+        param[key] = opts[key]
+      }
+    }
+    !noloading && showMyloading();
+    $.ajax(param);
+  },
 };
 
 /* 公共函数 */

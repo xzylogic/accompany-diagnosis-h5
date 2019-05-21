@@ -155,45 +155,68 @@
       var code = getParams('code');
       localStorage.setItem('indexUrl', nativeObj.htmlPath + '/introduce.html?index=1');
 
-      showMyloading();
-
-      $.ajax({
-        type: "GET",
-        url: net.userGetTokenByAuthCode,
-        data : {'authCode' : code},
-        beforeSend: function(request) {
-          // request.setRequestHeader('token', localStorage.getItem('netToken'));
-          request.setRequestHeader('channelCode', getParams('channelCode') || localStorage.getItem('channelCode'));
-          request.setRequestHeader('lightAppCode', getParams('lightAppCode') || localStorage.getItem('lightAppCode'));
-          //request.setRequestHeader('appid', getParams('appid') || localStorage.getItem('appid'));
-          request.setRequestHeader('timestamp', new Date().getTime());
-        },
-        success: function(data){
-          hideMyloading();
-          var tokenData = data.data;
-          if(data.code === 0){
-            localStorage.setItem('netToken', tokenData.token);
-            localStorage.setItem('uid', tokenData.uid);
-            localStorage.setItem('jkyUid', tokenData.uid);
-            localStorage.setItem('channelCode', tokenData.channelCode);
-            localStorage.setItem('lightAppCode', tokenData.lightAppCode);
-            localStorage.setItem('appid', tokenData.appid);
-          }else{
-            pageData.netToken = localStorage.getItem('netToken');
-            pageData.uid= localStorage.getItem('uid');
-            pageData.channelCode= localStorage.getItem('channelCode');
-            pageData.lightAppCode=localStorage.getItem('lightAppCode');
-            // console.log(pageData.netToken);
-            if(!pageData.netToken){
-              $.toast(data.msg || '请求错误', 'forbidden');
-            }
+      var ajax_url = net.userGetTokenByAuthCode + '?authCode=' + code;
+      var ajax_fun =function(data){
+        var tokenData = data.data;
+        if(data.code === 0){
+          localStorage.setItem('netToken', tokenData.token);
+          localStorage.setItem('uid', tokenData.uid);
+          localStorage.setItem('jkyUid', tokenData.uid);
+          localStorage.setItem('channelCode', tokenData.channelCode);
+          localStorage.setItem('lightAppCode', tokenData.lightAppCode);
+          localStorage.setItem('appid', tokenData.appid);
+        }else{
+          pageData.netToken = localStorage.getItem('netToken');
+          pageData.uid= localStorage.getItem('uid');
+          pageData.channelCode= localStorage.getItem('channelCode');
+          pageData.lightAppCode=localStorage.getItem('lightAppCode');
+          // console.log(pageData.netToken);
+          if(!pageData.netToken){
+            $.toast(data.msg || '请求错误', 'forbidden');
           }
-        },
-        error: function (err) {
-          hideMyloading();
-          console.log(err);
         }
-      });
+        hideMyloading();
+      };
+      custom.ajaxRequest({url: ajax_url}, ajax_fun, false);
+
+      // showMyloading();
+      // $.ajax({
+      //   type: "GET",
+      //   url: net.userGetTokenByAuthCode,
+      //   data : {'authCode' : code},
+      //   beforeSend: function(request) {
+      //     // request.setRequestHeader('token', localStorage.getItem('netToken'));
+      //     request.setRequestHeader('channelCode', getParams('channelCode') || localStorage.getItem('channelCode'));
+      //     request.setRequestHeader('lightAppCode', getParams('lightAppCode') || localStorage.getItem('lightAppCode'));
+      //     //request.setRequestHeader('appid', getParams('appid') || localStorage.getItem('appid'));
+      //     request.setRequestHeader('timestamp', new Date().getTime());
+      //   },
+      //   success: function(data){
+      //     hideMyloading();
+      //     var tokenData = data.data;
+      //     if(data.code === 0){
+      //       localStorage.setItem('netToken', tokenData.token);
+      //       localStorage.setItem('uid', tokenData.uid);
+      //       localStorage.setItem('jkyUid', tokenData.uid);
+      //       localStorage.setItem('channelCode', tokenData.channelCode);
+      //       localStorage.setItem('lightAppCode', tokenData.lightAppCode);
+      //       localStorage.setItem('appid', tokenData.appid);
+      //     }else{
+      //       pageData.netToken = localStorage.getItem('netToken');
+      //       pageData.uid= localStorage.getItem('uid');
+      //       pageData.channelCode= localStorage.getItem('channelCode');
+      //       pageData.lightAppCode=localStorage.getItem('lightAppCode');
+      //       // console.log(pageData.netToken);
+      //       if(!pageData.netToken){
+      //         $.toast(data.msg || '请求错误', 'forbidden');
+      //       }
+      //     }
+      //   },
+      //   error: function (err) {
+      //     hideMyloading();
+      //     console.log(err);
+      //   }
+      // });
     });
     var status;
     $('.serviceMeal').bind('click', function () {
@@ -254,97 +277,146 @@
       showMyloading();
       var pro = function () {
         return new Promise(function (resolve, reject) {
-          $.ajax({
-            type: "POST",
-            url: net.makeOrder,
-            data : JSON.stringify({
+          var ajax_url2 = net.makeOrder;
+          var ajax_fun2 = function(data){
+            if(data.code === 0){
+              var datas = data.data;
+              // console.log(data);
+              var order_code = datas.pay_code,
+                service_meal = datas.service_meal,
+                pay_amount = datas.pay_amount,
+                paymentNo = datas.paymentNo,
+                biz_id = datas.biz_id,
+                biz_name = datas.biz_name;
+              // localStorage.setItem('order_code', order_code);
+              localStorage.setItem('pay_code', order_code);
+              localStorage.setItem('service_meal', service_meal);
+              localStorage.setItem('pay_amount', pay_amount);
+              localStorage.setItem('biz_id', biz_id);
+              localStorage.setItem('biz_name', biz_name);
+              resolve();
+            }else{
+              $.toast(data.msg || '请求错误~', 'forbidden');
+              reject('请求错误');
+            }
+            hideMyloading();
+          };
+          custom.ajaxRequest({type: 'POST', url: ajax_url2, data: JSON.stringify({
               'uid' : uid,
               'service_meal': service_meal,
               'pay_amount': totalFee
-            }),
-            contentType: 'application/json; charset=utf-8',
-            beforeSend: function(request) {
-              request.setRequestHeader('token', localStorage.getItem('netToken'));
-              request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-              request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-              request.setRequestHeader('appid', localStorage.getItem('appid'));
-              request.setRequestHeader('timestamp', new Date().getTime());
-            },
-            success: function(data){
-              if(data.code === 0){
-                var datas = data.data;
-                // console.log(data);
-                var order_code = datas.pay_code,
-                  service_meal = datas.service_meal,
-                  pay_amount = datas.pay_amount,
-                  paymentNo = datas.paymentNo,
-                  biz_id = datas.biz_id,
-                  biz_name = datas.biz_name;
-                // localStorage.setItem('order_code', order_code);
-                localStorage.setItem('pay_code', order_code);
-                localStorage.setItem('service_meal', service_meal);
-                localStorage.setItem('pay_amount', pay_amount);
-                localStorage.setItem('biz_id', biz_id);
-                localStorage.setItem('biz_name', biz_name);
-                resolve();
-              }else{
-                hideMyloading();
-                // console.log(data);
-                $.toast(data.msg || '请求错误~', 'forbidden');
-                reject('请求错误');
-              }
-            },
-            error: function (err) {
-              hideMyloading();
-              console.log(err)
-            }
-          });
+            })}, ajax_fun2, false);
+
+
+          // $.ajax({
+          //   type: "POST",
+          //   url: net.makeOrder,
+          //   data : JSON.stringify({
+          //     'uid' : uid,
+          //     'service_meal': service_meal,
+          //     'pay_amount': totalFee
+          //   }),
+          //   contentType: 'application/json; charset=utf-8',
+          //   beforeSend: function(request) {
+          //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+          //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+          //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+          //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+          //     request.setRequestHeader('timestamp', new Date().getTime());
+          //   },
+          //   success: function(data){
+          //     if(data.code === 0){
+          //       var datas = data.data;
+          //       // console.log(data);
+          //       var order_code = datas.pay_code,
+          //         service_meal = datas.service_meal,
+          //         pay_amount = datas.pay_amount,
+          //         paymentNo = datas.paymentNo,
+          //         biz_id = datas.biz_id,
+          //         biz_name = datas.biz_name;
+          //       // localStorage.setItem('order_code', order_code);
+          //       localStorage.setItem('pay_code', order_code);
+          //       localStorage.setItem('service_meal', service_meal);
+          //       localStorage.setItem('pay_amount', pay_amount);
+          //       localStorage.setItem('biz_id', biz_id);
+          //       localStorage.setItem('biz_name', biz_name);
+          //       resolve();
+          //     }else{
+          //       hideMyloading();
+          //       // console.log(data);
+          //       $.toast(data.msg || '请求错误~', 'forbidden');
+          //       reject('请求错误');
+          //     }
+          //   },
+          //   error: function (err) {
+          //     hideMyloading();
+          //     console.log(err)
+          //   }
+          // });
         })
-      }
+      };
 
       pro().then(function () {
-        $.ajax({
-          url:net.adGetSdkPayParams,
-          type:"post",
-          async:false,
-          timeout: 6000,
-          data:JSON.stringify({
-            "pay_code": localStorage.getItem('pay_code'),
-          }),
-          contentType: 'application/json; charset=utf-8',
-          beforeSend: function(request) {
-            request.setRequestHeader('token', localStorage.getItem('netToken'));
-            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-            request.setRequestHeader('appid', localStorage.getItem('appid'));
-            request.setRequestHeader('timestamp', new Date().getTime());
-          },
-          success:function(firstData){
-            // firstData = JSON.parse(firstData) || firstData;
-            if(firstData.code == 0){
-              var paymentNo = firstData.data.payment_no,
-                  totalFee = localStorage.getItem('pay_amount');
-              hideMyloading();
-              NativeFunc({
-                ACTION: "OPENURL",
-                PARAM:{
-                  URL: paymentRequestUrl +"/orderPay.html?paymentNo="+paymentNo+'&totalFee='+totalFee
-                  // URL: paymentRequestUrl +"/orderPay.html?orderId="+order_code+"&totalFee="+pay_amount
-                  // URL: nativeObj.htmlPath + '/orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
-                }
-              });
-            }else{
-              //showMyTip();
-              hideMyloading();
-              // $(".mytip").html(data.msg||"创建支付信息接口出错");
-              $.toast(firstData.msg || "创建支付信息接口出错", 'text');
-            }
-          },
-          error:function(error){
-            //showMyTip();
-            hideMyloading();
+        var ajax_url3 = net.adGetSdkPayParams;
+        var ajax_fun3 = function(firstData){
+          if(firstData.code == 0){
+            var paymentNo = firstData.data.payment_no,
+              totalFee = localStorage.getItem('pay_amount');
+            NativeFunc({
+              ACTION: "OPENURL",
+              PARAM:{
+                URL: paymentRequestUrl +"/orderPay.html?paymentNo="+paymentNo+'&totalFee='+totalFee
+              }
+            });
+          }else{
+            $.toast(firstData.msg || "创建支付信息接口出错", 'text');
           }
-        });
+          hideMyloading();
+        };
+        custom.ajaxRequest({type: 'POST', url: ajax_url3, data: JSON.stringify({"pay_code": localStorage.getItem('pay_code')})}, ajax_fun3, false);
+
+        // $.ajax({
+        //   url:net.adGetSdkPayParams,
+        //   type:"post",
+        //   async:false,
+        //   timeout: 6000,
+        //   data:JSON.stringify({
+        //     "pay_code": localStorage.getItem('pay_code'),
+        //   }),
+        //   contentType: 'application/json; charset=utf-8',
+        //   beforeSend: function(request) {
+        //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+        //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+        //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+        //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+        //     request.setRequestHeader('timestamp', new Date().getTime());
+        //   },
+        //   success:function(firstData){
+        //     // firstData = JSON.parse(firstData) || firstData;
+        //     if(firstData.code == 0){
+        //       var paymentNo = firstData.data.payment_no,
+        //           totalFee = localStorage.getItem('pay_amount');
+        //       hideMyloading();
+        //       NativeFunc({
+        //         ACTION: "OPENURL",
+        //         PARAM:{
+        //           URL: paymentRequestUrl +"/orderPay.html?paymentNo="+paymentNo+'&totalFee='+totalFee
+        //           // URL: paymentRequestUrl +"/orderPay.html?orderId="+order_code+"&totalFee="+pay_amount
+        //           // URL: nativeObj.htmlPath + '/orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
+        //         }
+        //       });
+        //     }else{
+        //       //showMyTip();
+        //       hideMyloading();
+        //       // $(".mytip").html(data.msg||"创建支付信息接口出错");
+        //       $.toast(firstData.msg || "创建支付信息接口出错", 'text');
+        //     }
+        //   },
+        //   error:function(error){
+        //     //showMyTip();
+        //     hideMyloading();
+        //   }
+        // });
       })
     }, false);
 

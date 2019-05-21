@@ -180,74 +180,127 @@
       $('.order_proName').css({'display': 'none'});
     }
 
-    $.ajax({
-      url: net.scheduleTime,
-      type: "get",
-      timeout: 6000,
-      beforeSend: function (request) {
-        showMyloading();
-        request.setRequestHeader('token', localStorage.getItem('netToken'));
-        request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-        request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-        request.setRequestHeader('appid', localStorage.getItem('appid'));
-        request.setRequestHeader('timestamp', new Date().getTime());
-      },
-      success: function (data) {
-        hideMyloading();
-        if (data.code === 0) {
-          var time = [], timeDetail = [];
-          data && data.data.map(function (val, i) {
-            // console.log(val,i);
-            // time.push(val.time);
-            if (val.am === '1' && val.pm === '1') {
-              timeDetail = ['上午', '下午'];
-              time.push(val.time + '-' + timeDetail[0]);
-              time.push(val.time + '-' + timeDetail[1]);
-            } else if (val.am === '1') {
-              timeDetail = ['上午'];
-              time.push(val.time + '-' + timeDetail[0]);
-            } else if (val.pm === '1') {
-              timeDetail = ['下午'];
-              time.push(val.time + '-' + timeDetail[0]);
+    var ajax_url = net.scheduleTime;
+    var ajax_fun =function(data){
+      if (data.code === 0) {
+        var time = [], timeDetail = [];
+        data && data.data.map(function (val, i) {
+          // console.log(val,i);
+          // time.push(val.time);
+          if (val.am === '1' && val.pm === '1') {
+            timeDetail = ['上午', '下午'];
+            time.push(val.time + '-' + timeDetail[0]);
+            time.push(val.time + '-' + timeDetail[1]);
+          } else if (val.am === '1') {
+            timeDetail = ['上午'];
+            time.push(val.time + '-' + timeDetail[0]);
+          } else if (val.pm === '1') {
+            timeDetail = ['下午'];
+            time.push(val.time + '-' + timeDetail[0]);
+          }
+        });
+        $(".am_time").picker({
+          title: "请选择",
+          cols: [{
+            textAlign: 'center',
+            values: time,
+            //如果你希望显示文案和实际值不同，可以在这里加一个displayValues: [.....]
+          }
+            // ,{
+            //   textAlign: 'center',
+            //   values: ['上午', '下午'],
+            // }
+          ],
+          // value: '2017-08-09 全天',
+          onChange: function (picker, values, displayValues) {
+            values = values.toString().split('-');
+            console.log(values);
+            time1 = values[0] + '-' + values[1] + '-' + values[2];
+            if (values[3] === '上午') {
+              time2 = 'am';
+            } else if (values[3] === '下午') {
+              time2 = 'pm';
             }
-          });
-          $(".am_time").picker({
-            title: "请选择",
-            cols: [{
-              textAlign: 'center',
-              values: time,
-              //如果你希望显示文案和实际值不同，可以在这里加一个displayValues: [.....]
-            }
-              // ,{
-              //   textAlign: 'center',
-              //   values: ['上午', '下午'],
-              // }
-            ],
-            // value: '2017-08-09 全天',
-            onChange: function (picker, values, displayValues) {
-              values = values.toString().split('-');
-              console.log(values);
-              time1 = values[0] + '-' + values[1] + '-' + values[2];
-              if (values[3] === '上午') {
-                time2 = 'am';
-              } else if (values[3] === '下午') {
-                time2 = 'pm';
-              }
-              localStorage.setItem('time1', time1);
-              localStorage.setItem('time2', time2);
-              // console.log(time1, time2)
-            }
-          });
-        } else {
-          $.toast(data.msg || '请求错误~', 'text');
-        }
-      },
-      error: function () {
-        hideMyloading();
-        console.log('发送失败');
+            localStorage.setItem('time1', time1);
+            localStorage.setItem('time2', time2);
+            // console.log(time1, time2)
+          }
+        });
+      } else {
+        $.toast(data.msg || '请求错误~', 'text');
       }
-    });
-  }
+      hideMyloading();
+    };
+    custom.ajaxRequest({url: ajax_url}, ajax_fun, false);
+
+    // $.ajax({
+    //   url: net.scheduleTime,
+    //   type: "get",
+    //   timeout: 6000,
+    //   beforeSend: function (request) {
+    //     showMyloading();
+    //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+    //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+    //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+    //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+    //     request.setRequestHeader('timestamp', new Date().getTime());
+    //   },
+    //   success: function (data) {
+    //     hideMyloading();
+    //     if (data.code === 0) {
+    //       var time = [], timeDetail = [];
+    //       data && data.data.map(function (val, i) {
+    //         // console.log(val,i);
+    //         // time.push(val.time);
+    //         if (val.am === '1' && val.pm === '1') {
+    //           timeDetail = ['上午', '下午'];
+    //           time.push(val.time + '-' + timeDetail[0]);
+    //           time.push(val.time + '-' + timeDetail[1]);
+    //         } else if (val.am === '1') {
+    //           timeDetail = ['上午'];
+    //           time.push(val.time + '-' + timeDetail[0]);
+    //         } else if (val.pm === '1') {
+    //           timeDetail = ['下午'];
+    //           time.push(val.time + '-' + timeDetail[0]);
+    //         }
+    //       });
+    //       $(".am_time").picker({
+    //         title: "请选择",
+    //         cols: [{
+    //           textAlign: 'center',
+    //           values: time,
+    //           //如果你希望显示文案和实际值不同，可以在这里加一个displayValues: [.....]
+    //         }
+    //           // ,{
+    //           //   textAlign: 'center',
+    //           //   values: ['上午', '下午'],
+    //           // }
+    //         ],
+    //         // value: '2017-08-09 全天',
+    //         onChange: function (picker, values, displayValues) {
+    //           values = values.toString().split('-');
+    //           console.log(values);
+    //           time1 = values[0] + '-' + values[1] + '-' + values[2];
+    //           if (values[3] === '上午') {
+    //             time2 = 'am';
+    //           } else if (values[3] === '下午') {
+    //             time2 = 'pm';
+    //           }
+    //           localStorage.setItem('time1', time1);
+    //           localStorage.setItem('time2', time2);
+    //           // console.log(time1, time2)
+    //         }
+    //       });
+    //     } else {
+    //       $.toast(data.msg || '请求错误~', 'text');
+    //     }
+    //   },
+    //   error: function () {
+    //     hideMyloading();
+    //     console.log('发送失败');
+    //   }
+    // });
+  };
 
 
   // var winHeight = $(window).height(); //获取当前页面高度
@@ -284,41 +337,64 @@
     if ($('#radio1').prop('checked')) {
       var uid = localStorage.getItem('uid');
       // console.log(uid)
-      $.ajax({
-        type: "GET",
-        url: net.userAccountInfo,
-        data: {'uid': uid},
-        beforeSend: function (request) {
-          request.setRequestHeader('token', localStorage.getItem('netToken'));
-          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-          request.setRequestHeader('appid', localStorage.getItem('appid'));
-          request.setRequestHeader('timestamp', new Date().getTime());
-        },
-        success: function (data) {
-          console.log(data);
-          if (data.code === 0) {
-            var xing = '';
-            idCard = (data.data && data.data.idcard) || '';
-            patient_personcard = idCard;
-            // console.log(idCard);
-            $('.am_name').val(data.data.name || '');
-            $('.am_tel').val(data.data.mobile || '');
-            if (idCard) {
-              for (var j = 4; j < idCard.length - 4; j++) {
-                xing += '*';
-              }
-              idCard = idCard.substring(0, 4) + xing + idCard.substring(idCard.length - 4);
-              $('.am_ID').val(idCard).attr({'disabled': 'true'});
+      var ajax_url2 = net.userAccountInfo + '?uid=' + uid;
+      var ajax_fun2 =function(data){
+        if (data.code === 0) {
+          var xing = '';
+          idCard = (data.data && data.data.idcard) || '';
+          patient_personcard = idCard;
+          // console.log(idCard);
+          $('.am_name').val(data.data.name || '');
+          $('.am_tel').val(data.data.mobile || '');
+          if (idCard) {
+            for (var j = 4; j < idCard.length - 4; j++) {
+              xing += '*';
             }
-          } else {
-            $.toast(data.msg || '请求错误~', 'text');
+            idCard = idCard.substring(0, 4) + xing + idCard.substring(idCard.length - 4);
+            $('.am_ID').val(idCard).attr({'disabled': 'true'});
           }
-        },
-        error: function (err) {
-          console.log(err);
+        } else {
+          $.toast(data.msg || '请求错误~', 'text');
         }
-      });
+        hideMyloading();
+      };
+      custom.ajaxRequest({url: ajax_url2}, ajax_fun2, false);
+
+      // $.ajax({
+      //   type: "GET",
+      //   url: net.userAccountInfo,
+      //   data: {'uid': uid},
+      //   beforeSend: function (request) {
+      //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+      //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+      //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+      //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+      //     request.setRequestHeader('timestamp', new Date().getTime());
+      //   },
+      //   success: function (data) {
+      //     console.log(data);
+      //     if (data.code === 0) {
+      //       var xing = '';
+      //       idCard = (data.data && data.data.idcard) || '';
+      //       patient_personcard = idCard;
+      //       // console.log(idCard);
+      //       $('.am_name').val(data.data.name || '');
+      //       $('.am_tel').val(data.data.mobile || '');
+      //       if (idCard) {
+      //         for (var j = 4; j < idCard.length - 4; j++) {
+      //           xing += '*';
+      //         }
+      //         idCard = idCard.substring(0, 4) + xing + idCard.substring(idCard.length - 4);
+      //         $('.am_ID').val(idCard).attr({'disabled': 'true'});
+      //       }
+      //     } else {
+      //       $.toast(data.msg || '请求错误~', 'text');
+      //     }
+      //   },
+      //   error: function (err) {
+      //     console.log(err);
+      //   }
+      // });
     }
   }
 
@@ -434,38 +510,55 @@
       })
     }
 
-    $.ajax({
-      type: "POST",
-      url: net.saveAdReservation,
-      data: data,
-      contentType: 'application/json; charset=utf-8',
-      beforeSend: function (request) {
-        showMyloading();
-        request.setRequestHeader('token', localStorage.getItem('netToken'));
-        request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-        request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-        request.setRequestHeader('appid', localStorage.getItem('appid'));
-        request.setRequestHeader('timestamp', new Date().getTime());
-      },
-      success: function (data) {
-        hideMyloading();
-        if (data.code === 0) {
-          console.log(data);
-          NativeFunc({
-            ACTION: "OPENURL",
-            PARAM: {
-              URL: nativeObj.htmlPath + '/orderSuccess.html?pay_code=' + pay_code
-            }
-          });
-        } else {
-          $.toast(data.msg || '数据错误~', 'text');
-        }
-      },
-      error: function (err) {
-        hideMyloading();
-        console.log(err)
+    var ajax_url3 = net.saveAdReservation;
+    var ajax_fun3 = function(data){
+      if (data.code === 0) {
+        console.log(data);
+        NativeFunc({
+          ACTION: "OPENURL",
+          PARAM: {
+            URL: nativeObj.htmlPath + '/orderSuccess.html?pay_code=' + pay_code
+          }
+        });
+      } else {
+        $.toast(data.msg || '数据错误~', 'text');
       }
-    });
+      hideMyloading();
+    };
+    custom.ajaxRequest({type: 'POST', url: ajax_url3, data: data}, ajax_fun3, false);
+
+    // $.ajax({
+    //   type: "POST",
+    //   url: net.saveAdReservation,
+    //   data: data,
+    //   contentType: 'application/json; charset=utf-8',
+    //   beforeSend: function (request) {
+    //     showMyloading();
+    //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+    //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+    //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+    //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+    //     request.setRequestHeader('timestamp', new Date().getTime());
+    //   },
+    //   success: function (data) {
+    //     hideMyloading();
+    //     if (data.code === 0) {
+    //       console.log(data);
+    //       NativeFunc({
+    //         ACTION: "OPENURL",
+    //         PARAM: {
+    //           URL: nativeObj.htmlPath + '/orderSuccess.html?pay_code=' + pay_code
+    //         }
+    //       });
+    //     } else {
+    //       $.toast(data.msg || '数据错误~', 'text');
+    //     }
+    //   },
+    //   error: function (err) {
+    //     hideMyloading();
+    //     console.log(err)
+    //   }
+    // });
   }
 
   $(document).ready(function () {

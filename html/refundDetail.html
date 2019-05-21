@@ -63,99 +63,162 @@
     FastClick.attach(document.body);
     var pay_code = getParams('pay_code');
 
-    $.ajax({
-      type: "GET",
-      url: net.orderDetail,
-      data : {'pay_code' : pay_code},
-      beforeSend: function(request) {
-        request.setRequestHeader('token', localStorage.getItem('netToken'));
-        request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-        request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-        request.setRequestHeader('appid', localStorage.getItem('appid'));
-        request.setRequestHeader('timestamp', new Date().getTime());
-      },
-      success: function(data){
-        // console.log(data);
-        if(data.code === 0){
-          var datas = data.data.refundment_detail, refundStatus = datas.refund_status, html = '';
+    var ajax_url = net.orderDetail + '?pay_code=' + pay_code;
+    var ajax_fun =function(data){
+      if(data.code === 0){
+        var datas = data.data.refundment_detail, refundStatus = datas.refund_status, html = '';
 
-          var content = '<h2>退款信息</h2><div class="refund-detail-con2">' +
-            '<div class="title"><span>'+ datas.service_meal +'</span>' +
-            '<span class="price">￥'+ datas.pay_amount +'/次</span></div>' +
-            '<p class="border-top-dashed"></p>' +
-            '<ul class="mes-list mes-list-width"> ' +
-            '<li><label>申请退款金额</label><span class="orange">￥'+ datas.apply_refund_price +'</span></li> ' +
-            '<li><label>申请退款时间</label><span>'+ datas.apply_refund_time +'</span></li> ' +
-            '<li><label>申请退款原因</label><span>'+ datas.apply_refund_cause +'</span></li> ' +
-            '<li><label>退款编号</label><span>'+ datas.refund_code +'</span></li></ul>' +
-            '</div>';
+        var content = '<h2>退款信息</h2><div class="refund-detail-con2">' +
+          '<div class="title"><span>'+ datas.service_meal +'</span>' +
+          '<span class="price">￥'+ datas.pay_amount +'/次</span></div>' +
+          '<p class="border-top-dashed"></p>' +
+          '<ul class="mes-list mes-list-width"> ' +
+          '<li><label>申请退款金额</label><span class="orange">￥'+ datas.apply_refund_price +'</span></li> ' +
+          '<li><label>申请退款时间</label><span>'+ datas.apply_refund_time +'</span></li> ' +
+          '<li><label>申请退款原因</label><span>'+ datas.apply_refund_cause +'</span></li> ' +
+          '<li><label>退款编号</label><span>'+ datas.refund_code +'</span></li></ul>' +
+          '</div>';
 
-          switch (refundStatus) {
-            case 'refund_ing':
-              html += '<p class="state-txt-box state1"><span>退款中</span></p> ' +
-                '<div class="refund-detail-con1"> <div class="state1-con"> ' +
-                '<p class="txt">'+ datas.prompt +'</p> <p class="order-btn-box">' +
-                '<span onclick="cancelRes(\''+ datas.refund_code +'\')">撤销申请</span>' +
-                '</p> </div> </div>'+ content +'';
-              $('.refund-detail-wrap').html(html);
-              break;
-            case 'refund_success':
-              html += '<p class="state-txt-box state2""><span>退款成功<em class="stxt">'+ datas.refund_success_time +'</em></span>' +
-                '</p><div class="refund-detail-con1"><div class="state2-con">' +
-                '<ul class="mes-list"> ' +
-                '<li><label>退款金额</label><span class="orange">￥'+ datas.oper_refund_price +'</span></li> ' +
-                '<li><label>退款原因</label><span>'+ datas.oper_refund_cause +'</span></li> ' +
-                '</ul> ' +
-                '</div></div>'+ content +'';
-              $('.refund-detail-wrap').html(html);
-              break;
-            case 'refund_close':
-              html += '<p class="state-txt-box state-graytxt-box state3"><span>退款关闭<em class="stxt">'+ datas.refund_close_Time +'</em>' +
-                '</span></p> <div class="refund-detail-con1"> <div class="state3-con"> ' +
-                '<p class="txt">因您撤销退款申请，退款已关闭，交易将正常进行。</p> ' +
-                '</div> </div>'+ content +'';
-              $('.refund-detail-wrap').html(html);
-              break;
-            default:
-              break;
-          }
-        }else{
-          $.toast(data.msg || '请求错误~', 'text');
+        switch (refundStatus) {
+          case 'refund_ing':
+            html += '<p class="state-txt-box state1"><span>退款中</span></p> ' +
+              '<div class="refund-detail-con1"> <div class="state1-con"> ' +
+              '<p class="txt">'+ datas.prompt +'</p> <p class="order-btn-box">' +
+              '<span onclick="cancelRes(\''+ datas.refund_code +'\')">撤销申请</span>' +
+              '</p> </div> </div>'+ content +'';
+            $('.refund-detail-wrap').html(html);
+            break;
+          case 'refund_success':
+            html += '<p class="state-txt-box state2""><span>退款成功<em class="stxt">'+ datas.refund_success_time +'</em></span>' +
+              '</p><div class="refund-detail-con1"><div class="state2-con">' +
+              '<ul class="mes-list"> ' +
+              '<li><label>退款金额</label><span class="orange">￥'+ datas.oper_refund_price +'</span></li> ' +
+              '<li><label>退款原因</label><span>'+ datas.oper_refund_cause +'</span></li> ' +
+              '</ul> ' +
+              '</div></div>'+ content +'';
+            $('.refund-detail-wrap').html(html);
+            break;
+          case 'refund_close':
+            html += '<p class="state-txt-box state-graytxt-box state3"><span>退款关闭<em class="stxt">'+ datas.refund_close_Time +'</em>' +
+              '</span></p> <div class="refund-detail-con1"> <div class="state3-con"> ' +
+              '<p class="txt">因您撤销退款申请，退款已关闭，交易将正常进行。</p> ' +
+              '</div> </div>'+ content +'';
+            $('.refund-detail-wrap').html(html);
+            break;
+          default:
+            break;
         }
-      },
-      error: function (err) {
-        console.log(err)
+      }else{
+        $.toast(data.msg || '请求错误~', 'text');
       }
-    });
+      hideMyloading();
+    };
+    custom.ajaxRequest({url: ajax_url}, ajax_fun, false);
+
+    // $.ajax({
+    //   type: "GET",
+    //   url: net.orderDetail,
+    //   data : {'pay_code' : pay_code},
+    //   beforeSend: function(request) {
+    //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+    //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+    //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+    //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+    //     request.setRequestHeader('timestamp', new Date().getTime());
+    //   },
+    //   success: function(data){
+    //     // console.log(data);
+    //     if(data.code === 0){
+    //       var datas = data.data.refundment_detail, refundStatus = datas.refund_status, html = '';
+    //
+    //       var content = '<h2>退款信息</h2><div class="refund-detail-con2">' +
+    //         '<div class="title"><span>'+ datas.service_meal +'</span>' +
+    //         '<span class="price">￥'+ datas.pay_amount +'/次</span></div>' +
+    //         '<p class="border-top-dashed"></p>' +
+    //         '<ul class="mes-list mes-list-width"> ' +
+    //         '<li><label>申请退款金额</label><span class="orange">￥'+ datas.apply_refund_price +'</span></li> ' +
+    //         '<li><label>申请退款时间</label><span>'+ datas.apply_refund_time +'</span></li> ' +
+    //         '<li><label>申请退款原因</label><span>'+ datas.apply_refund_cause +'</span></li> ' +
+    //         '<li><label>退款编号</label><span>'+ datas.refund_code +'</span></li></ul>' +
+    //         '</div>';
+    //
+    //       switch (refundStatus) {
+    //         case 'refund_ing':
+    //           html += '<p class="state-txt-box state1"><span>退款中</span></p> ' +
+    //             '<div class="refund-detail-con1"> <div class="state1-con"> ' +
+    //             '<p class="txt">'+ datas.prompt +'</p> <p class="order-btn-box">' +
+    //             '<span onclick="cancelRes(\''+ datas.refund_code +'\')">撤销申请</span>' +
+    //             '</p> </div> </div>'+ content +'';
+    //           $('.refund-detail-wrap').html(html);
+    //           break;
+    //         case 'refund_success':
+    //           html += '<p class="state-txt-box state2""><span>退款成功<em class="stxt">'+ datas.refund_success_time +'</em></span>' +
+    //             '</p><div class="refund-detail-con1"><div class="state2-con">' +
+    //             '<ul class="mes-list"> ' +
+    //             '<li><label>退款金额</label><span class="orange">￥'+ datas.oper_refund_price +'</span></li> ' +
+    //             '<li><label>退款原因</label><span>'+ datas.oper_refund_cause +'</span></li> ' +
+    //             '</ul> ' +
+    //             '</div></div>'+ content +'';
+    //           $('.refund-detail-wrap').html(html);
+    //           break;
+    //         case 'refund_close':
+    //           html += '<p class="state-txt-box state-graytxt-box state3"><span>退款关闭<em class="stxt">'+ datas.refund_close_Time +'</em>' +
+    //             '</span></p> <div class="refund-detail-con1"> <div class="state3-con"> ' +
+    //             '<p class="txt">因您撤销退款申请，退款已关闭，交易将正常进行。</p> ' +
+    //             '</div> </div>'+ content +'';
+    //           $('.refund-detail-wrap').html(html);
+    //           break;
+    //         default:
+    //           break;
+    //       }
+    //     }else{
+    //       $.toast(data.msg || '请求错误~', 'text');
+    //     }
+    //   },
+    //   error: function (err) {
+    //     console.log(err)
+    //   }
+    // });
 
     function cancelRes(refund_code){
       $.confirm("是否确认撤销本次退款申请？", function() {
         //点击确认后的回调函数
         $('.state1-con, .state1, .weui-dialog, .weui-mask').css({'display': 'none'});
         $('.state3-con, .state3').css({'display': 'block'});
-        console.log('撤销申请');
-        $.ajax({
-          type: "POST",
-          url: net.adRescindRefundment+'?refund_code='+refund_code,
-          beforeSend: function(request) {
-            request.setRequestHeader('token', localStorage.getItem('netToken'));
-            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-            request.setRequestHeader('appid', localStorage.getItem('appid'));
-            request.setRequestHeader('timestamp', new Date().getTime());
-          },
-          success: function(data){
-            // console.log(data);
-            if(data.code === 0){
-              window.location.reload();
-            }else{
-              $.toast(data.msg || '请求错误~', 'text');
-            }
-          },
-          error: function (err) {
-            console.log(err)
+        // console.log('撤销申请');
+        var ajax_url2 = net.adRescindRefundment+'?refund_code='+refund_code;
+        var ajax_fun2 = function(data){
+          if(data.code === 0){
+            window.location.reload();
+          }else{
+            $.toast(data.msg || '请求错误~', 'text');
           }
-        });
+          hideMyloading();
+        };
+        custom.ajaxRequest({type: 'POST', url: ajax_url2}, ajax_fun2, false);
+
+        // $.ajax({
+        //   type: "POST",
+        //   url: net.adRescindRefundment+'?refund_code='+refund_code,
+        //   beforeSend: function(request) {
+        //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+        //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+        //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+        //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+        //     request.setRequestHeader('timestamp', new Date().getTime());
+        //   },
+        //   success: function(data){
+        //     // console.log(data);
+        //     if(data.code === 0){
+        //       window.location.reload();
+        //     }else{
+        //       $.toast(data.msg || '请求错误~', 'text');
+        //     }
+        //   },
+        //   error: function (err) {
+        //     console.log(err)
+        //   }
+        // });
       }, function() {
         console.log('取消');
         $('.weui-dialog, .weui-mask').css({'display': 'none'});

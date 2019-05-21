@@ -67,49 +67,77 @@
 
     window.onload = function () {
       var reservation_id = getParams('reservation_id') || getParams('pay_code');
-      $.ajax({
-        type: "GET",
-        url: net.adViewEvaluate+'?reservation_id='+reservation_id,
-        beforeSend: function(request) {
-          showMyloading();
-          request.setRequestHeader('token', localStorage.getItem('netToken'));
-          request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-          request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-          request.setRequestHeader('appid', localStorage.getItem('appid'));
-          request.setRequestHeader('timestamp', new Date().getTime());
-        },
-        success: function(data){
-          hideMyloading();
-          // console.log(data);
-          if(data.code === 0){
-            var datas = data.data.accompany_info_dto || '';
-            var headHtml = '', contentHtml = '';
-            $('.pic img').attr('src', datas.emp_url || '../custom/images/head_bg.png');
-            headHtml += '<h5><span class="name">'+ (datas.emp_name || "") +'</span><a href="tel:'+ (datas.emp_mobile || "") +'">'+ (datas.emp_mobile || "") +'</a></h5><p class="p1">' + (datas.organization || "") +'</p>';
-            contentHtml += '<li><div class="top"><em>'+ (data.data.satisfied_level || "") +'</em><span class="date">'+ (data.data.evaluate_date || "") +'</span></div> <p>'+ data.data.evaluate_content +'</p></li>';
+      var ajax_url = net.adViewEvaluate+'?reservation_id='+reservation_id;
+      var ajax_fun =function(data){
+        if(data.code === 0){
+          var datas = data.data.accompany_info_dto || '';
+          var headHtml = '', contentHtml = '';
+          $('.pic img').attr('src', datas.emp_url || '../custom/images/head_bg.png');
+          headHtml += '<h5><span class="name">'+ (datas.emp_name || "") +'</span><a href="tel:'+ (datas.emp_mobile || "") +'">'+ (datas.emp_mobile || "") +'</a></h5><p class="p1">' + (datas.organization || "") +'</p>';
+          contentHtml += '<li><div class="top"><em>'+ (data.data.satisfied_level || "") +'</em><span class="date">'+ (data.data.evaluate_date || "") +'</span></div> <p>'+ data.data.evaluate_content +'</p></li>';
 
-            $('.con1').html(headHtml);
-            $('.comment-list').html(contentHtml);
-            $('.top em').removeClass();
-            if(data.data.satisfied_level === 'very-good'){
-              $('.top em').attr('class', 'expression1').text('非常满意');
-            }else if(data.data.satisfied_level === 'satisfied'){
-              $('.top em').attr('class', 'expression2').text('满意');
-            }else if(data.data.satisfied_level === 'general'){
-              $('.top em').attr('class', 'expression3').text('一般');
-            }else if(data.data.satisfied_level === 'yawp'){
-              $('.top em').attr('class', 'expression4').text('不满意');
-            }
-          }else{
-            $.toast(data.msg || '请求错误~', 'text');
+          $('.con1').html(headHtml);
+          $('.comment-list').html(contentHtml);
+          $('.top em').removeClass();
+          if(data.data.satisfied_level === 'very-good'){
+            $('.top em').attr('class', 'expression1').text('非常满意');
+          }else if(data.data.satisfied_level === 'satisfied'){
+            $('.top em').attr('class', 'expression2').text('满意');
+          }else if(data.data.satisfied_level === 'general'){
+            $('.top em').attr('class', 'expression3').text('一般');
+          }else if(data.data.satisfied_level === 'yawp'){
+            $('.top em').attr('class', 'expression4').text('不满意');
           }
-        },
-        error: function (err) {
-          hideMyloading();
-          console.log(err);
-          $.toast('请求错误', 'text');
+        }else{
+          $.toast(data.msg || '请求错误~', 'text');
         }
-      });
+        hideMyloading();
+      };
+      custom.ajaxRequest({url: ajax_url}, ajax_fun, false);
+
+      // $.ajax({
+      //   type: "GET",
+      //   url: net.adViewEvaluate+'?reservation_id='+reservation_id,
+      //   beforeSend: function(request) {
+      //     showMyloading();
+      //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+      //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+      //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+      //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+      //     request.setRequestHeader('timestamp', new Date().getTime());
+      //   },
+      //   success: function(data){
+      //     hideMyloading();
+      //     // console.log(data);
+      //     if(data.code === 0){
+      //       var datas = data.data.accompany_info_dto || '';
+      //       var headHtml = '', contentHtml = '';
+      //       $('.pic img').attr('src', datas.emp_url || '../custom/images/head_bg.png');
+      //       headHtml += '<h5><span class="name">'+ (datas.emp_name || "") +'</span><a href="tel:'+ (datas.emp_mobile || "") +'">'+ (datas.emp_mobile || "") +'</a></h5><p class="p1">' + (datas.organization || "") +'</p>';
+      //       contentHtml += '<li><div class="top"><em>'+ (data.data.satisfied_level || "") +'</em><span class="date">'+ (data.data.evaluate_date || "") +'</span></div> <p>'+ data.data.evaluate_content +'</p></li>';
+      //
+      //       $('.con1').html(headHtml);
+      //       $('.comment-list').html(contentHtml);
+      //       $('.top em').removeClass();
+      //       if(data.data.satisfied_level === 'very-good'){
+      //         $('.top em').attr('class', 'expression1').text('非常满意');
+      //       }else if(data.data.satisfied_level === 'satisfied'){
+      //         $('.top em').attr('class', 'expression2').text('满意');
+      //       }else if(data.data.satisfied_level === 'general'){
+      //         $('.top em').attr('class', 'expression3').text('一般');
+      //       }else if(data.data.satisfied_level === 'yawp'){
+      //         $('.top em').attr('class', 'expression4').text('不满意');
+      //       }
+      //     }else{
+      //       $.toast(data.msg || '请求错误~', 'text');
+      //     }
+      //   },
+      //   error: function (err) {
+      //     hideMyloading();
+      //     console.log(err);
+      //     $.toast('请求错误', 'text');
+      //   }
+      // });
     }
   </script>
 </body>

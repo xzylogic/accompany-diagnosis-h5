@@ -106,57 +106,96 @@
         var kwName = $("#txt-search").val().trim();
         $('.history-content').css({'display': 'none'});
         // console.log(kwName);
-        $.ajax({
-          url: net.queryAdHospital,
-          type: "get",
-          data:{kw_name: kwName},
-          beforeSend: function(request) {
-            request.setRequestHeader('token', localStorage.getItem('netToken'));
-            request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-            request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-            request.setRequestHeader('appid', localStorage.getItem('appid'));
-            request.setRequestHeader('timestamp', new Date().getTime());
-          },
-          success:function(data){
-            if(data.code === 0){
-              $('.havedata-hospitals').empty();
-              if(data.data.length === 0){
-                $('.custom-nodata').css({'display': 'block'});
-                return;
-              }else{
-                $('.custom-nodata').css({'display': 'none'});
-              }
-              $('.havedata-hospitals').append('<h4>相关医院</h4>');
-              // console.log(data)
-              data.data.map(function (val) {
-                $('.havedata-hospitals').append(
-                  '<p class="border-top"></p> <ul>' +
-                  '<li class="search-hospital"> <h5>'+ val.hospital_name +'</h5> <p>'+ val.hospital_address +'</p> </li>' +
-                  '</ul>'
-                );
-              });
-              $('.search-hospital').on('click', function () {
-                var hpName = $(this).children('h5').text();
-                localStorage.setItem('hospitalName', hpName);
-                setHistoryItems($('#txt-search').val());//此行代码是点击医院名的时候存储搜索框内容至搜索记录
-                // setHistoryItems(hpName);//此行代码是点击医院名的时候存储至搜索记录
-                // window.history.back();
-                NativeFunc({
-                  ACTION: 'CLOSEPAGE',
-                  PARAM: {
-                    INDEX: 0
-                  }
-                });
-              });
+        var ajax_url = net.queryAdHospital + '?kw_name=' + kwName;
+        var ajax_fun =function(data){
+          if(data.code === 0){
+            $('.havedata-hospitals').empty();
+            if(data.data.length === 0){
+              $('.custom-nodata').css({'display': 'block'});
+              return;
             }else{
-              $.toast(data.msg || '请求错误~', 'text');
+              $('.custom-nodata').css({'display': 'none'});
             }
-          },
-          error:function(){
-            // $('.havedata-hospitals').empty();
-            console.log('发送失败');
+            $('.havedata-hospitals').append('<h4>相关医院</h4>');
+            // console.log(data)
+            data.data.map(function (val) {
+              $('.havedata-hospitals').append(
+                '<p class="border-top"></p> <ul>' +
+                '<li class="search-hospital"> <h5>'+ val.hospital_name +'</h5> <p>'+ val.hospital_address +'</p> </li>' +
+                '</ul>'
+              );
+            });
+            $('.search-hospital').on('click', function () {
+              var hpName = $(this).children('h5').text();
+              localStorage.setItem('hospitalName', hpName);
+              setHistoryItems($('#txt-search').val());//此行代码是点击医院名的时候存储搜索框内容至搜索记录
+              // setHistoryItems(hpName);//此行代码是点击医院名的时候存储至搜索记录
+              // window.history.back();
+              NativeFunc({
+                ACTION: 'CLOSEPAGE',
+                PARAM: {
+                  INDEX: 0
+                }
+              });
+            });
+          }else{
+            $.toast(data.msg || '请求错误~', 'text');
           }
-        });
+          hideMyloading();
+        };
+        custom.ajaxRequest({url: ajax_url}, ajax_fun, false);
+
+        // $.ajax({
+        //   url: net.queryAdHospital,
+        //   type: "get",
+        //   data:{kw_name: kwName},
+        //   beforeSend: function(request) {
+        //     request.setRequestHeader('token', localStorage.getItem('netToken'));
+        //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
+        //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
+        //     request.setRequestHeader('appid', localStorage.getItem('appid'));
+        //     request.setRequestHeader('timestamp', new Date().getTime());
+        //   },
+        //   success:function(data){
+        //     if(data.code === 0){
+        //       $('.havedata-hospitals').empty();
+        //       if(data.data.length === 0){
+        //         $('.custom-nodata').css({'display': 'block'});
+        //         return;
+        //       }else{
+        //         $('.custom-nodata').css({'display': 'none'});
+        //       }
+        //       $('.havedata-hospitals').append('<h4>相关医院</h4>');
+        //       // console.log(data)
+        //       data.data.map(function (val) {
+        //         $('.havedata-hospitals').append(
+        //           '<p class="border-top"></p> <ul>' +
+        //           '<li class="search-hospital"> <h5>'+ val.hospital_name +'</h5> <p>'+ val.hospital_address +'</p> </li>' +
+        //           '</ul>'
+        //         );
+        //       });
+        //       $('.search-hospital').on('click', function () {
+        //         var hpName = $(this).children('h5').text();
+        //         localStorage.setItem('hospitalName', hpName);
+        //         setHistoryItems($('#txt-search').val());//此行代码是点击医院名的时候存储搜索框内容至搜索记录
+        //         // setHistoryItems(hpName);//此行代码是点击医院名的时候存储至搜索记录
+        //         // window.history.back();
+        //         NativeFunc({
+        //           ACTION: 'CLOSEPAGE',
+        //           PARAM: {
+        //             INDEX: 0
+        //           }
+        //         });
+        //       });
+        //     }else{
+        //       $.toast(data.msg || '请求错误~', 'text');
+        //     }
+        //   },
+        //   error:function(){
+        //     // $('.havedata-hospitals').empty();
+        //     console.log('发送失败');
+        //   }
+        // });
       }
     }
 

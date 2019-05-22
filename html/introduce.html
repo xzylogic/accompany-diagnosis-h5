@@ -3,444 +3,366 @@
 <head>
   <meta charset="UTF-8">
   <title>陪诊服务</title>
-  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css" />
-  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css" />
-  <link rel="stylesheet" type="text/css" href="../custom/css/common.css" />
-  <link rel="stylesheet" type="text/css" href="../custom/css/main.css" />
+  <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css"/>
+  <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css"/>
+  <link rel="stylesheet" type="text/css" href="../custom/css/common.css"/>
+  <link rel="stylesheet" type="text/css" href="../custom/css/main.css"/>
   <style>
     .weui-toast--text {
       width: 5.5rem;
     }
 
-    .weui-dialog__ft .weui-dialog__btn:nth-child(1){
+    .weui-dialog__ft .weui-dialog__btn:nth-child(1) {
       color: #999 !important;
     }
 
-    .popup-txt span em{
+    .popup-txt span em {
       color: #EC9429;
     }
   </style>
 </head>
 
 <body>
-	<div class="container">
-    <div class="introduce-wrap">
-      <div class="scroll-wrap">
-        <span class="topPic"><img src="../custom/images/top.png"></span>
-        <div class="box">
-          <h2>陪诊团队介绍</h2>
-          <div class="teamInfo">
-            <p>健康云陪诊团队是由专业陪诊人员组成，致力为大众提供全方位、专业及贴心的陪诊服务，让您感到贴心、安心、放心。</p>
-            <p>团队人员拥有专业陪诊背景，服务于三甲或主要医院，并且接受过专业的陪诊培训。</p>
-          </div>
-        </div>
-        <div class="box">
-          <h2>服务流程</h2>
-          <ul class="mytab"><li><span class="serviceMeal active">全程陪诊服务套餐</span></li><li><span class="serviceMeal">简易陪诊服务套餐</span></li></ul>
-          <div class="tabContent" style="display:block;" id="content1">
-            <ul class="stepList">
-              <li class="stepPic1">下单后，联系客户了解病情和就诊需求，嘱咐诊前注意事项。</li>
-              <li class="stepPic2">代理办卡、缴费、领取检查单、取药等繁杂手续，客户只需在休息区候诊。</li>
-              <li class="stepPic3">陪诊专员可协助向医生准确的描述病情，让医生了解病情。</li>
-              <li class="stepPic4">在陌生又严肃的医院环境里，陪诊人员给予细心贴心的关爱和家人般的温暖呵护。</li>
-              <li class="stepPic5">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
-            </ul>
-          </div>
-          <div class="tabContent" style="display:none;" id="content2">
-            <ul class="stepList">
-              <li class="stepPic1">下单后，联系客户了解病情和就诊需求，嘱咐诊前注意事项。</li>
-              <li class="stepPic6">陪诊人员对就诊流程进行统筹规划，对客户的就诊事项一一安排，让客户快速完成就诊。</li>
-              <li class="stepPic7">引导客户到相应地点进行办卡、缴费、候诊、就诊、检查、取药等。</li>
-              <li class="stepPic8">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
-            </ul>
-            <!-- <p class="price-box">
-              服务价格<em class="price1">￥138.00</em><span class="price2">￥<span>0.01</span></span><em class="stxt">/次</em>
-            </p> -->
-          </div>
+<div class="container">
+  <div class="introduce-wrap">
+    <div class="scroll-wrap">
+      <span class="topPic"><img src="../custom/images/top.png"></span>
+      <div class="box">
+        <h2>陪诊团队介绍</h2>
+        <div class="teamInfo">
+          <p>健康云陪诊团队是由专业陪诊人员组成，致力为大众提供全方位、专业及贴心的陪诊服务，让您感到贴心、安心、放心。</p>
+          <p>团队人员拥有专业陪诊背景，服务于三甲或主要医院，并且接受过专业的陪诊培训。</p>
         </div>
       </div>
-      <div class="custom-btm-fixed custom-btm-fixed-white">
-        <p class="price-box">
-          服务价格<em class="price1">￥598.00</em><span class="price2">￥<span>398.00</span></span><em class="stxt">/次</em>
-        </p>
-        <p class="stxt">
-          <label class="custom_check_label custom_check_slabel">
-            <input type="checkbox" name="" id="radio5" value="1" hidden />
-            <label for="radio5" class="icon-check"></label>
-            <span class="name"><span>我已阅读并同意</span></span>
-          </label>
-          <a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a>
-        </p>
-        <span class="custom-btm-btn" style="position: relative; z-index: 111;">立即购买</span>
+      <div class="box">
+        <h2>服务流程</h2>
+        <ul class="mytab">
+          <li><span class="serviceMeal active">全程陪诊服务套餐</span></li><li><span class="serviceMeal">简易陪诊服务套餐</span></li>
+        </ul>
+        <div class="tabContent" style="display:block;" id="content1">
+          <ul class="stepList">
+            <li class="stepPic1">下单后，联系客户了解病情和就诊需求，嘱咐诊前注意事项。</li>
+            <li class="stepPic2">代理办卡、缴费、领取检查单、取药等繁杂手续，客户只需在休息区候诊。</li>
+            <li class="stepPic3">陪诊专员可协助向医生准确的描述病情，让医生了解病情。</li>
+            <li class="stepPic4">在陌生又严肃的医院环境里，陪诊人员给予细心贴心的关爱和家人般的温暖呵护。</li>
+            <li class="stepPic5">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
+          </ul>
+        </div>
+        <div class="tabContent" style="display:none;" id="content2">
+          <ul class="stepList">
+            <li class="stepPic1">下单后，联系客户了解病情和就诊需求，嘱咐诊前注意事项。</li>
+            <li class="stepPic6">陪诊人员对就诊流程进行统筹规划，对客户的就诊事项一一安排，让客户快速完成就诊。</li>
+            <li class="stepPic7">引导客户到相应地点进行办卡、缴费、候诊、就诊、检查、取药等。</li>
+            <li class="stepPic8">诊后2-3个工作日，回访人员进行诊后贴心关怀服务，叮嘱客户按时正确用药。</li>
+          </ul>
+          <!-- <p class="price-box">
+            服务价格<em class="price1">￥138.00</em><span class="price2">￥<span>0.01</span></span><em class="stxt">/次</em>
+          </p> -->
+        </div>
       </div>
     </div>
-    <!-- 确认购买弹出层 -->
-    <div class="popup-wrap" style="display:none;">
-      <div class="lightbox"></div>
-      <div class="popup-con popup-con-middle">
-        <h2 class="popup-title">确认购买</h2>
-        <div class="popup-txt" style="padding-top: 0;color: #666;">
-          您是否确认购买服务<br><span>全程陪诊套餐 <em>¥398</em>/次</span>
-        </div>
-        <div class="popup-btmbtn"><span class="gray">取消</span><span class="ok">确认</span></div>
-      </div>
+    <div class="custom-btm-fixed custom-btm-fixed-white">
+      <p class="price-box">
+        服务价格<em class="price1">￥598.00</em><span class="price2">￥<span>398.00</span></span><em class="stxt">/次</em>
+      </p>
+      <p class="stxt">
+        <label class="custom_check_label custom_check_slabel">
+          <input type="checkbox" name="" id="radio5" value="1" hidden/>
+          <label for="radio5" class="icon-check"></label>
+          <span class="name"><span>我已阅读并同意</span></span>
+        </label>
+        <a style="color:#0CB7F5;" onclick="serviceNotice()">《服务须知》</a>
+      </p>
+      <span class="custom-btm-btn" style="position: relative; z-index: 111;">立即购买</span>
     </div>
   </div>
-  <div class="gotoList" onclick="turnList()">&nbsp;</div>
-  <script type="text/javascript" src="../lib/js/flexible.js"></script>
-  <script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
-  <script type="text/javascript" src="../lib/js/jquery.min.js"></script>
-  <script type="text/javascript" src="../custom/js/native.js"></script>
-  <script src="../lib/js/jquery-weui.js"></script>
-  <script src="../custom/js/net.js"></script>
-  <script src="../custom/js/common.js"></script>
+  <!-- 确认购买弹出层 -->
+  <div class="popup-wrap" style="display:none;">
+    <div class="lightbox"></div>
+    <div class="popup-con popup-con-middle">
+      <h2 class="popup-title">确认购买</h2>
+      <div class="popup-txt" style="padding-top: 0;color: #666;">
+        您是否确认购买服务<br><span>全程陪诊套餐 <em>¥398</em>/次</span>
+      </div>
+      <div class="popup-btmbtn"><span class="gray">取消</span><span class="ok">确认</span></div>
+    </div>
+  </div>
+</div>
+<div class="gotoList" onclick="turnList()">&nbsp;</div>
+<script type="text/javascript" src="../lib/js/flexible.js"></script>
+<script type="text/javascript" src="../lib/js/fastclick.min.js"></script>
+<script type="text/javascript" src="../lib/js/jquery.min.js"></script>
+<script type="text/javascript" src="../custom/js/native.js"></script>
+<script src="../lib/js/jquery-weui.js"></script>
+<script src="../custom/js/net.js"></script>
+<script src="../custom/js/common.js"></script>
 
-  <script>
-    $.toast.prototype.defaults.duration = 2000;
-    FastClick.attach(document.body);
-    function turnList(){
-      NativeFunc({
-        ACTION: "OPENURL",
-        PARAM:{
-          URL: nativeObj.htmlPath + '/myorderList.html'
-        }
-      });
+<script>
+  $.toast.prototype.defaults.duration = 2000;
+  FastClick.attach(document.body);
+
+  function turnList() {
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM: {
+        URL: nativeObj.htmlPath + '/myorderList.html'
+      }
+    });
+  }
+
+  var paymentRequestUrl, requestUrl;
+  document.addEventListener('DOMContentLoaded', function () {
+    // console.log(typeof document.location.host,document.location.host);
+    var _host = document.location.host, _guaHao = '';
+    //支付url
+    paymentRequestUrl = document.location.protocol + '//' + _host + '/payment-h5/html';
+    requestUrl = nativeObj.htmlPath;
+    localStorage.setItem("paymentRequestUrl", paymentRequestUrl);
+    localStorage.setItem("requestUrl", requestUrl);
+    localStorage.setItem("isNative", getParams('isNative'));
+    localStorage.setItem("frameType", getParams('frameType'));
+
+    if (_host.indexOf('h5.wdjky.com') > -1) {
+      _guaHao = 'https://open.wdjky.com/lightapp/index?channelCode=10001&lightAppCode=10001&isToken=1&isNew=1&appid=D960FC8D-0713-4C95-8C31-BCCFAD56EF7E&from=user'
+      // _guaHao = document.location.protocol+'//'+_host+'/lightapp/index?channelCode=10001&lightAppCode=10001&isToken=1&isNew=1&appid=D960FC8D-0713-4C95-8C31-BCCFAD56EF7E&from=user'
+    } else {
+      _guaHao = 'http://10.1.64.195/healthCloud-open-api/lightapp/index?channelCode=10001&lightAppCode=10001&isToken=1&isNew=1&appid=D960FC8D-0713-4C95-8C31-BCCFAD56EF7E&from=user'
+      // _guaHao = document.location.protocol+'//'+_host+'/healthCloud-open-api/lightapp/index?channelCode=10001&lightAppCode=10001&isToken=1&isNew=1&appid=D960FC8D-0713-4C95-8C31-BCCFAD56EF7E&from=user'
     }
 
-    var paymentRequestUrl, requestUrl;
-    document.addEventListener('DOMContentLoaded', function () {
-      // console.log(typeof document.location.host,document.location.host);
-      var _host= document.location.host, _guaHao = '';
-      //支付url
-      paymentRequestUrl=document.location.protocol +'//'+_host+'/payment-h5/html';
-      requestUrl=nativeObj.htmlPath;
-      localStorage.setItem("paymentRequestUrl",paymentRequestUrl);
-      localStorage.setItem("requestUrl",requestUrl);
-      localStorage.setItem("isNative",getParams('isNative'));
-      localStorage.setItem("frameType",getParams('frameType'));
-
-      if(_host.indexOf('h5.wdjky.com')>-1){
-        _guaHao = 'https://open.wdjky.com/lightapp/index?channelCode=10001&lightAppCode=10001&isToken=1&isNew=1&appid=D960FC8D-0713-4C95-8C31-BCCFAD56EF7E&from=user'
-        // _guaHao = document.location.protocol+'//'+_host+'/lightapp/index?channelCode=10001&lightAppCode=10001&isToken=1&isNew=1&appid=D960FC8D-0713-4C95-8C31-BCCFAD56EF7E&from=user'
-      }else{
-        _guaHao = 'http://10.1.64.195/healthCloud-open-api/lightapp/index?channelCode=10001&lightAppCode=10001&isToken=1&isNew=1&appid=D960FC8D-0713-4C95-8C31-BCCFAD56EF7E&from=user'
-        // _guaHao = document.location.protocol+'//'+_host+'/healthCloud-open-api/lightapp/index?channelCode=10001&lightAppCode=10001&isToken=1&isNew=1&appid=D960FC8D-0713-4C95-8C31-BCCFAD56EF7E&from=user'
-      }
-
-      $.modal({
-        title: "温馨提示",
-        text: "本服务不包含预约挂号服务，适用于已预约挂号、就医过程中需要陪护的用户。",
-        buttons: [
-          { text: "去预约挂号", onClick: function(){
-              if(getParams('channelCode') === '10001'){
-                NativeFunc({
-                  ACTION: "OPENURL",
-                  PARAM:{
-                    URL: _guaHao
-                  }
-                });
-              }else{
-                location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx23a1f784b07b9a74&redirect_uri=https%3A%2F%2Fopen.wdjky.com%2Flightapp%2Findex%3FlightAppCode%3D10001%26menuId%3Dyygh%26channelCode%3D10006%26appid=DEF401F2-E798-4870-BDF9-EDFA8C9BA721%26isNewLogin%3D1&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect100';
-              }
-            } },
-          { text: "已预约挂号", onClick: function(){ return null;} }
-        ]
-      });
-      var pageData = {
-        netToken: '',
-        uid: '',
-        channelCode: '',
-        lightAppCode: '',
-      };
-      var code = getParams('code');
-      localStorage.setItem('indexUrl', nativeObj.htmlPath + '/introduce.html?index=1');
-
-      var ajax_url = net.userGetTokenByAuthCode + '?authCode=' + code;
-      var ajax_fun =function(data){
-        var tokenData = data.data;
-        if(data.code === 0){
-          localStorage.setItem('netToken', tokenData.token);
-          localStorage.setItem('uid', tokenData.uid);
-          localStorage.setItem('jkyUid', tokenData.uid);
-          localStorage.setItem('channelCode', tokenData.channelCode);
-          localStorage.setItem('lightAppCode', tokenData.lightAppCode);
-          localStorage.setItem('appid', tokenData.appid);
-        }else{
-          pageData.netToken = localStorage.getItem('netToken');
-          pageData.uid= localStorage.getItem('uid');
-          pageData.channelCode= localStorage.getItem('channelCode');
-          pageData.lightAppCode=localStorage.getItem('lightAppCode');
-          // console.log(pageData.netToken);
-          if(!pageData.netToken){
-            $.toast(data.msg || '请求错误', 'forbidden');
+    $.modal({
+      title: "温馨提示",
+      text: "本服务不包含预约挂号服务，适用于已预约挂号、就医过程中需要陪护的用户。",
+      buttons: [
+        {
+          text: "去预约挂号", onClick: function () {
+            if (getParams('channelCode') === '10001') {
+              NativeFunc({
+                ACTION: "OPENURL",
+                PARAM: {
+                  URL: _guaHao
+                }
+              });
+            } else {
+              location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx23a1f784b07b9a74&redirect_uri=https%3A%2F%2Fopen.wdjky.com%2Flightapp%2Findex%3FlightAppCode%3D10001%26menuId%3Dyygh%26channelCode%3D10006%26appid=DEF401F2-E798-4870-BDF9-EDFA8C9BA721%26isNewLogin%3D1&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect100';
+            }
+          }
+        },
+        {
+          text: "已预约挂号", onClick: function () {
+            return null;
           }
         }
-        hideMyloading();
-      };
-      custom.ajaxRequest({url: ajax_url}, ajax_fun, false);
-
-      // showMyloading();
-      // $.ajax({
-      //   type: "GET",
-      //   url: net.userGetTokenByAuthCode,
-      //   data : {'authCode' : code},
-      //   beforeSend: function(request) {
-      //     // request.setRequestHeader('token', localStorage.getItem('netToken'));
-      //     request.setRequestHeader('channelCode', getParams('channelCode') || localStorage.getItem('channelCode'));
-      //     request.setRequestHeader('lightAppCode', getParams('lightAppCode') || localStorage.getItem('lightAppCode'));
-      //     //request.setRequestHeader('appid', getParams('appid') || localStorage.getItem('appid'));
-      //     request.setRequestHeader('timestamp', new Date().getTime());
-      //   },
-      //   success: function(data){
-      //     hideMyloading();
-      //     var tokenData = data.data;
-      //     if(data.code === 0){
-      //       localStorage.setItem('netToken', tokenData.token);
-      //       localStorage.setItem('uid', tokenData.uid);
-      //       localStorage.setItem('jkyUid', tokenData.uid);
-      //       localStorage.setItem('channelCode', tokenData.channelCode);
-      //       localStorage.setItem('lightAppCode', tokenData.lightAppCode);
-      //       localStorage.setItem('appid', tokenData.appid);
-      //     }else{
-      //       pageData.netToken = localStorage.getItem('netToken');
-      //       pageData.uid= localStorage.getItem('uid');
-      //       pageData.channelCode= localStorage.getItem('channelCode');
-      //       pageData.lightAppCode=localStorage.getItem('lightAppCode');
-      //       // console.log(pageData.netToken);
-      //       if(!pageData.netToken){
-      //         $.toast(data.msg || '请求错误', 'forbidden');
-      //       }
-      //     }
-      //   },
-      //   error: function (err) {
-      //     hideMyloading();
-      //     console.log(err);
-      //   }
-      // });
+      ]
     });
-    var status;
-    $('.serviceMeal').bind('click', function () {
-      $('.mytab li span').removeClass('active');
-      $(this).addClass('active');
-      // console.log($(this).text)
-      if($(this).text() === '全程陪诊服务套餐'){
-        $('.price-box .price1').text('￥598.00');
-        $('.price-box .price2 span').text('398.00');
-        status = 1;
-        $('#content1').show();
-        $('#content2').hide();
-      }else{
-        $('.price-box .price1').text('￥138.00');
-        $('.price-box .price2 span').text('98.00');
-        status = 2;
-        $('#content1').hide();
-        $('#content2').show();
-      }
-    });
+    var pageData = {
+      netToken: '',
+      uid: '',
+      channelCode: '',
+      lightAppCode: '',
+    };
+    var code = getParams('code');
+    localStorage.setItem('indexUrl', nativeObj.htmlPath + '/introduce.html?index=1');
 
-    function serviceNotice(){
-      NativeFunc({
-        ACTION: "OPENURL",
-        PARAM:{
-          URL: nativeObj.htmlPath + '/instructions.html'
+    var ajax_url = net.userGetTokenByAuthCode + '?authCode=' + code;
+    var ajax_fun = function (data) {
+      var tokenData = data.data;
+      if (data.code === 0) {
+        localStorage.setItem('netToken', tokenData.token);
+        localStorage.setItem('uid', tokenData.uid);
+        localStorage.setItem('jkyUid', tokenData.uid);
+        localStorage.setItem('channelCode', tokenData.channelCode);
+        localStorage.setItem('lightAppCode', tokenData.lightAppCode);
+        localStorage.setItem('appid', tokenData.appid);
+      } else {
+        pageData.netToken = localStorage.getItem('netToken');
+        pageData.uid = localStorage.getItem('uid');
+        pageData.channelCode = localStorage.getItem('channelCode');
+        pageData.lightAppCode = localStorage.getItem('lightAppCode');
+        // console.log(pageData.netToken);
+        if (!pageData.netToken) {
+          $.toast(data.msg || '请求错误', 'text');
         }
-      });
-    }
-
-    document.querySelector('.custom-btm-btn').addEventListener('click', function () {
-      var _radio5 = $('#radio5').prop('checked');
-      var mealPrice = '<em>' + $('.price-box .price2 span').text() + '</em>'  + '/次';
-      if(_radio5){
-        // console.log(status , typeof status)
-        status === '2' ? $('.popup-txt span').html('简易陪诊套餐 ¥' + mealPrice) : $('.popup-txt span').html('全程陪诊套餐 ¥' + mealPrice);
-        $('.popup-wrap').css({'display': 'block'});
-      }else{
-        // console.log('请同意服务须知后购买');
-        // $.toptip('请同意服务须知后购买～', 1000, 'error');
-        $.toast('请同意服务须知后购买～', 'text');
       }
-    }, false);
+      hideMyloading();
+    };
+    custom.ajaxRequest({url: ajax_url}, ajax_fun, false);
 
-    document.querySelector('.gray').addEventListener('click', function () {
-      $('.popup-wrap').css({'display': 'none'});
-    }, false);
+    // showMyloading();
+    // $.ajax({
+    //   type: "GET",
+    //   url: net.userGetTokenByAuthCode,
+    //   data : {'authCode' : code},
+    //   beforeSend: function(request) {
+    //     // request.setRequestHeader('token', localStorage.getItem('netToken'));
+    //     request.setRequestHeader('channelCode', getParams('channelCode') || localStorage.getItem('channelCode'));
+    //     request.setRequestHeader('lightAppCode', getParams('lightAppCode') || localStorage.getItem('lightAppCode'));
+    //     //request.setRequestHeader('appid', getParams('appid') || localStorage.getItem('appid'));
+    //     request.setRequestHeader('timestamp', new Date().getTime());
+    //   },
+    //   success: function(data){
+    //     hideMyloading();
+    //     var tokenData = data.data;
+    //     if(data.code === 0){
+    //       localStorage.setItem('netToken', tokenData.token);
+    //       localStorage.setItem('uid', tokenData.uid);
+    //       localStorage.setItem('jkyUid', tokenData.uid);
+    //       localStorage.setItem('channelCode', tokenData.channelCode);
+    //       localStorage.setItem('lightAppCode', tokenData.lightAppCode);
+    //       localStorage.setItem('appid', tokenData.appid);
+    //     }else{
+    //       pageData.netToken = localStorage.getItem('netToken');
+    //       pageData.uid= localStorage.getItem('uid');
+    //       pageData.channelCode= localStorage.getItem('channelCode');
+    //       pageData.lightAppCode=localStorage.getItem('lightAppCode');
+    //       // console.log(pageData.netToken);
+    //       if(!pageData.netToken){
+    //         $.toast(data.msg || '请求错误', 'forbidden');
+    //       }
+    //     }
+    //   },
+    //   error: function (err) {
+    //     hideMyloading();
+    //     console.log(err);
+    //   }
+    // });
+  });
+  var status;
+  $('.serviceMeal').bind('click', function () {
+    $('.mytab li span').removeClass('active');
+    $(this).addClass('active');
+    // console.log($(this).text)
+    if ($(this).text() === '全程陪诊服务套餐') {
+      $('.price-box .price1').text('￥598.00');
+      $('.price-box .price2 span').text('398.00');
+      status = 1;
+      $('#content1').show();
+      $('#content2').hide();
+    } else {
+      $('.price-box .price1').text('￥138.00');
+      $('.price-box .price2 span').text('98.00');
+      status = 2;
+      $('#content1').hide();
+      $('#content2').show();
+    }
+  });
 
-    document.querySelector('.ok').addEventListener('click', function () {
-      var totalFee;
-      $('.popup-wrap').css({'display': 'none'});
-      totalFee = $('.price-box .price2 span').text();
+  function serviceNotice() {
+    NativeFunc({
+      ACTION: "OPENURL",
+      PARAM: {
+        URL: nativeObj.htmlPath + '/instructions.html'
+      }
+    });
+  }
 
-      var service_meal = $('.active').html();
-      var uid = localStorage.getItem('uid');
-      var order_id;
-      // console.log(service_meal, 'uid', uid);
-      showMyloading();
-      var pro = function () {
-        return new Promise(function (resolve, reject) {
-          var ajax_url2 = net.makeOrder;
-          var ajax_fun2 = function(data){
-            if(data.code === 0){
-              var datas = data.data;
-              // console.log(data);
-              var order_code = datas.pay_code,
-                service_meal = datas.service_meal,
-                pay_amount = datas.pay_amount,
-                paymentNo = datas.paymentNo,
-                biz_id = datas.biz_id,
-                biz_name = datas.biz_name;
-              // localStorage.setItem('order_code', order_code);
-              localStorage.setItem('pay_code', order_code);
-              localStorage.setItem('service_meal', service_meal);
-              localStorage.setItem('pay_amount', pay_amount);
-              localStorage.setItem('biz_id', biz_id);
-              localStorage.setItem('biz_name', biz_name);
-              resolve();
-            }else{
-              $.toast(data.msg || '请求错误~', 'forbidden');
-              reject('请求错误');
-            }
-            hideMyloading();
-          };
-          custom.ajaxRequest({type: 'POST', url: ajax_url2, data: JSON.stringify({
-              'uid' : uid,
-              'service_meal': service_meal,
-              'pay_amount': totalFee
-            })}, ajax_fun2, false);
+  document.querySelector('.custom-btm-btn').addEventListener('click', function () {
+    var _radio5 = $('#radio5').prop('checked');
+    var mealPrice = '<em>' + $('.price-box .price2 span').text() + '</em>' + '/次';
+    if (_radio5) {
+      // console.log(status , typeof status)
+      status === '2' ? $('.popup-txt span').html('简易陪诊套餐 ¥' + mealPrice) : $('.popup-txt span').html('全程陪诊套餐 ¥' + mealPrice);
+      $('.popup-wrap').css({'display': 'block'});
+    } else {
+      // console.log('请同意服务须知后购买');
+      // $.toptip('请同意服务须知后购买～', 1000, 'error');
+      $.toast('请同意服务须知后购买～', 'text');
+    }
+  }, false);
 
+  document.querySelector('.gray').addEventListener('click', function () {
+    $('.popup-wrap').css({'display': 'none'});
+  }, false);
 
-          // $.ajax({
-          //   type: "POST",
-          //   url: net.makeOrder,
-          //   data : JSON.stringify({
-          //     'uid' : uid,
-          //     'service_meal': service_meal,
-          //     'pay_amount': totalFee
-          //   }),
-          //   contentType: 'application/json; charset=utf-8',
-          //   beforeSend: function(request) {
-          //     request.setRequestHeader('token', localStorage.getItem('netToken'));
-          //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-          //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-          //     request.setRequestHeader('appid', localStorage.getItem('appid'));
-          //     request.setRequestHeader('timestamp', new Date().getTime());
-          //   },
-          //   success: function(data){
-          //     if(data.code === 0){
-          //       var datas = data.data;
-          //       // console.log(data);
-          //       var order_code = datas.pay_code,
-          //         service_meal = datas.service_meal,
-          //         pay_amount = datas.pay_amount,
-          //         paymentNo = datas.paymentNo,
-          //         biz_id = datas.biz_id,
-          //         biz_name = datas.biz_name;
-          //       // localStorage.setItem('order_code', order_code);
-          //       localStorage.setItem('pay_code', order_code);
-          //       localStorage.setItem('service_meal', service_meal);
-          //       localStorage.setItem('pay_amount', pay_amount);
-          //       localStorage.setItem('biz_id', biz_id);
-          //       localStorage.setItem('biz_name', biz_name);
-          //       resolve();
-          //     }else{
-          //       hideMyloading();
-          //       // console.log(data);
-          //       $.toast(data.msg || '请求错误~', 'forbidden');
-          //       reject('请求错误');
-          //     }
-          //   },
-          //   error: function (err) {
-          //     hideMyloading();
-          //     console.log(err)
-          //   }
-          // });
-        })
-      };
+  document.querySelector('.ok').addEventListener('click', function () {
+    var totalFee;
+    $('.popup-wrap').css({'display': 'none'});
+    totalFee = $('.price-box .price2 span').text();
 
-      pro().then(function () {
+    var service_meal = $('.active').html();
+    var uid = localStorage.getItem('uid');
+    var ajax_url2 = net.makeOrder;
+    var ajax_fun2 = function (data) {
+      if (data.code === 0) {
+        var datas = data.data;
+        // console.log(data);
+        var order_code = datas.pay_code,
+          service_meal = datas.service_meal,
+          pay_amount = datas.pay_amount,
+          paymentNo = datas.paymentNo,
+          biz_id = datas.biz_id,
+          biz_name = datas.biz_name;
+        // localStorage.setItem('order_code', order_code);
+        localStorage.setItem('pay_code', order_code);
+        localStorage.setItem('service_meal', service_meal);
+        localStorage.setItem('pay_amount', pay_amount);
+        localStorage.setItem('biz_id', biz_id);
+        localStorage.setItem('biz_name', biz_name);
+
         var ajax_url3 = net.adGetSdkPayParams;
-        var ajax_fun3 = function(firstData){
-          if(firstData.code == 0){
+        var ajax_fun3 = function (firstData) {
+          if (firstData.code == 0) {
             var paymentNo = firstData.data.payment_no,
               totalFee = localStorage.getItem('pay_amount');
             NativeFunc({
               ACTION: "OPENURL",
-              PARAM:{
-                URL: paymentRequestUrl +"/orderPay.html?paymentNo="+paymentNo+'&totalFee='+totalFee
+              PARAM: {
+                URL: paymentRequestUrl + "/orderPay.html?paymentNo=" + paymentNo + '&totalFee=' + totalFee
               }
             });
-          }else{
+          } else {
             $.toast(firstData.msg || "创建支付信息接口出错", 'text');
           }
           hideMyloading();
         };
-        custom.ajaxRequest({type: 'POST', url: ajax_url3, data: JSON.stringify({"pay_code": localStorage.getItem('pay_code')})}, ajax_fun3, false);
-
-        // $.ajax({
-        //   url:net.adGetSdkPayParams,
-        //   type:"post",
-        //   async:false,
-        //   timeout: 6000,
-        //   data:JSON.stringify({
-        //     "pay_code": localStorage.getItem('pay_code'),
-        //   }),
-        //   contentType: 'application/json; charset=utf-8',
-        //   beforeSend: function(request) {
-        //     request.setRequestHeader('token', localStorage.getItem('netToken'));
-        //     request.setRequestHeader('channelCode', localStorage.getItem('channelCode'));
-        //     request.setRequestHeader('lightAppCode', localStorage.getItem('lightAppCode'));
-        //     request.setRequestHeader('appid', localStorage.getItem('appid'));
-        //     request.setRequestHeader('timestamp', new Date().getTime());
-        //   },
-        //   success:function(firstData){
-        //     // firstData = JSON.parse(firstData) || firstData;
-        //     if(firstData.code == 0){
-        //       var paymentNo = firstData.data.payment_no,
-        //           totalFee = localStorage.getItem('pay_amount');
-        //       hideMyloading();
-        //       NativeFunc({
-        //         ACTION: "OPENURL",
-        //         PARAM:{
-        //           URL: paymentRequestUrl +"/orderPay.html?paymentNo="+paymentNo+'&totalFee='+totalFee
-        //           // URL: paymentRequestUrl +"/orderPay.html?orderId="+order_code+"&totalFee="+pay_amount
-        //           // URL: nativeObj.htmlPath + '/orderPay.html?order_code='+order_code+'&service_meal='+service_meal+'&pay_amount='+pay_amount+'&biz_id='+biz_id+'&biz_name='+biz_name
-        //         }
-        //       });
-        //     }else{
-        //       //showMyTip();
-        //       hideMyloading();
-        //       // $(".mytip").html(data.msg||"创建支付信息接口出错");
-        //       $.toast(firstData.msg || "创建支付信息接口出错", 'text');
-        //     }
-        //   },
-        //   error:function(error){
-        //     //showMyTip();
-        //     hideMyloading();
-        //   }
-        // });
-      })
-    }, false);
-
-    var oTop = $(".active").offset().top;
-    //获取切换栏的高度，此高度用于保证内容的平滑过渡
-    var martop = $('.active').outerHeight();
-
-    var sTop = 0;
-    // 监听页面的滚动
-    $('.scroll-wrap').scroll(function () {
-      // 获取页面向上滚动的距离
-      sTop = $(this).scrollTop();
-      // 当切换栏到达屏幕顶端
-      if (sTop >= oTop) {
-        // 修改切换栏position属性，使之固定在屏幕顶端
-        $(".mytab").css({ "position": "fixed", "top": "0", 'box-shadow': '0 1px 0 0 #DDDDDD', 'width': '100%', 'z-index': '100', 'background': 'white'});
-        // 修改内容的margin-top值，保证平滑过渡
-        $(".tabContent").css({ "margin-top": martop });
+        custom.ajaxRequest({
+          type: 'POST',
+          url: ajax_url3,
+          data: JSON.stringify({"pay_code": localStorage.getItem('pay_code')})
+        }, ajax_fun3, false);
       } else {
-        // 当切换栏脱离屏幕顶端时，回复原来的属性
-        $(".mytab").css({ "position": "static" });
-        $(".tabContent").css({ "margin-top": "0" });
+        $.toast(data.msg || '请求错误~', 'text');
+        // reject('请求错误');
       }
-    });
-  </script>
+      hideMyloading();
+    };
+    custom.ajaxRequest({
+      type: 'POST', url: ajax_url2, data: JSON.stringify({
+        'uid': uid,
+        'service_meal': service_meal,
+        'pay_amount': totalFee
+      })
+    }, ajax_fun2, false);
+  }, false);
+
+  var oTop = $(".active").offset().top;
+  //获取切换栏的高度，此高度用于保证内容的平滑过渡
+  var martop = $('.active').outerHeight();
+
+  var sTop = 0;
+  // 监听页面的滚动
+  $('.scroll-wrap').scroll(function () {
+    // 获取页面向上滚动的距离
+    sTop = $(this).scrollTop();
+    // 当切换栏到达屏幕顶端
+    if (sTop >= oTop) {
+      // 修改切换栏position属性，使之固定在屏幕顶端
+      $(".mytab").css({
+        "position": "fixed",
+        "top": "0",
+        'box-shadow': '0 1px 0 0 #DDDDDD',
+        'width': '100%',
+        'z-index': '100',
+        'background': 'white'
+      });
+      // 修改内容的margin-top值，保证平滑过渡
+      $(".tabContent").css({"margin-top": martop});
+    } else {
+      // 当切换栏脱离屏幕顶端时，回复原来的属性
+      $(".mytab").css({"position": "static"});
+      $(".tabContent").css({"margin-top": "0"});
+    }
+  });
+</script>
 </body>
 </html>

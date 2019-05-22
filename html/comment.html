@@ -52,6 +52,7 @@
 
   <script>
     $.toast.prototype.defaults.duration = 800;
+
     FastClick.attach(document.body);
     var pay_code = getParams('pay_code');
     GetQueryString();
@@ -66,7 +67,8 @@
           $('.con1 em:eq(0)').text(datas.emp_mobile || '');
           $('.p1').text(datas.organization || '');
         }else{
-          $.toast(data.msg || '请求错误~', 'text');
+          // $.toast(data.msg || '请求错误~', 'text');
+          $.toptip(data.msg || '请求错误~', 800, 'error');
         }
         hideMyloading();
       };
@@ -144,7 +146,8 @@
               }
             });
           }else{
-            $.toast(data.msg || '请求错误~', 'text');
+            // $.toast(data.msg || '请求错误~', 'text');
+            $.toptip(data.msg || '请求错误~', 800, 'error');
           }
           hideMyloading();
         };

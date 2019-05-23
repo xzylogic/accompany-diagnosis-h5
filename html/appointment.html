@@ -328,6 +328,7 @@
 
   document.querySelector('.am_time').addEventListener('click', function () {
     $(".am_name, .am_tel, .am_ID, .am_room, .am_proName").blur(); // 使其失去即可
+    $('.scroll-wrap').scrollTop(0);
   }, false);
 
   var idCard, patient_personcard;

@@ -174,6 +174,8 @@
         localStorage.setItem('channelCode', tokenData.channelCode);
         localStorage.setItem('lightAppCode', tokenData.lightAppCode);
         localStorage.setItem('appid', tokenData.appid);
+          //微信的openid
+          data.data.openId && localStorage.setItem('wechat_openId',data.data.openId);
       } else {
         pageData.netToken = localStorage.getItem('netToken');
         pageData.uid = localStorage.getItem('uid');

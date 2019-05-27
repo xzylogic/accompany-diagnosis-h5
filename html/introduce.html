@@ -95,7 +95,7 @@
 <script type="text/javascript" src="../custom/js/native.js"></script>
 <script src="../lib/js/jquery-weui.js"></script>
 <script src="../custom/js/net.js"></script>
-<script src="../custom/js/common.js"></script>
+<script src="../custom/js/common.js?v=1.0"></script>
 
 <script>
   $.toast.prototype.defaults.duration = 2000;
@@ -174,8 +174,8 @@
         localStorage.setItem('channelCode', tokenData.channelCode);
         localStorage.setItem('lightAppCode', tokenData.lightAppCode);
         localStorage.setItem('appid', tokenData.appid);
-          //微信的openid
-          data.data.openId && localStorage.setItem('wechat_openId',data.data.openId);
+        //微信的openid
+        data.data.openId && localStorage.setItem('wechat_openId',data.data.openId);
       } else {
         pageData.netToken = localStorage.getItem('netToken');
         pageData.uid = localStorage.getItem('uid');

@@ -215,7 +215,6 @@ var custom = {
         request.setRequestHeader("token", pageData.token);
         request.setRequestHeader("channelCode", pageData.channelCode);
         request.setRequestHeader("lightAppCode", pageData.lightAppCode);
-        request.setRequestHeader('appid', pageData.appid);
         // request.setRequestHeader('request-id', randomWord(true));
         request.setRequestHeader('timestamp', new Date().getTime());
       },
